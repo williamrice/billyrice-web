@@ -1,18 +1,13 @@
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
 import AdminSidebar from '@/components/AdminSidebar';
 import Signin from '@/components/auth-helpers/Signin';
-import Signout from '@/components/auth-helpers/Signout';
-import { isAllowedAuthEmail } from '@/lib/auth-allowlist';
+import { getAllowedAdminSession } from '@/lib/auth-guards';
 
 export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getAllowedAdminSession();
 
   if (!session) {
     return (
@@ -20,21 +15,12 @@ export default async function AdminLayout({
         <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col gap-2 justify-center items-center">
           <h2 className="text-2xl font-bold">Sign In</h2>
           <p>
-            This website doesn't currently support registering or signing in
+            This website doesn&apos;t currently support registering or signing in
             with user accounts. The sign-in button below is for the web
             administrator only.{' '}
           </p>
           <Signin />
         </div>
-      </div>
-    );
-  }
-
-  if (!session.user?.isAdmin && !isAllowedAuthEmail(session.user.email)) {
-    return (
-      <div>
-        <p>You are not authorized to access this page</p>
-        <Signout />
       </div>
     );
   }

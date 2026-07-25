@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/card';
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -82,7 +81,7 @@ export function ContactForm() {
         <CardHeader className="flex flex-col w-full sm:max-w-2xl gap-2">
           <CardTitle className="mb-2">Thank you for reaching out!</CardTitle>
           <CardDescription>
-            I appreciate you taking the time to contact me. I'll get back to you
+            I appreciate you taking the time to contact me. I&apos;ll get back to you
             as soon as possible.
           </CardDescription>
           <CardFooter className="p-0">
@@ -99,12 +98,11 @@ export function ContactForm() {
         src={`https://www.google.com/recaptcha/enterprise.js?render=${recaptchaSiteKey}`}
         strategy="afterInteractive"
       />
-      <Card className="w-full sm:max-w-2xl">
+      <Card className="w-full border-border bg-card/60 shadow-none">
         <CardHeader>
-          <CardTitle>Contact Me</CardTitle>
+          <CardTitle className="text-2xl tracking-tight">Send a message</CardTitle>
           <CardDescription>
-            Contact me if your interested in working together, have a question
-            about my work, or just want to say hi!
+            Share enough context for me to understand what you are working through.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,7 +183,7 @@ export function ContactForm() {
         <CardFooter>
           <Field orientation="horizontal">
             <Button
-              className="secondary-btn"
+              className="button-quiet mt-0"
               type="button"
               variant="outline"
               onClick={() => form.reset()}
@@ -193,7 +191,7 @@ export function ContactForm() {
               Reset
             </Button>
             <Button
-              className="primary-btn"
+              className="button-primary mt-0"
               type="submit"
               form="form-rhf-contact"
             >

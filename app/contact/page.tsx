@@ -1,26 +1,28 @@
-'use server';
+import { ContactForm } from "@/components/contact-form/ContactForm";
+import Header from "@/components/Header";
 
-import { ContactForm } from '@/components/contact-form/ContactForm';
-import Header from '@/components/Header';
-const ContactPage = async () => {
+export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <>
       <Header>
-        <div className="h-full flex flex-col items-center justify-center">
-          <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
-            Contact
-          </h1>
-        </div>
+        <h1>Let&apos;s solve something consequential.</h1>
       </Header>
-
-      {/* Content section with subtle gradient background */}
-      <div className="bg-linear-to-b from-gray-900 to-gray-800">
-        <div className="flex justify-center max-w-4xl mx-auto px-4 py-16">
+      <section className="section-block">
+        <div className="site-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-20">
+          <div>
+            <p className="eyebrow mb-7">Start a conversation</p>
+            <h2 className="text-3xl font-medium tracking-[-.035em] sm:text-4xl">
+              Bring the difficult part.
+            </h2>
+            <p className="mt-6 max-w-md leading-7 text-muted-foreground">
+              Tell me about the system, the constraint, or the team challenge.
+              I&apos;m especially interested in implementation, applied AI,
+              architecture, and technical leadership work.
+            </p>
+          </div>
           <ContactForm />
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
-};
-
-export default ContactPage;
+}

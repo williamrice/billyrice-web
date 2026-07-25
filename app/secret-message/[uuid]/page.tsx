@@ -9,19 +9,13 @@ const SecretMessageSingleViewPage = async ({
 }: SecretMessageSingleViewPageProps) => {
   const secretHostName = process.env.NEXT_PUBLIC_SECRETMESSAGE_HOSTNAME;
   const { uuid } = await params;
-  var secretMessage;
   const response = await fetch(`${secretHostName}/api/Secret/${uuid}`, {
     cache: 'no-store',
   });
   const data = await response.json();
-
-  if (data.status === 404) {
-    secretMessage = null;
-  } else {
-    secretMessage = data;
-  }
+  const secretMessage = data.status === 404 ? null : data;
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-900 to-gray-800">
+    <div>
       <SecretMessageView secretMessage={secretMessage} />
     </div>
   );

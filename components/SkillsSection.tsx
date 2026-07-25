@@ -1,184 +1,67 @@
-import React from "react";
-import "devicon/devicon.min.css";
-import Link from "next/link";
-import { Skill } from "@/lib/types";
-import { SkillCategory } from "./SkillCategory";
+import { Blocks, GitPullRequestArrow, UsersRound } from "lucide-react";
+import { Reveal } from "./PortfolioMotion";
 
-const frontend: Skill[] = [
+const expertise = [
   {
-    name: "React",
-    iconClass: "devicon-react-original colored",
+    number: "01",
+    icon: GitPullRequestArrow,
+    title: "Implementation",
+    lead: "The last mile matters.",
+    body: "I move comfortably from an ambiguous requirement to tested, observable production code—without losing sight of performance, accessibility, or the people maintaining it next.",
+    detail: "TypeScript · React · Next.js · Node · .NET · SQL",
   },
   {
-    name: "CSS",
-    iconClass: "devicon-css3-plain colored",
+    number: "02",
+    icon: Blocks,
+    title: "Software design",
+    lead: "Simple where it can be. Rigorous where it must be.",
+    body: "I shape boundaries, data models, and interfaces around real constraints. The goal is not clever architecture; it is a system that stays understandable as the product and team evolve.",
+    detail: "Architecture · APIs · Data · Security · Reliability",
   },
   {
-    name: "HTML",
-    iconClass: "devicon-html5-plain colored",
-  },
-  {
-    name: "Astro",
-    iconClass: "devicon-astro-plain-wordmark colored",
-  },
-  {
-    name: "Next.js",
-    iconClass: "devicon-nextjs-plain colored",
-  },
-  {
-    name: "Tailwind CSS",
-    iconClass: "devicon-tailwindcss-plain colored",
-  },
-  {
-    name: "Blazor",
-    iconClass: "devicon-blazor-original colored",
+    number: "03",
+    icon: UsersRound,
+    title: "Leadership",
+    lead: "Clarity creates momentum.",
+    body: "I make decisions legible, surface risk early, mentor with context, and build alignment across technical and non-technical groups. Teams do their best work when trust is part of the system.",
+    detail: "Direction · Mentorship · Communication · Delivery",
   },
 ];
 
-const backend: Skill[] = [
-  {
-    name: "Node.js",
-    iconClass: "devicon-nodejs-plain colored",
-  },
-  {
-    name: "Symfony",
-    iconClass: "devicon-symfony-original",
-  },
-  {
-    name: "Laravel",
-    iconClass: "devicon-laravel-original colored",
-  },
-  {
-    name: "MySQL",
-    iconClass: "devicon-mysql-plain colored",
-  },
-  {
-    name: "PostgreSQL",
-    iconClass: "devicon-postgresql-plain colored",
-  },
-  {
-    name: "ASP.NET",
-    iconClass: "devicon-dotnetcore-plain colored",
-  },
-  {
-    name: "WordPress",
-    iconClass: "devicon-wordpress-plain colored",
-  },
-];
-
-const languages: Skill[] = [
-  {
-    name: "TS",
-    iconClass: "devicon-typescript-plain colored",
-  },
-  {
-    name: "JS",
-    iconClass: "devicon-javascript-plain colored",
-  },
-  {
-    name: "PHP",
-    iconClass: "devicon-php-plain colored",
-  },
-  {
-    name: "C#",
-    iconClass: "devicon-csharp-plain colored",
-  },
-  {
-    name: "Python",
-    iconClass: "devicon-python-plain colored",
-  },
-  {
-    name: "C++",
-    iconClass: "devicon-cplusplus-plain colored",
-  },
-  {
-    name: "Bash",
-    iconClass: "devicon-bash-plain",
-  },
-  {
-    name: "Lua",
-    iconClass: "devicon-lua-plain colored",
-  },
-];
-
-const tools: Skill[] = [
-  {
-    name: "Docker",
-    iconClass: "devicon-docker-plain colored",
-  },
-  {
-    name: "Linux",
-    iconClass: "devicon-linux-plain colored",
-  },
-  {
-    name: "Git",
-    iconClass: "devicon-git-plain colored",
-  },
-  {
-    name: "GitHub",
-    iconClass: "devicon-github-original colored",
-  },
-  {
-    name: "AWS",
-    iconClass: "devicon-amazonwebservices-plain-wordmark colored",
-  },
-  {
-    name: "Oracle",
-    iconClass: "devicon-oracle-original colored",
-  },
-  {
-    name: "Azure",
-    iconClass: "devicon-azure-plain colored",
-  },
-];
-
-const SkillsSection = () => {
+export default function SkillsSection() {
   return (
-    <div className="w-full py-24 bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            My Technical Skills
-          </h2>
-          <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
-          <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
-            I&apos;ve worked with a wide range of technologies. Here are some of
-            my skills.
+    <section className="section-block" id="expertise">
+      <div className="site-shell">
+        <Reveal className="section-heading">
+          <p className="eyebrow">Three dimensions of the work</p>
+          <h2>Expertise is more than a stack.</h2>
+          <p>
+            Strong software comes from the code, the decisions behind it, and
+            the environment in which people build it.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <SkillCategory title="Frontend" skills={frontend} />
-          <SkillCategory title="Backend" skills={backend} />
-          <SkillCategory title="Languages" skills={languages} />
-          <SkillCategory title="Tools" skills={tools} />
-        </div>
-
-        <div className="mt-16 text-center">
-          <Link
-            href="/credentials"
-            className="inline-flex items-center px-6 py-3 rounded-lg bg-blue-600 text-white font-medium shadow-md hover:bg-blue-700 transition-colors duration-300 group"
-          >
-            <span>View My Credentials</span>
-            <svg
-              className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </Link>
+        </Reveal>
+        <div className="mt-16 border-t border-border">
+          {expertise.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Reveal key={item.title} delay={index * 0.06}>
+                <article className="expertise-row group">
+                  <span className="font-mono text-xs text-primary">{item.number}</span>
+                  <div>
+                    <Icon className="mb-6 size-7 text-primary" strokeWidth={1.5} />
+                    <h3>{item.title}</h3>
+                  </div>
+                  <div>
+                    <p className="mb-3 text-lg font-medium text-foreground">{item.lead}</p>
+                    <p className="leading-7 text-muted-foreground">{item.body}</p>
+                    <p className="mt-5 font-mono text-[10px] uppercase tracking-[.16em] text-primary/80">{item.detail}</p>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default SkillsSection;
+}

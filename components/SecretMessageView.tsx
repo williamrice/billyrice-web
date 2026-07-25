@@ -20,7 +20,7 @@ const SecretMessageView = ({ secretMessage }: Props) => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-900 to-gray-800">
+    <div>
       <Header>
         <div className="h-full flex flex-col items-center justify-center">
           <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
@@ -28,43 +28,43 @@ const SecretMessageView = ({ secretMessage }: Props) => {
           </h1>
         </div>
       </Header>
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-gray-800 rounded-lg shadow-md p-6 md:p-8 border border-gray-700">
+      <div className="site-shell py-20 sm:py-28">
+        <div className="mx-auto max-w-3xl">
+          <div className="border border-border bg-card/50 p-6 md:p-8">
             {secretMessage ? (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-semibold text-white mb-2">
+                  <h2 className="mb-3 text-2xl font-medium text-foreground">
                     {secretMessage.title}
                   </h2>
-                  <div className="bg-gray-700 rounded-lg p-4 border border-gray-600">
+                  <div className="border border-border bg-background p-4">
                     <div className="flex justify-between items-start gap-4">
-                      <p className="text-gray-300 whitespace-pre-wrap flex-1">
+                      <p className="flex-1 whitespace-pre-wrap leading-7 text-muted-foreground">
                         {secretMessage.message}
                       </p>
                       <button
                         onClick={handleCopy}
-                        className="p-2 rounded-md hover:bg-gray-600 transition-colors duration-200 shrink-0"
+                        className="grid size-11 shrink-0 place-items-center hover:bg-accent"
                         title="Copy message"
                       >
                         {copied ? (
-                          <Check className="w-5 h-5 text-green-400" />
+                          <Check className="size-5 text-primary" />
                         ) : (
-                          <Copy className="w-5 h-5 text-gray-400" />
+                          <Copy className="size-5 text-muted-foreground" />
                         )}
                       </button>
                     </div>
                   </div>
                 </div>
-                <div className="bg-yellow-900/50 border border-yellow-700 rounded-lg p-4">
-                  <p className="text-yellow-300 text-sm">
+                <div className="border border-primary/30 bg-primary/5 p-4">
+                  <p className="text-sm text-primary">
                     ⚠️ This message will be permanently deleted after viewing.
                   </p>
                 </div>
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-300 text-lg">
+                <p className="text-lg text-muted-foreground">
                   No secret message found. The message has been viewed already
                   or you have the wrong link.
                 </p>

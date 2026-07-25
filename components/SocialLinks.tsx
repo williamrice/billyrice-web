@@ -1,53 +1,31 @@
-import React from 'react';
-import { FaSquareXTwitter } from 'react-icons/fa6';
-import { AiFillGithub, AiFillGitlab, AiFillLinkedin } from 'react-icons/ai';
+import BrandIcon, { type BrandName } from "./BrandIcon";
 
-const SocialLinks = () => {
-  const size: number = 40;
+const links: ReadonlyArray<{
+  label: string;
+  href: string;
+  brand: BrandName;
+}> = [
+  { label: "GitHub", href: "https://www.github.com/williamrice", brand: "github" },
+  { label: "GitLab", href: "https://www.gitlab.com/williamrice", brand: "gitlab" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/billy-rice/", brand: "linkedin" },
+  { label: "X", href: "https://www.x.com/warice_dev", brand: "x" },
+];
+
+export default function SocialLinks() {
   return (
-    <>
-      <a
-        aria-label="Github Link"
-        href="https://www.github.com/williamrice"
-        target="blank"
-      >
-        <AiFillGithub
-          size={size}
-          className="text-white hover:text-gray-300 cursor-pointer transition-colors"
-        />
-      </a>
-      <a
-        aria-label="Gitlab Link"
-        href="https://www.gitlab.com/williamrice"
-        target="blank"
-      >
-        <AiFillGitlab
-          size={size}
-          className="text-white hover:text-gray-300 cursor-pointer transition-colors"
-        />
-      </a>
-      <a
-        aria-label="LinkedIn Link"
-        href="https://www.linkedin.com/in/billy-rice/"
-        target="blank"
-      >
-        <AiFillLinkedin
-          size={size}
-          className="text-white hover:text-blue-400 cursor-pointer transition-colors"
-        />
-      </a>
-      <a
-        aria-label="X (Twitter) Link"
-        href="https://www.x.com/warice_dev"
-        target="blank"
-      >
-        <FaSquareXTwitter
-          size={size}
-          className="text-white hover:text-gray-300 cursor-pointer transition-colors"
-        />
-      </a>
-    </>
+    <nav aria-label="Social links" className="flex flex-wrap justify-center gap-3">
+      {links.map(({ label, href, brand }) => (
+        <a
+          key={label}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={label}
+          className="icon-link"
+        >
+          <BrandIcon brand={brand} className="size-4" />
+        </a>
+      ))}
+    </nav>
   );
-};
-
-export default SocialLinks;
+}

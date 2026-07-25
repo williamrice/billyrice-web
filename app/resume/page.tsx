@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import React, { useEffect, useState, useRef } from "react";
 import { SkewLoader } from "react-spinners";
 import { useReactToPrint } from "react-to-print";
-import { FaLinkedin, FaGithub, FaGlobe } from "react-icons/fa";
+import { ExternalLink, Globe2 } from "lucide-react";
 import { ResumeType } from "@/app/types/resume";
 import {
   Certificate,
@@ -72,7 +72,7 @@ const ResumePage: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <SkewLoader color="#4A90E2" />
+        <SkewLoader color="#78a89f" />
       </div>
     );
   }
@@ -90,14 +90,14 @@ const ResumePage: React.FC = () => {
           </h1>
         </div>
       </Header>
-      <div className="max-w-4xl mx-auto p-4 sm:p-8">
+      <div className="site-shell max-w-5xl py-12 sm:py-16">
         <button
           onClick={() => handlePrint()}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 hover:cursor-pointer transition-colors duration-200"
+          className="button-primary mb-6"
         >
           Print Resume
         </button>
-        <div ref={contentRef} className="bg-white text-gray-800 text-sm">
+        <div ref={contentRef} className="bg-white p-5 text-sm text-gray-800 shadow-2xl sm:p-8">
           <header className="mb-4">
             <h1 className="text-xl sm:text-2xl font-bold">{data.name}</h1>
             <p className="text-base sm:text-lg text-gray-600">{data.label}</p>
@@ -123,7 +123,7 @@ const ResumePage: React.FC = () => {
                   rel="noopener noreferrer"
                   className="mr-2 hover:text-blue-500"
                 >
-                  <FaGlobe className="inline mr-1" />
+                  <Globe2 className="inline mr-1 size-4" />
                   <span className="hidden sm:inline">{data.url}</span>
                 </a>
                 {data.profiles.map((profile: Profile, index: number) => (
@@ -137,12 +137,7 @@ const ResumePage: React.FC = () => {
                       rel="noopener noreferrer"
                       className="mr-2 hover:text-blue-500"
                     >
-                      {profile.network === "LinkedIn" && (
-                        <FaLinkedin className="inline mr-1" />
-                      )}
-                      {profile.network === "Github" && (
-                        <FaGithub className="inline mr-1" />
-                      )}
+                      <ExternalLink className="inline mr-1 size-4" />
                       <span className="hidden sm:inline">
                         {profile.username}
                       </span>

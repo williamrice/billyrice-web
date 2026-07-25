@@ -1,9 +1,10 @@
+import { absoluteUrl } from './site';
+
 /**
  * Generate canonical URL for the site
  */
 export function generateCanonicalUrl(path: string = ''): string {
-  const baseUrl = 'https://williamarice.com';
-  return `${baseUrl}${path}`;
+  return absoluteUrl(path);
 }
 
 /**

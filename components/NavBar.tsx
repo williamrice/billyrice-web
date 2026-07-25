@@ -1,115 +1,69 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Menu, Code } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
-interface MenuItem {
-  name: string;
-  href: string;
-}
+const links = [
+  ["Projects", "/projects"],
+  ["Expertise", "/#expertise"],
+  ["About", "/#about-section"],
+  ["Resume", "/resume"],
+  ["Contact", "/contact"],
+] as const;
 
-const menuItems: MenuItem[] = [
-  { name: 'Home', href: '/' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Resume', href: '/resume' },
-  { name: 'Credentials', href: '/credentials' },
-  { name: 'Contact', href: '/contact' },
-];
-
-const NavBar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function NavBar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const router = useRouter();
+
   return (
-    <motion.nav
-      role="navigation"
+    <nav
       aria-label="Main navigation"
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 transition-all duration-300 ${
-        isScrolled ? 'h-16 bg-blue-600' : 'h-20 bg-transparent'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all ${
+        scrolled ? "border-border bg-background/88 backdrop-blur-xl" : "border-transparent bg-transparent"
       }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: 'spring', stiffness: 120, damping: 20 }}
     >
-      <motion.button
-        className="text-white font-bold text-xl cursor-pointer bg-transparent border-none focus:outline-none focus:ring-2 focus:ring-white rounded p-2"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={() => {
-          router.push('/');
-        }}
-        onKeyDown={(e) => {
-          if (e.key === ' ') {
-            e.preventDefault();
-            router.push('/');
-          }
-        }}
-        aria-label="Go to home page"
-      >
-        Billy Rice
-      </motion.button>
-
-      <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Toggle navigation menu"
-            aria-expanded={isMenuOpen}
-            className="text-white hover:bg-transparent hover:text-white hover:scale-120 transition-all ease-in-out focus:outline-none focus:ring-2 focus:ring-white"
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
-        </SheetTrigger>
-        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-        <SheetContent
-          side="right"
-          aria-label="Mobile navigation menu"
-          className="w-full sm:w-[400px] bg-gray-900/95 backdrop-blur-sm border-gray-700 flex items-center justify-center"
-        >
-          <div className="flex flex-col items-center justify-center">
-            <div className="mb-8 p-6 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full">
-              <Code className="w-16 h-16 text-white" />
-            </div>
-            <nav
-              aria-label="Mobile navigation links"
-              className="flex flex-col space-y-4"
-            >
-              {menuItems.map((item) => (
-                <motion.a
-                  key={item.name}
-                  href={`${item.href.toLowerCase()}`}
-                  className="text-white text-2xl font-semibold text-center hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 rounded p-2"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </motion.a>
+      <div className="site-shell flex h-16 items-center justify-between md:h-20">
+        <Link href="/" className="group flex items-center gap-3" aria-label="Billy Rice, home">
+          <span className="grid size-8 place-items-center border border-primary/50 font-mono text-[10px] text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">BR</span>
+          <span className="text-sm font-medium tracking-tight">Billy Rice</span>
+        </Link>
+        <div className="hidden items-center gap-8 md:flex">
+          {links.map(([name, href]) => (
+            <Link key={name} href={href} className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground hover:text-primary">
+              {name}
+            </Link>
+          ))}
+        </div>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger
+            render={
+              <Button variant="ghost" size="icon" className="size-11 md:hidden" aria-label="Open navigation" aria-expanded={open}>
+                <Menu className="size-5" />
+              </Button>
+            }
+          />
+          <SheetContent side="right" className="w-full border-border bg-background p-6 pt-[max(1.5rem,env(safe-area-inset-top))] sm:w-[420px] sm:p-8">
+            <SheetTitle className="sr-only">Main navigation</SheetTitle>
+            <div className="mt-14 flex flex-col sm:mt-16">
+              {links.map(([name, href]) => (
+                <Link key={name} href={href} onClick={() => setOpen(false)} className="flex min-h-16 items-center border-t border-border py-4 text-2xl font-medium tracking-tight hover:text-primary sm:py-6 sm:text-3xl">
+                  {name}
+                </Link>
               ))}
-            </nav>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </motion.nav>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </nav>
   );
-};
-
-export default NavBar;
+}

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  allowedDevOrigins: ['warbox.llama-luma.ts.net'],
   experimental: {},
   images: {
     remotePatterns: [

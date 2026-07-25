@@ -56,20 +56,20 @@ const SecretMessageForm = () => {
     <div className="w-full">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-gray-800 rounded-lg shadow-md p-6 md:p-8 space-y-6 relative border border-gray-700"
+        className="relative space-y-6 border border-border bg-card/50 p-6 md:p-8"
       >
         {isLoading && (
-          <div className="absolute inset-0 bg-gray-800/80 rounded-lg flex items-center justify-center">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-card/90 backdrop-blur-sm">
             <div className="flex flex-col items-center space-y-3">
-              <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
-              <p className="text-gray-300">Creating your secret message...</p>
+              <Loader2 className="size-8 animate-spin text-primary" />
+              <p className="text-muted-foreground">Creating your secret message...</p>
             </div>
           </div>
         )}
         <div className="space-y-2">
           <label
             htmlFor="title"
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-medium text-foreground"
           >
             Title
           </label>
@@ -78,7 +78,7 @@ const SecretMessageForm = () => {
             id="title"
             type="text"
             placeholder="Enter a title for your message"
-            className="w-full px-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="min-h-12 w-full border border-input bg-background px-4 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30 disabled:opacity-50"
             disabled={isLoading}
           />
           {errors.title && (
@@ -89,7 +89,7 @@ const SecretMessageForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="message"
-            className="block text-sm font-medium text-gray-300"
+            className="block text-sm font-medium text-foreground"
           >
             Message
           </label>
@@ -98,7 +98,7 @@ const SecretMessageForm = () => {
             id="message"
             rows={6}
             placeholder="Enter your secret message"
-            className="w-full px-4 py-2 rounded-md bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full resize-none border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/30 disabled:opacity-50"
             disabled={isLoading}
           />
           {errors.message && (
@@ -112,25 +112,25 @@ const SecretMessageForm = () => {
       </form>
 
       {url && (
-        <div className="mt-8 bg-gray-800 rounded-lg shadow-md p-6 md:p-8 border border-gray-700">
-          <h3 className="text-xl font-semibold text-white mb-4">
+        <div className="mt-8 border border-border bg-card/50 p-6 md:p-8">
+          <h3 className="mb-4 text-xl font-medium text-foreground">
             Your Secret Message Link
           </h3>
-          <div className="flex items-center space-x-2 bg-gray-700 rounded-md p-3 border border-gray-600">
-            <p className="text-gray-300 flex-1 truncate">{url}</p>
+          <div className="flex items-center space-x-2 border border-border bg-background p-3">
+            <p className="flex-1 truncate text-muted-foreground">{url}</p>
             <button
               onClick={handleCopy}
-              className="p-2 rounded-md hover:bg-gray-600 transition-colors duration-200"
+              className="grid size-11 place-items-center hover:bg-accent"
               title="Copy to clipboard"
             >
               {copied ? (
-                <Check className="w-5 h-5 text-green-400" />
+                <Check className="size-5 text-primary" />
               ) : (
-                <Copy className="w-5 h-5 text-gray-400" />
+                <Copy className="size-5 text-muted-foreground" />
               )}
             </button>
           </div>
-          <div className="mt-4 space-y-2 text-sm text-gray-300">
+          <div className="mt-4 space-y-2 text-sm leading-6 text-muted-foreground">
             <p>
               ⚠️ This link will only work once. Do not test it or the message
               will be permanently deleted.

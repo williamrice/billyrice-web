@@ -1,67 +1,44 @@
-"use client";
 import { Project } from "@/prisma/generated/prisma/client";
 import Image from "next/image";
-import React from "react";
 import Link from "next/link";
-import { AiFillEye } from "react-icons/ai";
+import { ArrowUpRight } from "lucide-react";
 
-interface FeaturedProjectCardProps {
-  project: Project;
-}
-
-const FeaturedProjectCard: React.FC<FeaturedProjectCardProps> = ({
-  project,
-}) => {
+export default function FeaturedProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.id}`}
-      className="block bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 hover:border-blue-600 transition-all duration-300 cursor-pointer"
+      className="group flex min-w-0 flex-col overflow-hidden border border-border bg-card/50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
     >
-      <div className="relative h-75 w-full overflow-hidden">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
         <Image
           src={project.featuredImageSrc}
           alt={project.featuredImageAlt}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover transform hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 1024px) 100vw, 33vw"
+          className="object-cover grayscale-[35%] transition duration-500 group-hover:scale-[1.025] group-hover:grayscale-0"
         />
+        <span className="absolute left-3 top-3 bg-background/85 px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-[.15em] text-primary backdrop-blur-md">
+          Case study
+        </span>
       </div>
-
-      <div className="p-8 text-center">
-        <div className="mb-4 flex justify-center items-center min-h-22.5">
-          <h3 className="text-2xl font-bold text-white mb-6">
+      <div className="flex flex-1 flex-col p-5 sm:p-7">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-xl font-medium tracking-[-.025em] text-foreground sm:text-2xl">
             {project.title}
           </h3>
+          <ArrowUpRight className="mt-1 size-4 shrink-0 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
-
-        <div className="flex justify-center items-center mb-4 min-h-22.5">
-          <div className="flex flex-wrap gap-2 mb-6 justify-center">
-            {project.technologies.map((tech: string) => (
-              <span
-                key={tech}
-                className="px-3 py-1 text-sm font-medium bg-blue-800 text-white rounded-full border border-blue-600"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-8 text-center h-48 relative overflow-hidden">
-          <div className="text-gray-300 text-lg leading-relaxed line-clamp-5">
-            {project.description}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-4 justify-center">
-          <span className="inline-flex items-center justify-center w-full px-5 py-3 rounded-lg bg-blue-700 text-white font-medium shadow-md hover:bg-blue-800 transition-all duration-300">
-            <AiFillEye className="mr-2 h-5 w-5" />
-            View Case Study
-          </span>
+        <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+          {project.description}
+        </p>
+        <div className="mt-7 flex flex-wrap gap-2">
+          {project.technologies.slice(0, 4).map((tech: string) => (
+            <span key={tech} className="border border-border px-2.5 py-1 font-mono text-[9px] uppercase tracking-[.12em] text-muted-foreground">
+              {tech}
+            </span>
+          ))}
         </div>
       </div>
     </Link>
   );
-};
-
-export default FeaturedProjectCard;
+}

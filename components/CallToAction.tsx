@@ -1,56 +1,23 @@
-import React from "react";
 import Link from "next/link";
-import { AiOutlineMail, AiOutlineFilePdf } from "react-icons/ai";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "./PortfolioMotion";
 
-const CallToAction = () => {
+export default function CallToAction() {
   return (
-    <div className="relative w-full py-16 md:py-24 overflow-hidden mb-0">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-linear-to-r from-blue-900 via-blue-800 to-gray-900"></div>
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-10 left-20 w-72 h-72 bg-white rounded-full mix-blend-overlay filter blur-3xl"></div>
-        <div className="absolute bottom-10 right-10 w-72 h-72 bg-gray-600 rounded-full mix-blend-overlay filter blur-3xl"></div>
-      </div>
-      {/* Pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E\")",
-          backgroundSize: "20px 20px",
-        }}
-      ></div>
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 tracking-tight">
-            Let&apos;s connect and collaborate!
+    <section className="relative overflow-hidden border-t border-border py-28 sm:py-32 md:py-40">
+      <div className="ambient-orb ambient-orb-two" aria-hidden="true" />
+      <Reveal className="site-shell relative z-10">
+        <p className="eyebrow mb-8">Build what lasts</p>
+        <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+          <h2 className="max-w-4xl text-balance text-[2.65rem] font-medium leading-[1.02] tracking-[-.055em] text-foreground sm:text-5xl md:text-7xl">
+            Have a consequential problem worth solving?
           </h2>
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-blue-100 mb-6 md:mb-8 relative px-4 py-2 rounded-lg bg-gray-900/50 sm:bg-gray-900/30 backdrop-blur-sm">
-            I&apos;m always open to new opportunities to collaborate and connect
-            with fellow developers. Let&apos;s build something amazing together!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 rounded-lg bg-white text-blue-900 font-semibold shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
-            >
-              <AiOutlineMail className="mr-2 h-5 w-5" />
-              Contact Me
-            </Link>
-            <Link
-              href="/resume"
-              className="inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 rounded-lg border-2 border-white text-white font-semibold hover:bg-white hover:text-gray-900 hover:scale-105 transition-all duration-300 w-full sm:w-auto"
-            >
-              <AiOutlineFilePdf className="mr-2 h-5 w-5" />
-              View Resume
-            </Link>
-          </div>
+          <Link className="button-primary group w-full sm:w-auto lg:mb-2" href="/contact">
+            Let&apos;s talk
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
-      </div>
-    </div>
+      </Reveal>
+    </section>
   );
-};
-
-export default CallToAction;
+}

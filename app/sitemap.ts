@@ -1,58 +1,57 @@
 import { MetadataRoute } from 'next';
 import { getAllProjects } from '@/actions/projects';
+import { SITE_URL } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://williamarice.com';
-
   // Fetch dynamic project data
   const projects = await getAllProjects();
 
   // Static routes with priorities
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: SITE_URL,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/resume`,
+      url: `${SITE_URL}/resume`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/projects`,
+      url: `${SITE_URL}/projects`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/credentials`,
+      url: `${SITE_URL}/credentials`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: `${SITE_URL}/contact`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/privacy-policy`,
+      url: `${SITE_URL}/privacy-policy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/licensing`,
+      url: `${SITE_URL}/licensing`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/secret-message`,
+      url: `${SITE_URL}/secret-message`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.7,
@@ -61,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Dynamic project routes
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${baseUrl}/projects/${project.id}`,
+    url: `${SITE_URL}/projects/${project.id}`,
     lastModified: project.updatedAt || new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.8,

@@ -1,8 +1,9 @@
 import Footer from '@/components//Footer';
 import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from '@/components/ui/sonner';
 import ConditionalNavBar from '@/components/ConditionalNavBar';
+import { SITE_URL } from '@/lib/site';
 
 import '@/app/globals.css';
 
@@ -13,13 +14,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://billyrice.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Billy Rice - Software Developer | Lexington, KY',
+    default: 'Billy Rice — Software Engineer & Technical Leader',
     template: '%s | Billy Rice',
   },
   description:
-    'Full-stack software developer in Lexington, KY building web applications and software solutions across various technology stacks.',
+    'Software engineer and technical leader focused on implementation, software design, and dependable systems.',
   keywords: [
     'software developer lexington ky',
     'full-stack developer kentucky',
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     title: 'Billy Rice - Software Developer',
     description:
       'Full-stack software developer portfolio featuring web applications and software solutions.',
-    url: 'https://billyrice.com',
+    url: SITE_URL,
     siteName: 'Billy Rice Portfolio',
     images: [
       {
@@ -72,7 +73,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://www.google.com" />
         <link rel="preconnect" href="https://www.gstatic.com" />
@@ -83,20 +84,20 @@ export default function RootLayout({
         />
         <link rel="dns-prefetch" href="https://cdn.credly.com" />
       </head>
-      <body className="h-screen w-full">
+      <body className="w-full">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
         >
           Skip to main content
         </a>
-        <div className="flex flex-col min-h-screen items-center justify-center">
+        <div className="flex min-h-dvh flex-col items-center">
           <header>
             <ConditionalNavBar />
           </header>
           <main
             id="main-content"
-            className="mb-auto h-full w-full"
+            className="w-full min-w-0 flex-1"
             tabIndex={-1}
           >
             {children}

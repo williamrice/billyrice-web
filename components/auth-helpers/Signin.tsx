@@ -1,7 +1,7 @@
 "use client";
 
 import {authClient} from "@/lib/auth-client";
-import {FaGoogle} from "react-icons/fa";
+import BrandIcon from "@/components/BrandIcon";
 
 const handleSignIn = async () => {
     await authClient.signIn.social({
@@ -14,10 +14,10 @@ const Signin = () => {
     return (
         <button
             onClick={handleSignIn}
-            className="bg-blue-500 transition ease-in-out hover:scale-105 hover:cursor-pointer rounded-md p-3"
+            className="button-primary"
         >
-            <span className="mr-2 text-white text-lg">Sign In with Google</span>
-            <FaGoogle className="text-white inline"/>
+            <BrandIcon brand="google" className="mr-2 inline size-5 text-white" />
+            <span className="text-lg text-white">Sign In with Google</span>
         </button>
     );
 };

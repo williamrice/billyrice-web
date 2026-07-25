@@ -1,73 +1,29 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import CredlyBadge from "./CredlyBadge";
-import { Badge } from "@/app/credentials/page";
+import type { Badge } from "@/app/credentials/page";
+import { ArrowUpRight } from "lucide-react";
 
-interface BadgeCardProps extends Badge {}
-
-export default function BadgeCard({
-  title,
-  type,
-  badgeId,
-  badgeUrl,
-  imageUrl,
-  viewUrl,
-}: BadgeCardProps) {
-  const width = 330;
-  const height = 191;
-  return (
-    <div className="bg-gray-800 border border-gray-600 rounded-lg shadow-lg overflow-hidden h-full w-full hover:shadow-xl transition-all duration-200 hover:border-blue-500 flex flex-col">
-      {/* Header section with dark background */}
-      <div className="bg-gray-800 p-4 border-b border-gray-600">
-        <h2 className="text-xl font-semibold text-center text-white">
-          {title}
-        </h2>
-      </div>
-
-      {/* Content section with light background for embeds */}
-      <div className="bg-gray-100 p-6 grow flex items-center justify-center min-h-[280px]">
-        {type === "image" && imageUrl && (
-          <div
-            className="relative"
-            style={{ width: `${width}px`, height: `${height}px` }}
-          >
-            {viewUrl ? (
-              <a
-                href={viewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full h-full relative"
-              >
-                <Image
-                  src={imageUrl}
-                  alt={`Badge: ${title}`}
-                  fill
-                  sizes="330px"
-                  priority
-                  style={{ objectFit: "contain" }}
-                />
-              </a>
-            ) : (
-              <Image
-                src={imageUrl}
-                alt={`Badge: ${title}`}
-                fill
-                sizes="330px"
-                priority
-                style={{ objectFit: "contain" }}
-              />
-            )}
-          </div>
-        )}
-
-        {type === "credly" && badgeId && (
-          <div className="w-full flex justify-center">
-            <CredlyBadge badgeId={badgeId} title={title} />
-          </div>
-        )}
-      </div>
+export default function BadgeCard({ title, type, badgeId, imageUrl, viewUrl }: Badge) {
+  const content = type === "image" && imageUrl ? (
+    <div className="relative h-48 w-full">
+      <Image src={imageUrl} alt={`Badge: ${title}`} fill sizes="330px" className="object-contain" />
     </div>
+  ) : type === "credly" && badgeId ? (
+    <div className="flex min-h-48 w-full justify-center">
+      <CredlyBadge badgeId={badgeId} title={title} />
+    </div>
+  ) : null;
+
+  return (
+    <article className="flex h-full flex-col border border-border bg-card/50 p-6">
+      <p className="eyebrow mb-6">Verified credential</p>
+      <div className="flex grow items-center justify-center bg-background/60 p-4">{viewUrl ? <a href={viewUrl} target="_blank" rel="noreferrer" className="block w-full">{content}</a> : content}</div>
+      <div className="mt-6 flex items-start justify-between gap-4">
+        <h2 className="text-lg font-medium tracking-tight">{title}</h2>
+        {viewUrl && <ArrowUpRight className="size-4 shrink-0 text-primary" />}
+      </div>
+    </article>
   );
 }

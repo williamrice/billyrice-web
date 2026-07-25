@@ -3,7 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiHome, FiFolder, FiSettings, FiFileText } from "react-icons/fi";
+import { FileText, Folder, Home, Settings } from "lucide-react";
 import Signout from "./auth-helpers/Signout";
 
 interface NavItem {
@@ -13,10 +13,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Dashboard", href: "/admin", icon: FiHome },
-  { name: "Projects", href: "/admin/project-manager", icon: FiFolder },
-  { name: "Resume", href: "/admin/resume", icon: FiFileText },
-  { name: "Settings", href: "/admin/settings", icon: FiSettings },
+  { name: "Dashboard", href: "/admin", icon: Home },
+  { name: "Projects", href: "/admin/project-manager", icon: Folder },
+  { name: "Resume", href: "/admin/resume", icon: FileText },
+  { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 const AdminSidebar = () => {

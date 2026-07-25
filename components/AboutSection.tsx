@@ -1,83 +1,67 @@
-import React from 'react';
-import Image from 'next/image';
-import { AiFillCode, AiFillTrophy } from 'react-icons/ai';
-import { FaBook } from 'react-icons/fa6';
-import { FeatureCard } from './FeaturedCard';
+import Link from "next/link";
+import { ArrowUpRight, Landmark, ShieldCheck, Waypoints } from "lucide-react";
+import { Reveal } from "./PortfolioMotion";
 
-const AboutSection = () => {
+const principles = [
+  { icon: ShieldCheck, title: "Own the outcome", text: "Responsibility does not stop at the edge of a ticket." },
+  { icon: Waypoints, title: "Make context travel", text: "Good decisions compound when their reasoning is shared." },
+  { icon: Landmark, title: "Serve the whole", text: "Leadership means balancing urgency with long-term trust." },
+];
+
+export default function AboutSection() {
   return (
-    <div id="about-section" className="w-full py-24 bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            About Me
-          </h2>
-          <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
-        </div>
-
-        <div className="flex flex-col lg:flex-row items-start gap-12">
-          <div className="lg:w-5/12 lg:sticky lg:top-24 self-start">
-            <div className="relative">
-              <div className="absolute -top-4 -left-4 w-full h-full bg-blue-700 rounded-lg"></div>
-              <Image
-                src="/images/coding_shot.jpg"
-                alt="Billy Rice"
-                width={600}
-                height={600}
-                className="relative rounded-lg shadow-xl border-4 border-gray-700"
-              />
-            </div>
+    <section className="section-block border-y border-border bg-card/30" id="about-section">
+      <div className="site-shell grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-24">
+        <Reveal className="lg:sticky lg:top-28 lg:self-start">
+          <p className="eyebrow mb-8">Leadership, earned in context</p>
+          <p className="max-w-md text-balance text-3xl font-medium leading-tight tracking-[-.035em] text-foreground sm:text-4xl">
+            Judgment is built by being accountable for real outcomes.
+          </p>
+          <div className="mt-10 h-px w-full bg-border">
+            <div className="h-px w-24 bg-primary" />
           </div>
-
-          <div className="lg:w-7/12 mt-12 lg:mt-0 text-left">
-            {' '}
-            <h3 className="text-2xl font-bold text-white mb-6">
-              Hello, I&apos;m Billy
-            </h3>
-            <div className="space-y-6 text-gray-300">
-              <p className="text-lg">
-                I&apos;m a Software Developer in Eastern Kentucky with an
-                unconventional path to tech. After growing up in challenging
-                circumstances and serving 12+ years in law enforcement, I
-                transitioned a lifelong programming hobby into a full-time
-                career by consistently challenging myself and building skills
-                across a variety of technologies.
+        </Reveal>
+        <div>
+          <Reveal>
+            <h2 className="text-balance text-[2.25rem] font-medium leading-[1.06] tracking-[-.04em] text-foreground sm:text-4xl md:text-6xl">
+              A technical career shaped by public service.
+            </h2>
+            <div className="mt-9 space-y-7 text-base leading-7 text-muted-foreground sm:space-y-6 sm:text-lg sm:leading-8">
+              <p>
+                Before software became my full-time work, I spent more than a
+                decade in law enforcement. Today, I also serve my community as
+                an elected city council member.
               </p>
-              <p className="text-lg">
-                I recently earned my Master of Science in Software Engineering,
-                complementing years of self taught learning. I specialize in PHP
-                (WordPress ecosystem), modern JavaScript frameworks, C#/.NET,
-                and C++, with a focus on clean architecture, accessibility, and
-                performance-driven solutions.
-              </p>
-              <p className="text-lg">
-                When I&apos;m not coding, you&apos;ll find me hiking the Red
-                River Gorge, spending quality time with my family, or serving my
-                community as an elected City Councilman.
+              <p>
+                Those experiences sharpened the same instincts I bring to
+                engineering: remain calm inside complexity, listen before
+                deciding, communicate plainly, and take responsibility for what
+                happens after a decision ships.
               </p>
             </div>
-            <div className="space-y-4 mt-8">
-              <FeatureCard
-                icon={<AiFillCode className="w-7 h-7" />}
-                title="Full Stack Developer"
-                description="Building complete web applications from the ground up"
-              />
-              <FeatureCard
-                icon={<AiFillTrophy className="w-7 h-7" />}
-                title="Public Servant"
-                description="Serving my community for over 12 years and counting"
-              />
-              <FeatureCard
-                icon={<FaBook className="w-7 h-7" />}
-                title="Lifelong Learner"
-                description="Constantly exploring new technologies"
-              />
-            </div>
+          </Reveal>
+          <div className="mt-14">
+            {principles.map((principle, index) => {
+              const Icon = principle.icon;
+              return (
+                <Reveal key={principle.title} delay={index * 0.06}>
+                  <div className="grid grid-cols-[auto_1fr] gap-6 border-t border-border py-8">
+                    <Icon className="mt-1 size-5 text-primary" strokeWidth={1.5} />
+                    <div>
+                      <h3 className="text-lg font-medium text-foreground">{principle.title}</h3>
+                      <p className="mt-1 text-muted-foreground">{principle.text}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
+          <Link href="/resume" className="text-link group mt-7 inline-flex">
+            Read the full career story
+            <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default AboutSection;
+}

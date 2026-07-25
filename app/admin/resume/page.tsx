@@ -20,8 +20,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { PlusIcon, MinusIcon } from '@radix-ui/react-icons';
+import { toast } from 'sonner';
+import { Minus, Plus } from 'lucide-react';
 import { ClipLoader } from 'react-spinners';
 import {
   Certificate,
@@ -288,11 +288,7 @@ export default function ResumeForm() {
       reset(formattedData);
       setIsLoading(false);
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to load resume data. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Failed to load resume data. Please try again.');
       setIsLoading(false);
     }
   }, [reset, setIsLoading]);
@@ -342,17 +338,10 @@ export default function ResumeForm() {
       // Refetch the resume data after successful update
       await fetchResume();
 
-      toast({
-        title: 'Success',
-        description: 'Resume updated successfully!',
-      });
+      toast.success('Resume updated successfully!');
     } catch (error) {
       console.error('Error updating resume:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to update resume. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Failed to update resume. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -371,7 +360,7 @@ export default function ResumeForm() {
       onSubmit={handleSubmit(onSubmit as any)}
       className="space-y-8 p-4 md:p-6 max-w-[95%] mx-auto"
     >
-      <Accordion type="multiple" className="w-full">
+      <Accordion multiple className="w-full">
         <AccordionItem value="personal-info">
           <AccordionTrigger>Personal Information</AccordionTrigger>
           <AccordionContent className="px-1 pt-3">
@@ -544,7 +533,7 @@ export default function ResumeForm() {
                   onClick={() => removeProfile(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Profile
+                  <Minus className="mr-2 h-4 w-4" /> Remove Profile
                 </Button>
               </div>
             ))}
@@ -554,7 +543,7 @@ export default function ResumeForm() {
                 appendProfile({ network: '', username: '', url: '' })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Profile
+              <Plus className="mr-2 h-4 w-4" /> Add Profile
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -607,7 +596,7 @@ export default function ResumeForm() {
                   onClick={() => removeSkill(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Skill
+                  <Minus className="mr-2 h-4 w-4" /> Remove Skill
                 </Button>
               </div>
             ))}
@@ -615,7 +604,7 @@ export default function ResumeForm() {
               type="button"
               onClick={() => appendSkill({ name: '', level: '', keywords: [] })}
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Skill
+              <Plus className="mr-2 h-4 w-4" /> Add Skill
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -705,7 +694,7 @@ export default function ResumeForm() {
                   onClick={() => removeWork(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Work Experience
+                  <Minus className="mr-2 h-4 w-4" /> Remove Work Experience
                 </Button>
               </div>
             ))}
@@ -723,7 +712,7 @@ export default function ResumeForm() {
                 })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Work Experience
+              <Plus className="mr-2 h-4 w-4" /> Add Work Experience
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -789,7 +778,7 @@ export default function ResumeForm() {
                   onClick={() => removeEducation(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Education
+                  <Minus className="mr-2 h-4 w-4" /> Remove Education
                 </Button>
               </div>
             ))}
@@ -805,7 +794,7 @@ export default function ResumeForm() {
                 })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Education
+              <Plus className="mr-2 h-4 w-4" /> Add Education
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -851,7 +840,7 @@ export default function ResumeForm() {
                   onClick={() => removeCertificate(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Certificate
+                  <Minus className="mr-2 h-4 w-4" /> Remove Certificate
                 </Button>
               </div>
             ))}
@@ -861,7 +850,7 @@ export default function ResumeForm() {
                 appendCertificate({ name: '', date: '', issuer: '' })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Certificate
+              <Plus className="mr-2 h-4 w-4" /> Add Certificate
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -941,7 +930,7 @@ export default function ResumeForm() {
                   onClick={() => removeProject(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Project
+                  <Minus className="mr-2 h-4 w-4" /> Remove Project
                 </Button>
               </div>
             ))}
@@ -958,7 +947,7 @@ export default function ResumeForm() {
                 })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Project
+              <Plus className="mr-2 h-4 w-4" /> Add Project
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -1038,7 +1027,7 @@ export default function ResumeForm() {
                   onClick={() => removeVolunteer(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Community
+                  <Minus className="mr-2 h-4 w-4" /> Remove Community
                   Service
                 </Button>
               </div>
@@ -1056,7 +1045,7 @@ export default function ResumeForm() {
                 })
               }
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Community Service
+              <Plus className="mr-2 h-4 w-4" /> Add Community Service
             </Button>
           </AccordionContent>
         </AccordionItem>
@@ -1099,7 +1088,7 @@ export default function ResumeForm() {
                   onClick={() => removeInterest(index)}
                   variant="destructive"
                 >
-                  <MinusIcon className="mr-2 h-4 w-4" /> Remove Interest
+                  <Minus className="mr-2 h-4 w-4" /> Remove Interest
                 </Button>
               </div>
             ))}
@@ -1107,7 +1096,7 @@ export default function ResumeForm() {
               type="button"
               onClick={() => appendInterest({ name: '', keywords: [] })}
             >
-              <PlusIcon className="mr-2 h-4 w-4" /> Add Interest
+              <Plus className="mr-2 h-4 w-4" /> Add Interest
             </Button>
           </AccordionContent>
         </AccordionItem>

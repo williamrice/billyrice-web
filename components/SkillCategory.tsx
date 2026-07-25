@@ -12,14 +12,14 @@ export const SkillCategory = ({
       <div className="bg-blue-800 text-white text-center py-3">
         <h3 className="text-xl font-semibold">{title}</h3>
       </div>
-      <div className="p-6 grid grid-cols-3 gap-4">
+      <div className="p-6 flex flex-wrap justify-center gap-2">
         {skills.map((skill) => (
           <div
             key={skill.name}
-            className="flex flex-col items-center justify-center p-2 hover:scale-110 transition-transform duration-300"
+            className="flex min-w-20 flex-col items-center gap-2 rounded-lg border border-gray-600 bg-gray-900 p-3 text-gray-200 transition-colors hover:border-blue-500 hover:text-blue-300"
           >
-            <i className={`${skill.iconClass} text-4xl mb-2`}></i>
-            <p className="text-sm text-gray-300 text-center">{skill.name}</p>
+            <skill.icon className="size-7" aria-hidden="true" />
+            <span className="text-center text-xs font-medium">{skill.name}</span>
           </div>
         ))}
       </div>
