@@ -1,9 +1,11 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { getAllowedAdminSession } from "@/lib/auth-guards";
-import { revalidatePath } from "next/cache";
+import { requireAllowedAdminSession } from "@/lib/auth-guards";
 import { redirect } from "next/navigation";
+import { revalidateResumeContent } from "@/lib/utils/cache-invalidation";
+import { getFormString, requireFormString } from "@/lib/utils/form-data";
+import { parseOptionalDateInput } from "@/lib/utils/dates";
 import {
   accomplishmentSchema,
   credentialSchema,
@@ -15,45 +17,18 @@ import {
   skillSchema,
 } from "../schemas/resume";
 
-async function requireOwner() {
-  const session = await getAllowedAdminSession();
-  if (!session) throw new Error("Unauthorized");
-}
-
-function value(formData: FormData, key: string) {
-  return String(formData.get(key) ?? "");
-}
-
-function profileId(formData: FormData) {
-  const id = value(formData, "profileId");
-  if (!id) throw new Error("Resume version is required");
-  return id;
-}
-
-function nullableDate(formData: FormData, key: string) {
-  const date = value(formData, key);
-  return date ? new Date(`${date}T12:00:00Z`) : null;
-}
-
-function refreshResume() {
-  revalidatePath("/resume");
-  revalidatePath("/admin");
-  revalidatePath("/admin/resume");
-  revalidatePath("/admin/settings");
-}
-
 export async function saveProfile(formData: FormData) {
-  await requireOwner();
-  const id = profileId(formData);
+  await requireAllowedAdminSession();
+  const id = requireFormString(formData, "profileId", "Resume version is required");
   const data = profileSchema.parse({
-    label: value(formData, "label"),
-    slug: value(formData, "slug"),
-    name: value(formData, "name"),
-    headline: value(formData, "headline"),
-    introduction: value(formData, "introduction"),
-    location: value(formData, "location"),
-    email: value(formData, "email"),
-    availability: value(formData, "availability"),
+    label: getFormString(formData, "label"),
+    slug: getFormString(formData, "slug"),
+    name: getFormString(formData, "name"),
+    headline: getFormString(formData, "headline"),
+    introduction: getFormString(formData, "introduction"),
+    location: getFormString(formData, "location"),
+    email: getFormString(formData, "email"),
+    availability: getFormString(formData, "availability"),
     published: formData.get("published") === "on",
   });
   await prisma.professionalProfile.upsert({
@@ -61,15 +36,15 @@ export async function saveProfile(formData: FormData) {
     create: { id, ...data },
     update: data,
   });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function duplicateProfile(formData: FormData) {
-  await requireOwner();
+  await requireAllowedAdminSession();
   const data = duplicateProfileSchema.parse({
-    sourceProfileId: value(formData, "sourceProfileId"),
-    label: value(formData, "label"),
-    slug: value(formData, "slug"),
+    sourceProfileId: getFormString(formData, "sourceProfileId"),
+    label: getFormString(formData, "label"),
+    slug: getFormString(formData, "slug"),
   });
   const source = await prisma.professionalProfile.findUnique({
     where: { id: data.sourceProfileId },
@@ -148,23 +123,23 @@ export async function duplicateProfile(formData: FormData) {
     }
     return profile;
   });
-  refreshResume();
+  revalidateResumeContent();
   redirect(`/admin/resume?profile=${created.id}&saved=true`);
 }
 
 export async function addPosition(formData: FormData) {
-  await requireOwner();
-  const targetProfileId = profileId(formData);
+  await requireAllowedAdminSession();
+  const targetProfileId = requireFormString(formData, "profileId", "Resume version is required");
   const data = positionSchema.parse({
-    organizationName: value(formData, "organizationName"),
-    organizationLocation: value(formData, "organizationLocation"),
-    organizationUrl: value(formData, "organizationUrl"),
-    title: value(formData, "title"),
-    kind: value(formData, "kind"),
-    startDate: new Date(`${value(formData, "startDate")}T12:00:00Z`),
-    endDate: nullableDate(formData, "endDate"),
-    summary: value(formData, "summary"),
-    sortOrder: value(formData, "sortOrder"),
+    organizationName: getFormString(formData, "organizationName"),
+    organizationLocation: getFormString(formData, "organizationLocation"),
+    organizationUrl: getFormString(formData, "organizationUrl"),
+    title: getFormString(formData, "title"),
+    kind: getFormString(formData, "kind"),
+    startDate: new Date(`${getFormString(formData, "startDate")}T12:00:00Z`),
+    endDate: parseOptionalDateInput(getFormString(formData, "endDate")),
+    summary: getFormString(formData, "summary"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.$transaction(async (transaction) => {
     const organization = await transaction.organization.upsert({
@@ -185,33 +160,33 @@ export async function addPosition(formData: FormData) {
       },
     });
   });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function addAccomplishment(formData: FormData) {
-  await requireOwner();
+  await requireAllowedAdminSession();
   const data = accomplishmentSchema.parse({
-    positionId: value(formData, "positionId"),
-    statement: value(formData, "statement"),
-    sortOrder: value(formData, "sortOrder"),
+    positionId: getFormString(formData, "positionId"),
+    statement: getFormString(formData, "statement"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.careerAccomplishment.create({ data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updatePosition(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = positionSchema.parse({
-    organizationName: value(formData, "organizationName"),
-    organizationLocation: value(formData, "organizationLocation"),
-    organizationUrl: value(formData, "organizationUrl"),
-    title: value(formData, "title"),
-    kind: value(formData, "kind"),
-    startDate: new Date(`${value(formData, "startDate")}T12:00:00Z`),
-    endDate: nullableDate(formData, "endDate"),
-    summary: value(formData, "summary"),
-    sortOrder: value(formData, "sortOrder"),
+    organizationName: getFormString(formData, "organizationName"),
+    organizationLocation: getFormString(formData, "organizationLocation"),
+    organizationUrl: getFormString(formData, "organizationUrl"),
+    title: getFormString(formData, "title"),
+    kind: getFormString(formData, "kind"),
+    startDate: new Date(`${getFormString(formData, "startDate")}T12:00:00Z`),
+    endDate: parseOptionalDateInput(getFormString(formData, "endDate")),
+    summary: getFormString(formData, "summary"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.$transaction(async (transaction) => {
     const organization = await transaction.organization.upsert({
@@ -232,131 +207,131 @@ export async function updatePosition(formData: FormData) {
       },
     });
   });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updateAccomplishment(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = accomplishmentSchema.omit({ positionId: true }).parse({
-    statement: value(formData, "statement"),
-    sortOrder: value(formData, "sortOrder"),
+    statement: getFormString(formData, "statement"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.careerAccomplishment.update({ where: { id }, data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function addSkill(formData: FormData) {
-  await requireOwner();
-  const targetProfileId = profileId(formData);
+  await requireAllowedAdminSession();
+  const targetProfileId = requireFormString(formData, "profileId", "Resume version is required");
   const data = skillSchema.parse({
-    name: value(formData, "name"),
-    category: value(formData, "category"),
-    summary: value(formData, "summary"),
-    sortOrder: value(formData, "sortOrder"),
+    name: getFormString(formData, "name"),
+    category: getFormString(formData, "category"),
+    summary: getFormString(formData, "summary"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.professionalSkill.upsert({
     where: { profileId_name: { profileId: targetProfileId, name: data.name } },
     create: { profileId: targetProfileId, ...data },
     update: data,
   });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updateSkill(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = skillSchema.parse({
-    name: value(formData, "name"),
-    category: value(formData, "category"),
-    summary: value(formData, "summary"),
-    sortOrder: value(formData, "sortOrder"),
+    name: getFormString(formData, "name"),
+    category: getFormString(formData, "category"),
+    summary: getFormString(formData, "summary"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.professionalSkill.update({ where: { id }, data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function addEducation(formData: FormData) {
-  await requireOwner();
-  const targetProfileId = profileId(formData);
+  await requireAllowedAdminSession();
+  const targetProfileId = requireFormString(formData, "profileId", "Resume version is required");
   const data = educationSchema.parse({
-    institution: value(formData, "institution"),
-    credential: value(formData, "credential"),
-    field: value(formData, "field"),
-    completedAt: nullableDate(formData, "completedAt"),
-    sortOrder: value(formData, "sortOrder"),
+    institution: getFormString(formData, "institution"),
+    credential: getFormString(formData, "credential"),
+    field: getFormString(formData, "field"),
+    completedAt: parseOptionalDateInput(getFormString(formData, "completedAt")),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.educationRecord.create({ data: { profileId: targetProfileId, ...data } });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updateEducation(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = educationSchema.parse({
-    institution: value(formData, "institution"),
-    credential: value(formData, "credential"),
-    field: value(formData, "field"),
-    completedAt: nullableDate(formData, "completedAt"),
-    sortOrder: value(formData, "sortOrder"),
+    institution: getFormString(formData, "institution"),
+    credential: getFormString(formData, "credential"),
+    field: getFormString(formData, "field"),
+    completedAt: parseOptionalDateInput(getFormString(formData, "completedAt")),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.educationRecord.update({ where: { id }, data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function addCredential(formData: FormData) {
-  await requireOwner();
-  const targetProfileId = profileId(formData);
+  await requireAllowedAdminSession();
+  const targetProfileId = requireFormString(formData, "profileId", "Resume version is required");
   const data = credentialSchema.parse({
-    name: value(formData, "name"),
-    issuer: value(formData, "issuer"),
-    issuedAt: nullableDate(formData, "issuedAt"),
-    url: value(formData, "url"),
-    sortOrder: value(formData, "sortOrder"),
+    name: getFormString(formData, "name"),
+    issuer: getFormString(formData, "issuer"),
+    issuedAt: parseOptionalDateInput(getFormString(formData, "issuedAt")),
+    url: getFormString(formData, "url"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.credential.create({ data: { profileId: targetProfileId, ...data } });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updateCredential(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = credentialSchema.parse({
-    name: value(formData, "name"),
-    issuer: value(formData, "issuer"),
-    issuedAt: nullableDate(formData, "issuedAt"),
-    url: value(formData, "url"),
-    sortOrder: value(formData, "sortOrder"),
+    name: getFormString(formData, "name"),
+    issuer: getFormString(formData, "issuer"),
+    issuedAt: parseOptionalDateInput(getFormString(formData, "issuedAt")),
+    url: getFormString(formData, "url"),
+    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.credential.update({ where: { id }, data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function addResumeProject(formData: FormData) {
-  await requireOwner();
-  const targetProfileId = profileId(formData);
+  await requireAllowedAdminSession();
+  const targetProfileId = requireFormString(formData, "profileId", "Resume version is required");
   const { projectId, sortOrder, note } = resumeProjectSchema.parse({
-    projectId: value(formData, "projectId"),
-    sortOrder: value(formData, "sortOrder"),
-    note: value(formData, "note"),
+    projectId: getFormString(formData, "projectId"),
+    sortOrder: getFormString(formData, "sortOrder"),
+    note: getFormString(formData, "note"),
   });
   await prisma.resumeProjectSelection.upsert({
     where: { profileId_projectId: { profileId: targetProfileId, projectId } },
     create: { profileId: targetProfileId, projectId, sortOrder, note },
     update: { sortOrder, note },
   });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 export async function updateResumeProject(formData: FormData) {
-  await requireOwner();
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const id = getFormString(formData, "id");
   const data = resumeProjectSchema.omit({ projectId: true }).parse({
-    sortOrder: value(formData, "sortOrder"),
-    note: value(formData, "note"),
+    sortOrder: getFormString(formData, "sortOrder"),
+    note: getFormString(formData, "note"),
   });
   await prisma.resumeProjectSelection.update({ where: { id }, data });
-  refreshResume();
+  revalidateResumeContent();
 }
 
 const deletableModels = {
@@ -369,9 +344,9 @@ const deletableModels = {
 } as const;
 
 export async function deleteResumeItem(formData: FormData) {
-  await requireOwner();
-  const kind = value(formData, "kind") as keyof typeof deletableModels;
-  const id = value(formData, "id");
+  await requireAllowedAdminSession();
+  const kind = getFormString(formData, "kind") as keyof typeof deletableModels;
+  const id = getFormString(formData, "id");
   if (!deletableModels[kind] || !id) throw new Error("Invalid delete request");
 
   if (kind === "position") await prisma.careerPosition.delete({ where: { id } });
@@ -380,5 +355,5 @@ export async function deleteResumeItem(formData: FormData) {
   if (kind === "education") await prisma.educationRecord.delete({ where: { id } });
   if (kind === "credential") await prisma.credential.delete({ where: { id } });
   if (kind === "project") await prisma.resumeProjectSelection.delete({ where: { id } });
-  refreshResume();
+  revalidateResumeContent();
 }

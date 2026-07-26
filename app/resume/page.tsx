@@ -4,8 +4,9 @@ import Script from "next/script";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import Header from "@/components/Header";
 import { getPublishedResume } from "@/features/resume/queries/resume";
-import { generateMetadataWithCanonical } from "@/lib/metadata";
+import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
 import { SITE_URL } from "@/lib/site";
+import { formatDatePeriod } from "@/lib/utils/dates";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/resume",
@@ -14,11 +15,6 @@ export const metadata: Metadata = generateMetadataWithCanonical(
 );
 
 export const dynamic = "force-dynamic";
-
-function formatPeriod(start: Date, end: Date | null) {
-  const formatter = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
-  return `${formatter.format(start)} — ${end ? formatter.format(end) : "Present"}`;
-}
 
 export default async function ResumePage() {
   const resume = await getPublishedResume();
@@ -94,7 +90,7 @@ export default async function ResumePage() {
                         <section key={position.id}>
                           <p className="font-mono text-[10px] uppercase tracking-[.16em] text-primary">{position.kind}</p>
                           <h4 className="mt-3 text-xl font-medium tracking-[-.02em]">{position.title}</h4>
-                          <p className="mt-2 font-mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">{formatPeriod(position.startDate, position.endDate)}</p>
+                          <p className="mt-2 font-mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">{formatDatePeriod(position.startDate, position.endDate)}</p>
                           <p className="mt-5 text-lg leading-8 text-muted-foreground">{position.summary}</p>
                           {position.accomplishments.length > 0 && (
                             <ul className="mt-7 space-y-4">

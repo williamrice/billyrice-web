@@ -5,19 +5,11 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { MarkdownContent } from "@/features/publishing/components/MarkdownContent";
 import { getPublishedPostBySlug } from "@/features/publishing/queries/posts";
-import { absoluteUrl, SITE_NAME } from "@/lib/site";
+import { SITE_NAME } from "@/lib/site";
+import { formatLongDate } from "@/lib/utils/dates";
+import { absoluteUrl } from "@/lib/utils/urls";
 
 export const dynamic = "force-dynamic";
-
-function formatDate(date: Date | null) {
-  if (!date) return "";
-  return new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(date);
-}
 
 export async function generateMetadata({
   params,
@@ -73,7 +65,7 @@ export default async function PostPage({
       <article className="pb-24 pt-32 sm:pb-32 sm:pt-40">
         <header className="site-shell">
           <Link href="/blog" className="text-link inline-flex"><ArrowLeft className="size-4" /> All writing</Link>
-          <p className="eyebrow mt-12">{formatDate(post.publishedAt)}</p>
+          <p className="eyebrow mt-12">{formatLongDate(post.publishedAt)}</p>
           <h1 className="mt-7 max-w-5xl text-balance text-[clamp(2.7rem,8vw,6.5rem)] font-medium leading-[.96] tracking-[-.06em]">
             {post.title}
           </h1>

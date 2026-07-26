@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { absoluteUrl, SITE_URL } from '../../lib/site';
+import { SITE_URL } from '../../lib/site';
+import { absoluteUrl } from '../../lib/utils/urls';
 
 describe('site URL configuration', () => {
   it('uses billyrice.com as the canonical origin', () => {

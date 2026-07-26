@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import prisma from "@/lib/prisma";
 import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { deleteS3Object } from "@/lib/utils/s3";
 
 interface GalleryImage {
   imagePath: string;
@@ -92,7 +92,7 @@ export async function deleteProject(id: number) {
     // delete the project keys from s3
     galleryImages.forEach(async (image) => {
       if (image.s3Key) {
-        await deleteFileFromS3(image.s3Key);
+        await deleteS3Object(image.s3Key);
       }
     });
 
@@ -101,7 +101,7 @@ export async function deleteProject(id: number) {
     });
 
     if (project?.s3Key) {
-      await deleteFileFromS3(project.s3Key);
+      await deleteS3Object(project.s3Key);
     }
 
     // First, delete all associated GalleryImage records
@@ -173,22 +173,4 @@ export async function updateProject(data: ProjectData & { id: number }) {
     console.error("Error updating project:", error);
     return { success: false, error: "Failed to update project" };
   }
-}
-async function deleteFileFromS3(s3Key: string) {
-  if (!s3Key) return;
-
-  const s3Client = new S3Client({
-    region: process.env.AWS_REGION!,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
-  });
-
-  const command = new DeleteObjectCommand({
-    Bucket: process.env.AWS_BUCKET!,
-    Key: s3Key,
-  });
-
-  await s3Client.send(command);
 }

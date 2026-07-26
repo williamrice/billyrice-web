@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PublicationStatus } from "../types/publication";
+import { getFormString } from "../../../lib/utils/form-data";
 
 export const publicationStatusSchema = z.enum(PublicationStatus);
 
@@ -21,12 +22,12 @@ export const externalPostInputSchema = postInputSchema.extend({
   source: z.string().trim().min(1).max(50).default("api"),
 });
 
-export function slugifyPostTitle(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/['’]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 160);
+export function parsePostFormData(formData: FormData) {
+  return postInputSchema.parse({
+    title: getFormString(formData, "title"),
+    slug: getFormString(formData, "slug"),
+    excerpt: getFormString(formData, "excerpt"),
+    markdown: getFormString(formData, "markdown"),
+    status: getFormString(formData, "status"),
+  });
 }

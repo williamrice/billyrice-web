@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { WandSparkles } from "lucide-react";
 import { MarkdownContent } from "./MarkdownContent";
-import { slugifyPostTitle } from "../schemas/post";
+import { slugify } from "@/lib/utils/strings";
 import {
   PublicationStatus,
   publicationStatusOptions,
@@ -73,7 +73,7 @@ export function PostEditor({
             <button
               type="button"
               className="admin-button-secondary shrink-0"
-              onClick={() => setSlug(slugifyPostTitle(title))}
+              onClick={() => setSlug(slugify(title))}
             >
               <WandSparkles className="size-4" /> Generate
             </button>

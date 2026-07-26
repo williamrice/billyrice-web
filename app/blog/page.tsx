@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Header from "@/components/Header";
 import { getPublishedPosts } from "@/features/publishing/queries/posts";
-import { generateMetadataWithCanonical } from "@/lib/metadata";
+import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
+import { formatLongDate } from "@/lib/utils/dates";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/blog",
@@ -12,16 +13,6 @@ export const metadata: Metadata = generateMetadataWithCanonical(
 );
 
 export const dynamic = "force-dynamic";
-
-function formatDate(date: Date | null) {
-  if (!date) return "";
-  return new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(date);
-}
 
 export default async function BlogPage() {
   const posts = await getPublishedPosts();
@@ -43,7 +34,7 @@ export default async function BlogPage() {
                 <article key={post.id} className="group grid gap-6 border-b border-border py-10 md:grid-cols-[4rem_1fr_auto] md:items-start md:gap-10 md:py-12">
                   <span className="font-mono text-xs text-primary">{String(index + 1).padStart(2, "0")}</span>
                   <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[.14em] text-muted-foreground">{formatDate(post.publishedAt)}</p>
+                    <p className="font-mono text-[10px] uppercase tracking-[.14em] text-muted-foreground">{formatLongDate(post.publishedAt)}</p>
                     <h2 className="mt-3 text-2xl font-medium tracking-[-.035em] sm:text-3xl">
                       <Link href={`/blog/${post.slug}`} className="hover:text-primary">{post.title}</Link>
                     </h2>

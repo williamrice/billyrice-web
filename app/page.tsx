@@ -3,7 +3,8 @@ import SkillsSection from '@/components/SkillsSection';
 import AboutSection from '@/components/AboutSection';
 import CallToAction from '@/components/CallToAction';
 import Script from 'next/script';
-import { absoluteUrl, SITE_URL } from '@/lib/site';
+import { SITE_URL } from '@/lib/site';
+import { absoluteUrl } from '@/lib/utils/urls';
 import { HomeScrollReset, ScrollProgress } from '@/components/PortfolioMotion';
 
 const personSchema = {

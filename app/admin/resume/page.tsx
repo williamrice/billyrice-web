@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ExternalLink, Plus, Trash2 } from "lucide-react";
 import { AdminActionForm } from "@/components/admin/AdminActionForm";
+import { formatDateInputValue } from "@/lib/utils/dates";
 import { getResumeAdmin, getResumeProfiles, getResumeProjectOptions } from "@/features/resume/queries/resume";
 import {
   addAccomplishment,
@@ -26,10 +27,6 @@ const labelClass = "mb-1.5 block text-xs font-semibold uppercase tracking-wide t
 const cardClass = "admin-card";
 const buttonClass = "admin-button";
 const editClass = "mt-5 border-t border-gray-100 pt-4 [&_summary]:cursor-pointer [&_summary]:text-sm [&_summary]:font-medium [&_summary]:text-teal-800";
-
-function dateValue(date: Date | null) {
-  return date?.toISOString().slice(0, 10) ?? "";
-}
 
 function Field({ label, name, type = "text", defaultValue, required = false }: { label: string; name: string; type?: string; defaultValue?: string | number | null; required?: boolean }) {
   return (
@@ -153,8 +150,8 @@ export default async function ResumeAdminPage({
                       <Field label="Organization URL" name="organizationUrl" type="url" defaultValue={position.organization.url} />
                       <Field label="Title" name="title" defaultValue={position.title} required />
                       <label><span className={labelClass}>Type</span><select className={inputClass} name="kind" defaultValue={position.kind}><option value="work">Work</option><option value="leadership">Leadership</option><option value="service">Service</option></select></label>
-                      <Field label="Start date" name="startDate" type="date" defaultValue={dateValue(position.startDate)} required />
-                      <Field label="End date" name="endDate" type="date" defaultValue={dateValue(position.endDate)} />
+                      <Field label="Start date" name="startDate" type="date" defaultValue={formatDateInputValue(position.startDate)} required />
+                      <Field label="End date" name="endDate" type="date" defaultValue={formatDateInputValue(position.endDate)} />
                       <Field label="Display order" name="sortOrder" type="number" defaultValue={position.sortOrder} />
                       <label className="sm:col-span-2"><span className={labelClass}>Summary</span><textarea className={textareaClass} name="summary" defaultValue={position.summary} required /></label>
                       <div className="sm:col-span-2"><button className={buttonClass}>Save experience</button></div>
@@ -218,7 +215,7 @@ export default async function ResumeAdminPage({
             <div>
               <h2 className="mb-5 text-2xl font-semibold">Education</h2>
               <div className={`${cardClass} space-y-3`}>
-                {resume.education.map((item) => <details key={item.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="cursor-pointer font-medium">{item.credential}, {item.field}<span className="ml-2 text-sm font-normal text-gray-500">{item.institution}</span></summary><AdminActionForm action={updateEducation} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Institution" name="institution" defaultValue={item.institution} required /><Field label="Credential" name="credential" defaultValue={item.credential} required /><Field label="Field" name="field" defaultValue={item.field} required /><Field label="Completed" name="completedAt" type="date" defaultValue={dateValue(item.completedAt)} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="education" id={item.id} /></div></details>)}
+                {resume.education.map((item) => <details key={item.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="cursor-pointer font-medium">{item.credential}, {item.field}<span className="ml-2 text-sm font-normal text-gray-500">{item.institution}</span></summary><AdminActionForm action={updateEducation} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Institution" name="institution" defaultValue={item.institution} required /><Field label="Credential" name="credential" defaultValue={item.credential} required /><Field label="Field" name="field" defaultValue={item.field} required /><Field label="Completed" name="completedAt" type="date" defaultValue={formatDateInputValue(item.completedAt)} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="education" id={item.id} /></div></details>)}
               </div>
               <AdminActionForm action={addEducation} className={`${cardClass} mt-4 grid gap-4`}>
                 <input type="hidden" name="profileId" value={resume.id} />
@@ -235,7 +232,7 @@ export default async function ResumeAdminPage({
           <section>
             <h2 className="mb-5 text-2xl font-semibold">Credentials</h2>
             <div className="grid gap-3 md:grid-cols-2">
-              {resume.credentials.map((item) => <details key={item.id} className={cardClass}><summary className="cursor-pointer font-medium">{item.name}<span className="ml-2 text-sm font-normal text-gray-500">{item.issuer}</span></summary><AdminActionForm action={updateCredential} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Credential" name="name" defaultValue={item.name} required /><Field label="Issuer" name="issuer" defaultValue={item.issuer} required /><Field label="Issued" name="issuedAt" type="date" defaultValue={dateValue(item.issuedAt)} /><Field label="URL" name="url" type="url" defaultValue={item.url} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="credential" id={item.id} /></div></details>)}
+              {resume.credentials.map((item) => <details key={item.id} className={cardClass}><summary className="cursor-pointer font-medium">{item.name}<span className="ml-2 text-sm font-normal text-gray-500">{item.issuer}</span></summary><AdminActionForm action={updateCredential} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Credential" name="name" defaultValue={item.name} required /><Field label="Issuer" name="issuer" defaultValue={item.issuer} required /><Field label="Issued" name="issuedAt" type="date" defaultValue={formatDateInputValue(item.issuedAt)} /><Field label="URL" name="url" type="url" defaultValue={item.url} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="credential" id={item.id} /></div></details>)}
             </div>
             <AdminActionForm action={addCredential} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
               <input type="hidden" name="profileId" value={resume.id} />

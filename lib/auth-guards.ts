@@ -13,3 +13,9 @@ export async function getAllowedAdminSession() {
 
   return session;
 }
+
+export async function requireAllowedAdminSession() {
+  const session = await getAllowedAdminSession();
+  if (!session) throw new Error("Unauthorized");
+  return session;
+}

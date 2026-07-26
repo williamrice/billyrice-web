@@ -79,6 +79,12 @@ research, not an instruction to preserve the current design.
   for field validation and states that require ongoing attention.
 - Keep files focused. Split a component or module before it becomes a
   page-sized collection of unrelated forms and behaviors.
+- Do not declare utility functions inline in route, component, command, query,
+  or service files. Put reusable, stateless helpers in `lib/utils/`, organized
+  into purpose-specific modules such as `dates`, `form-data`, `strings`,
+  `metadata`, or `cache-invalidation`, and import them where needed. Event
+  handlers, React components, route handlers, and domain operations are not
+  utilities, but should still be extracted when they make a file unfocused.
 
 ## Security and accessibility
 

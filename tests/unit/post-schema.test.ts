@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { postInputSchema, slugifyPostTitle } from "../../features/publishing/schemas/post";
+import { postInputSchema } from "../../features/publishing/schemas/post";
+import { slugify } from "../../lib/utils/strings";
 import { PublicationStatus } from "../../features/publishing/types/publication";
 
 const validPost = {
@@ -20,7 +21,7 @@ describe("post schemas", () => {
   });
 
   it("creates a stable slug suggestion from a title", () => {
-    expect(slugifyPostTitle("  AI, Architecture & Reality  ")).toBe(
+    expect(slugify("  AI, Architecture & Reality  ")).toBe(
       "ai-architecture-reality",
     );
   });
