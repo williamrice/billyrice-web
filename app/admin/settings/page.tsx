@@ -21,7 +21,11 @@ const SettingsPage = async () => {
         <h2 className="admin-card-title">Public resume version</h2>
         <p className="admin-card-description">Choose which published resume version visitors see at /resume.</p>
         {profiles.length ? (
-          <form action={setPublicResumeProfile} className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+          <form
+            key={selectedProfileId ?? "unset"}
+            action={setPublicResumeProfile}
+            className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end"
+          >
             <label className="flex-1">
               <span className="admin-label">Version</span>
               <select className="admin-field" name="profileId" defaultValue={selectedProfileId ?? ""} required>

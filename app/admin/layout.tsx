@@ -1,6 +1,7 @@
 import AdminSidebar from '@/components/AdminSidebar';
 import Signin from '@/components/auth-helpers/Signin';
 import { getAllowedAdminSession } from '@/lib/auth-guards';
+import { AdminToastFeedback } from '@/components/admin/AdminToastFeedback';
 
 export default async function AdminLayout({
   children,
@@ -30,6 +31,7 @@ export default async function AdminLayout({
     <div className="admin-shell min-h-dvh bg-[#f3f6f5] text-gray-950 lg:flex">
       <AdminSidebar />
       <main className="admin-surface min-w-0 flex-1 px-4 py-7 sm:px-7 sm:py-9 lg:px-10 xl:px-14">
+        <AdminToastFeedback />
         {children}
       </main>
     </div>

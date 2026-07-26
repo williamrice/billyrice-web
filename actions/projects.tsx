@@ -68,6 +68,8 @@ export async function createProject(data: ProjectData) {
     });
 
     revalidatePath("/projects");
+    revalidatePath("/admin");
+    revalidatePath("/admin/project-manager");
     return { success: true, project };
   } catch (error) {
     console.error("Error creating project:", error);
@@ -113,6 +115,7 @@ export async function deleteProject(id: number) {
     });
 
     revalidatePath("/projects");
+    revalidatePath("/admin");
     revalidatePath("/admin/project-manager");
     return { success: true };
   } catch (error) {
@@ -162,7 +165,9 @@ export async function updateProject(data: ProjectData & { id: number }) {
     });
 
     revalidatePath("/projects");
+    revalidatePath("/admin");
     revalidatePath("/admin/project-manager");
+    revalidatePath(`/admin/project-manager/edit/${id}`);
     return { success: true, project: updatedProject };
   } catch (error) {
     console.error("Error updating project:", error);

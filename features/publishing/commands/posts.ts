@@ -28,6 +28,7 @@ async function requireOwner() {
 
 function revalidatePublishing(slug?: string) {
   revalidatePath("/blog");
+  revalidatePath("/admin");
   revalidatePath("/admin/blog");
   revalidatePath("/sitemap.xml");
   if (slug) revalidatePath(`/blog/${slug}`);
@@ -37,7 +38,7 @@ export async function createPost(formData: FormData) {
   await requireOwner();
   const post = await createPostRecord(parsePostForm(formData));
   revalidatePublishing(post.slug);
-  redirect(`/admin/blog/${post.id}/edit`);
+  redirect(`/admin/blog/${post.id}/edit?saved=true`);
 }
 
 export async function updatePost(formData: FormData) {

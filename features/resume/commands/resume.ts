@@ -37,7 +37,9 @@ function nullableDate(formData: FormData, key: string) {
 
 function refreshResume() {
   revalidatePath("/resume");
+  revalidatePath("/admin");
   revalidatePath("/admin/resume");
+  revalidatePath("/admin/settings");
 }
 
 export async function saveProfile(formData: FormData) {
@@ -147,7 +149,7 @@ export async function duplicateProfile(formData: FormData) {
     return profile;
   });
   refreshResume();
-  redirect(`/admin/resume?profile=${created.id}`);
+  redirect(`/admin/resume?profile=${created.id}&saved=true`);
 }
 
 export async function addPosition(formData: FormData) {

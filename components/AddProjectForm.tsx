@@ -268,9 +268,12 @@ export default function AddProjectForm() {
               />
             </div>
             <div>
-              <label htmlFor="featuredImageSrc" className="sr-only">
-                Featured Image
+              <label htmlFor="featuredImageSrc" className="admin-label">
+                Featured image
               </label>
+              <p id="featuredImageSrc-description" className="mb-2 text-xs text-gray-500">
+                Required. Upload one JPEG, PNG, or WebP image up to 5 MB.
+              </p>
               <Controller
                 name="featuredImageSrc"
                 control={control}
@@ -281,6 +284,8 @@ export default function AddProjectForm() {
                     onChange={(e) => onChange(e.target.files?.[0])}
                     onBlur={onBlur}
                     accept="image/jpeg,image/png,image/webp"
+                    aria-describedby="featuredImageSrc-description"
+                    required
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   />
                 )}
@@ -300,9 +305,12 @@ export default function AddProjectForm() {
               />
             </div>
             <div>
-              <label htmlFor="galleryImages" className="sr-only">
-                Gallery Images
+              <label htmlFor="galleryImages" className="admin-label">
+                Gallery images
               </label>
+              <p id="galleryImages-description" className="mb-2 text-xs text-gray-500">
+                Optional. Upload up to six JPEG, PNG, or WebP images, each no larger than 5 MB.
+              </p>
               <Controller
                 name="galleryImages"
                 control={control}
@@ -314,6 +322,7 @@ export default function AddProjectForm() {
                     onBlur={onBlur}
                     accept="image/jpeg,image/png,image/webp"
                     multiple
+                    aria-describedby="galleryImages-description"
                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   />
                 )}

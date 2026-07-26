@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { getAllowedAdminSession } from "@/lib/auth-guards";
 import { publicResumeProfileSettingSchema } from "../schemas/settings";
@@ -31,5 +32,7 @@ export async function setPublicResumeProfile(formData: FormData) {
   });
   await invalidatePublicResumeSetting();
   revalidatePath("/resume");
+  revalidatePath("/admin");
   revalidatePath("/admin/settings");
+  redirect("/admin/settings?saved=true");
 }

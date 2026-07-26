@@ -14,7 +14,10 @@ export default async function ProjectManagerPage() {
         description="Manage the canonical case studies shared by the portfolio and resume."
         action={<AddProjectButton />}
       />
-      <ProjectList projects={projects} />
+      <ProjectList
+        key={projects.map((project) => `${project.id}:${project.updatedAt.toISOString()}`).join("|")}
+        projects={projects}
+      />
     </div>
   );
 }

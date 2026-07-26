@@ -2,40 +2,29 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Pencil, Trash2 } from "lucide-react";
 import { deleteProject } from "@/actions/projects";
+import { toast } from "sonner";
 import type { Project } from "@/prisma/generated/prisma/client";
 
 export default function ProjectList({ projects: initialProjects }: { projects: Project[] }) {
   const [projects, setProjects] = useState(initialProjects);
   const router = useRouter();
-  const success = useSearchParams().get("success");
-
   async function handleDelete(id: number) {
     if (!window.confirm("Delete this project? This action cannot be undone.")) return;
     const result = await deleteProject(id);
     if (result.success) {
       setProjects((current) => current.filter((project) => project.id !== id));
+      toast.success("Project deleted.");
       router.refresh();
     } else {
-      window.alert("Failed to delete project");
+      toast.error("The project could not be deleted.");
     }
   }
 
   return (
     <div className="space-y-4">
-      {success === "true" && (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-900">
-          Project successfully saved.
-        </div>
-      )}
-      {success === "false" && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-900">
-          The project could not be saved. Please try again.
-        </div>
-      )}
-
       {projects.length === 0 ? (
         <div className="admin-card py-14 text-center">
           <h2 className="admin-card-title">No projects yet</h2>

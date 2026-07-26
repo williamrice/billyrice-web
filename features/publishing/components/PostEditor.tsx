@@ -27,7 +27,9 @@ export function PostEditor({
 }) {
   const [title, setTitle] = useState(post.title);
   const [slug, setSlug] = useState(post.slug);
+  const [excerpt, setExcerpt] = useState(post.excerpt);
   const [markdown, setMarkdown] = useState(post.markdown);
+  const [status, setStatus] = useState(post.status);
 
   return (
     <form action={action} className="space-y-6">
@@ -45,7 +47,12 @@ export function PostEditor({
         </label>
         <label>
           <span className="admin-label">Publication state</span>
-          <select className="admin-field" name="status" defaultValue={post.status}>
+          <select
+            className="admin-field"
+            name="status"
+            value={status}
+            onChange={(event) => setStatus(event.target.value as PublicationStatus)}
+          >
             {publicationStatusOptions.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
@@ -79,7 +86,8 @@ export function PostEditor({
           <span className="admin-label">Excerpt</span>
           <textarea
             name="excerpt"
-            defaultValue={post.excerpt}
+            value={excerpt}
+            onChange={(event) => setExcerpt(event.target.value)}
             rows={3}
             maxLength={500}
             placeholder="A concise summary for lists and search results."

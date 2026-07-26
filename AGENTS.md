@@ -74,6 +74,9 @@ research, not an instruction to preserve the current design.
 - Use `lucide-react` for interface icons and Font Awesome Brands only for real
   company/social marks that Lucide intentionally does not provide.
 - Use Sonner for notifications and `tw-animate-css` for shared UI animations.
+- Use Sonner to report admin action success and failure. Prefer toasts over
+  persistent page banners for transient mutation feedback; keep inline messages
+  for field validation and states that require ongoing attention.
 - Keep files focused. Split a component or module before it becomes a
   page-sized collection of unrelated forms and behaviors.
 
@@ -87,6 +90,10 @@ research, not an instruction to preserve the current design.
 - Disallow raw HTML in Markdown and sanitize rendered output with an allowlist.
 - Use semantic HTML, associated labels, keyboard-operable controls, visible
   focus, useful alt text, and reduced-motion support.
+- Every file input must have a visible associated label and nearby helper text
+  stating what to upload, whether it is required, accepted file types, size and
+  count limits, and replacement behavior when editing. Do not use placeholder
+  text or screen-reader-only labels as the sole upload instruction.
 - Robots directives are not authorization.
 
 ## Database rules

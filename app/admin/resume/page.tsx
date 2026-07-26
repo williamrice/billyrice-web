@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ExternalLink, Plus, Trash2 } from "lucide-react";
+import { AdminActionForm } from "@/components/admin/AdminActionForm";
 import { getResumeAdmin, getResumeProfiles, getResumeProjectOptions } from "@/features/resume/queries/resume";
 import {
   addAccomplishment,
@@ -41,13 +42,13 @@ function Field({ label, name, type = "text", defaultValue, required = false }: {
 
 function DeleteButton({ kind, id }: { kind: string; id: string }) {
   return (
-    <form action={deleteResumeItem}>
+    <AdminActionForm action={deleteResumeItem}>
       <input type="hidden" name="kind" value={kind} />
       <input type="hidden" name="id" value={id} />
       <button className="grid size-9 place-items-center rounded-md text-gray-400 hover:bg-red-50 hover:text-red-700" aria-label={`Delete ${kind}`}>
         <Trash2 className="size-4" />
       </button>
-    </form>
+    </AdminActionForm>
   );
 }
 
@@ -114,7 +115,7 @@ export default async function ResumeAdminPage({
       <section className={cardClass}>
         <h2 className="text-xl font-semibold">Profile</h2>
         <p className="mt-1 text-sm text-gray-500">The positioning and introduction at the top of the public page.</p>
-        <form action={saveProfile} className="mt-6 grid gap-5 sm:grid-cols-2">
+        <AdminActionForm key={resume?.updatedAt.toISOString() ?? "new"} action={saveProfile} className="mt-6 grid gap-5 sm:grid-cols-2">
           <input type="hidden" name="profileId" value={selectedProfileId} />
           <Field label="Version label" name="label" defaultValue={resume?.label ?? "Primary"} required />
           <Field label="Version slug" name="slug" defaultValue={resume?.slug ?? "primary"} required />
@@ -126,7 +127,7 @@ export default async function ResumeAdminPage({
           <Field label="Availability note" name="availability" defaultValue={resume?.availability} />
           <label className="flex items-center gap-3 text-sm font-medium"><input type="checkbox" name="published" defaultChecked={resume?.published ?? true} className="size-4 accent-teal-700" /> Published</label>
           <div className="sm:text-right"><button className={buttonClass}>Save profile</button></div>
-        </form>
+        </AdminActionForm>
       </section>
 
       {!resume ? (
@@ -145,7 +146,7 @@ export default async function ResumeAdminPage({
                   <p className="mt-4 text-sm leading-6 text-gray-600">{position.summary}</p>
                   <details className={editClass}>
                     <summary>Edit experience</summary>
-                    <form action={updatePosition} className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <AdminActionForm key={position.updatedAt.toISOString()} action={updatePosition} className="mt-4 grid gap-4 sm:grid-cols-2">
                       <input type="hidden" name="id" value={position.id} />
                       <Field label="Organization" name="organizationName" defaultValue={position.organization.name} required />
                       <Field label="Organization location" name="organizationLocation" defaultValue={position.organization.location} />
@@ -157,32 +158,32 @@ export default async function ResumeAdminPage({
                       <Field label="Display order" name="sortOrder" type="number" defaultValue={position.sortOrder} />
                       <label className="sm:col-span-2"><span className={labelClass}>Summary</span><textarea className={textareaClass} name="summary" defaultValue={position.summary} required /></label>
                       <div className="sm:col-span-2"><button className={buttonClass}>Save experience</button></div>
-                    </form>
+                    </AdminActionForm>
                   </details>
                   <div className="mt-5 space-y-2">
                     {position.accomplishments.map((item) => (
                       <details key={item.id} className="rounded-md bg-gray-50 p-3 text-sm">
                         <summary className="cursor-pointer">{item.statement}</summary>
-                        <form action={updateAccomplishment} className="mt-3 grid gap-3 sm:grid-cols-[1fr_6rem_auto]">
+                        <AdminActionForm key={item.updatedAt.toISOString()} action={updateAccomplishment} className="mt-3 grid gap-3 sm:grid-cols-[1fr_6rem_auto]">
                           <input type="hidden" name="id" value={item.id} />
                           <input className={inputClass} name="statement" defaultValue={item.statement} required />
                           <input className={inputClass} name="sortOrder" type="number" defaultValue={item.sortOrder} aria-label="Order" />
                           <button className={buttonClass}>Save</button>
-                        </form>
+                        </AdminActionForm>
                         <div className="mt-2"><DeleteButton kind="accomplishment" id={item.id} /></div>
                       </details>
                     ))}
                   </div>
-                  <form action={addAccomplishment} className="mt-4 grid gap-3 sm:grid-cols-[1fr_6rem_auto]">
+                  <AdminActionForm action={addAccomplishment} className="mt-4 grid gap-3 sm:grid-cols-[1fr_6rem_auto]">
                     <input type="hidden" name="positionId" value={position.id} />
                     <input className={inputClass} name="statement" placeholder="Add a measurable outcome or leadership contribution" required />
                     <input className={inputClass} name="sortOrder" type="number" defaultValue={position.accomplishments.length} aria-label="Order" />
                     <button className={buttonClass}><Plus className="size-4" /> Add</button>
-                  </form>
+                  </AdminActionForm>
                 </article>
               ))}
             </div>
-            <form action={addPosition} className={`${cardClass} mt-5 grid gap-4 sm:grid-cols-2`}>
+            <AdminActionForm action={addPosition} className={`${cardClass} mt-5 grid gap-4 sm:grid-cols-2`}>
               <input type="hidden" name="profileId" value={resume.id} />
               <h3 className="text-lg font-semibold sm:col-span-2">Add experience</h3>
               <Field label="Organization" name="organizationName" required />
@@ -195,31 +196,31 @@ export default async function ResumeAdminPage({
               <Field label="End date" name="endDate" type="date" />
               <label className="sm:col-span-2"><span className={labelClass}>Summary</span><textarea className={textareaClass} name="summary" required /></label>
               <div className="sm:col-span-2"><button className={buttonClass}><Plus className="size-4" /> Add experience</button></div>
-            </form>
+            </AdminActionForm>
           </section>
 
           <section className="grid gap-8 lg:grid-cols-2">
             <div>
               <h2 className="mb-5 text-2xl font-semibold">Capabilities</h2>
               <div className={`${cardClass} space-y-2`}>
-                {resume.skills.map((skill) => <details key={skill.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="flex cursor-pointer list-none items-center justify-between"><span><span className="font-medium">{skill.name}</span><span className="ml-2 text-xs text-gray-500">{skill.category}</span></span></summary><form action={updateSkill} className="mt-4 grid gap-3"><input type="hidden" name="id" value={skill.id} /><Field label="Capability" name="name" defaultValue={skill.name} required /><label><span className={labelClass}>Category</span><select className={inputClass} name="category" defaultValue={skill.category}>{["Implementation", "Architecture", "Applied AI", "Leadership", "Platform"].map((item) => <option key={item}>{item}</option>)}</select></label><Field label="Context" name="summary" defaultValue={skill.summary} /><Field label="Order" name="sortOrder" type="number" defaultValue={skill.sortOrder} /><button className={buttonClass}>Save</button></form><div className="mt-3"><DeleteButton kind="skill" id={skill.id} /></div></details>)}
+                {resume.skills.map((skill) => <details key={skill.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="flex cursor-pointer list-none items-center justify-between"><span><span className="font-medium">{skill.name}</span><span className="ml-2 text-xs text-gray-500">{skill.category}</span></span></summary><AdminActionForm action={updateSkill} className="mt-4 grid gap-3"><input type="hidden" name="id" value={skill.id} /><Field label="Capability" name="name" defaultValue={skill.name} required /><label><span className={labelClass}>Category</span><select className={inputClass} name="category" defaultValue={skill.category}>{["Implementation", "Architecture", "Applied AI", "Leadership", "Platform"].map((item) => <option key={item}>{item}</option>)}</select></label><Field label="Context" name="summary" defaultValue={skill.summary} /><Field label="Order" name="sortOrder" type="number" defaultValue={skill.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="skill" id={skill.id} /></div></details>)}
               </div>
-              <form action={addSkill} className={`${cardClass} mt-4 grid gap-4`}>
+              <AdminActionForm action={addSkill} className={`${cardClass} mt-4 grid gap-4`}>
                 <input type="hidden" name="profileId" value={resume.id} />
                 <Field label="Capability" name="name" required />
                 <label><span className={labelClass}>Category</span><select className={inputClass} name="category">{["Implementation", "Architecture", "Applied AI", "Leadership", "Platform"].map((item) => <option key={item}>{item}</option>)}</select></label>
                 <Field label="Short context" name="summary" />
                 <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.skills.length} />
                 <button className={buttonClass}><Plus className="size-4" /> Add capability</button>
-              </form>
+              </AdminActionForm>
             </div>
 
             <div>
               <h2 className="mb-5 text-2xl font-semibold">Education</h2>
               <div className={`${cardClass} space-y-3`}>
-                {resume.education.map((item) => <details key={item.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="cursor-pointer font-medium">{item.credential}, {item.field}<span className="ml-2 text-sm font-normal text-gray-500">{item.institution}</span></summary><form action={updateEducation} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Institution" name="institution" defaultValue={item.institution} required /><Field label="Credential" name="credential" defaultValue={item.credential} required /><Field label="Field" name="field" defaultValue={item.field} required /><Field label="Completed" name="completedAt" type="date" defaultValue={dateValue(item.completedAt)} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></form><div className="mt-3"><DeleteButton kind="education" id={item.id} /></div></details>)}
+                {resume.education.map((item) => <details key={item.id} className="border-b border-gray-100 py-3 last:border-0"><summary className="cursor-pointer font-medium">{item.credential}, {item.field}<span className="ml-2 text-sm font-normal text-gray-500">{item.institution}</span></summary><AdminActionForm action={updateEducation} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Institution" name="institution" defaultValue={item.institution} required /><Field label="Credential" name="credential" defaultValue={item.credential} required /><Field label="Field" name="field" defaultValue={item.field} required /><Field label="Completed" name="completedAt" type="date" defaultValue={dateValue(item.completedAt)} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="education" id={item.id} /></div></details>)}
               </div>
-              <form action={addEducation} className={`${cardClass} mt-4 grid gap-4`}>
+              <AdminActionForm action={addEducation} className={`${cardClass} mt-4 grid gap-4`}>
                 <input type="hidden" name="profileId" value={resume.id} />
                 <Field label="Institution" name="institution" required />
                 <Field label="Credential" name="credential" required />
@@ -227,16 +228,16 @@ export default async function ResumeAdminPage({
                 <Field label="Completed" name="completedAt" type="date" />
                 <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.education.length} />
                 <button className={buttonClass}><Plus className="size-4" /> Add education</button>
-              </form>
+              </AdminActionForm>
             </div>
           </section>
 
           <section>
             <h2 className="mb-5 text-2xl font-semibold">Credentials</h2>
             <div className="grid gap-3 md:grid-cols-2">
-              {resume.credentials.map((item) => <details key={item.id} className={cardClass}><summary className="cursor-pointer font-medium">{item.name}<span className="ml-2 text-sm font-normal text-gray-500">{item.issuer}</span></summary><form action={updateCredential} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Credential" name="name" defaultValue={item.name} required /><Field label="Issuer" name="issuer" defaultValue={item.issuer} required /><Field label="Issued" name="issuedAt" type="date" defaultValue={dateValue(item.issuedAt)} /><Field label="URL" name="url" type="url" defaultValue={item.url} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></form><div className="mt-3"><DeleteButton kind="credential" id={item.id} /></div></details>)}
+              {resume.credentials.map((item) => <details key={item.id} className={cardClass}><summary className="cursor-pointer font-medium">{item.name}<span className="ml-2 text-sm font-normal text-gray-500">{item.issuer}</span></summary><AdminActionForm action={updateCredential} className="mt-4 grid gap-3"><input type="hidden" name="id" value={item.id} /><Field label="Credential" name="name" defaultValue={item.name} required /><Field label="Issuer" name="issuer" defaultValue={item.issuer} required /><Field label="Issued" name="issuedAt" type="date" defaultValue={dateValue(item.issuedAt)} /><Field label="URL" name="url" type="url" defaultValue={item.url} /><Field label="Order" name="sortOrder" type="number" defaultValue={item.sortOrder} /><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="credential" id={item.id} /></div></details>)}
             </div>
-            <form action={addCredential} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
+            <AdminActionForm action={addCredential} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
               <input type="hidden" name="profileId" value={resume.id} />
               <Field label="Credential" name="name" required />
               <Field label="Issuer" name="issuer" required />
@@ -244,21 +245,21 @@ export default async function ResumeAdminPage({
               <Field label="Verification URL" name="url" type="url" />
               <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.credentials.length} />
               <div className="self-end"><button className={buttonClass}><Plus className="size-4" /> Add credential</button></div>
-            </form>
+            </AdminActionForm>
           </section>
 
           <section>
             <h2 className="mb-5 text-2xl font-semibold">Selected projects</h2>
             <div className="grid gap-3 md:grid-cols-2">
-              {resume.projects.map((selection) => <details key={selection.id} className={cardClass}><summary className="cursor-pointer font-medium">{selection.project.title}</summary><form action={updateResumeProject} className="mt-4 grid gap-3"><input type="hidden" name="id" value={selection.id} /><Field label="Display order" name="sortOrder" type="number" defaultValue={selection.sortOrder} /><label><span className={labelClass}>Resume context</span><textarea className={textareaClass} name="note" defaultValue={selection.note ?? ""} /></label><button className={buttonClass}>Save</button></form><div className="mt-3"><DeleteButton kind="project" id={selection.id} /></div></details>)}
+              {resume.projects.map((selection) => <details key={selection.id} className={cardClass}><summary className="cursor-pointer font-medium">{selection.project.title}</summary><AdminActionForm action={updateResumeProject} className="mt-4 grid gap-3"><input type="hidden" name="id" value={selection.id} /><Field label="Display order" name="sortOrder" type="number" defaultValue={selection.sortOrder} /><label><span className={labelClass}>Resume context</span><textarea className={textareaClass} name="note" defaultValue={selection.note ?? ""} /></label><button className={buttonClass}>Save</button></AdminActionForm><div className="mt-3"><DeleteButton kind="project" id={selection.id} /></div></details>)}
             </div>
-            <form action={addResumeProject} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
+            <AdminActionForm action={addResumeProject} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
               <input type="hidden" name="profileId" value={resume.id} />
               <label><span className={labelClass}>Canonical project</span><select className={inputClass} name="projectId" required><option value="">Choose a project</option>{projectOptions.map((project) => <option value={project.id} key={project.id}>{project.title}</option>)}</select></label>
               <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.projects.length} />
               <label className="sm:col-span-2"><span className={labelClass}>Resume context</span><textarea className={textareaClass} name="note" placeholder="Why this project matters in the professional narrative" /></label>
               <div className="sm:col-span-2"><button className={buttonClass}><Plus className="size-4" /> Add project</button></div>
-            </form>
+            </AdminActionForm>
           </section>
         </>
       )}
