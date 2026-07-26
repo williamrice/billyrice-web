@@ -68,7 +68,7 @@ export default function JumboTron() {
             <div className="system-card">
               <div className="flex items-center justify-between gap-3 border-b border-border px-3 py-3 sm:px-5 sm:py-4">
                 <span className="truncate font-mono text-[9px] uppercase tracking-[.16em] text-muted-foreground sm:text-[11px] sm:tracking-[.2em]">
-                  Home / William Rice
+                  Home / Billy Rice
                 </span>
                 <span className="flex shrink-0 items-center gap-2 font-mono text-[9px] uppercase text-primary sm:text-[10px]">
                   <span className="status-dot" /> Available
