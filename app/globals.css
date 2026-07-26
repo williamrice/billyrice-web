@@ -162,6 +162,97 @@
     @apply text-sm text-red-700;
   }
 
+  .markdown-content {
+    @apply text-base leading-8 text-foreground;
+  }
+
+  .markdown-content > *:first-child {
+    @apply mt-0;
+  }
+
+  .markdown-content > *:last-child {
+    @apply mb-0;
+  }
+
+  .markdown-content h1,
+  .markdown-content h2 {
+    @apply mb-5 mt-14 text-3xl font-medium leading-tight tracking-[-.035em] text-foreground;
+  }
+
+  .markdown-content h3 {
+    @apply mb-4 mt-10 text-2xl font-medium tracking-[-.025em] text-foreground;
+  }
+
+  .markdown-content h4 {
+    @apply mb-3 mt-8 text-lg font-semibold text-foreground;
+  }
+
+  .markdown-content p,
+  .markdown-content ul,
+  .markdown-content ol,
+  .markdown-content blockquote,
+  .markdown-content pre,
+  .markdown-content table {
+    @apply my-6;
+  }
+
+  .markdown-content ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+
+  .markdown-content ol {
+    @apply list-decimal space-y-2 pl-6;
+  }
+
+  .markdown-content li::marker {
+    @apply text-primary;
+  }
+
+  .markdown-content a {
+    @apply border-b border-primary/60 text-foreground hover:border-primary hover:text-primary;
+  }
+
+  .markdown-content strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .markdown-content blockquote {
+    @apply border-l-2 border-primary bg-card/50 px-6 py-1 italic text-muted-foreground;
+  }
+
+  .markdown-content code:not(pre code) {
+    @apply rounded-sm bg-secondary px-1.5 py-0.5 font-mono text-[.88em] text-primary;
+  }
+
+  .markdown-content pre {
+    @apply overflow-x-auto border border-border bg-[#07110f] p-5 text-sm leading-6 text-gray-200;
+  }
+
+  .markdown-content pre code {
+    @apply font-mono;
+  }
+
+  .markdown-content hr {
+    @apply my-12 border-border;
+  }
+
+  .markdown-content table {
+    @apply block w-full overflow-x-auto border-collapse text-sm;
+  }
+
+  .markdown-content th,
+  .markdown-content td {
+    @apply border border-border px-4 py-2 text-left;
+  }
+
+  .markdown-content th {
+    @apply bg-secondary font-semibold text-foreground;
+  }
+
+  .markdown-content img {
+    @apply my-8 h-auto max-w-full border border-border;
+  }
+
   .section-block {
     @apply w-full py-24 text-left sm:py-28 md:py-36;
   }
@@ -171,7 +262,7 @@
   }
 
   .display-title {
-    @apply text-balance text-[clamp(2.7rem,12.5vw,7.5rem)] font-medium leading-[.97] tracking-[-.055em] text-foreground sm:leading-[.91] sm:tracking-[-.065em];
+    @apply text-[clamp(2.15rem,10.5vw,4.75rem)] font-medium leading-[.97] tracking-[-.055em] text-foreground sm:leading-[.91] sm:tracking-[-.065em] lg:text-[clamp(3.5rem,4.8vw,4.75rem)];
   }
 
   .section-heading h2 {

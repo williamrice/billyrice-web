@@ -1,6 +1,6 @@
 # billyrice.com
 
-Personal portfolio, professional resume, owner admin, and publishing application
+Personal portfolio, professional resume, owner admin, and Markdown publishing application
 for [billyrice.com](https://billyrice.com).
 
 The application is a Next.js modular monolith backed by PostgreSQL and Prisma.
@@ -84,6 +84,14 @@ tests will be added before Phase 1 is considered complete.
 - `GET /api/ready` checks whether the application can query PostgreSQL.
 
 Both endpoints are dynamic and return `Cache-Control: no-store`.
+
+## Publishing
+
+The owner admin at `/admin/blog` creates Markdown drafts, provides a live
+sanitized preview, and publishes articles with custom slugs. PostgreSQL stores
+the current article and an immutable revision for every save. Public articles
+render on the server at `/blog/[slug]`; raw HTML and executable MDX are not
+supported.
 
 ## Authentication
 

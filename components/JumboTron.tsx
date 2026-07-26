@@ -5,8 +5,8 @@ import { Reveal, SystemPortrait } from "./PortfolioMotion";
 import BrandIcon from "./BrandIcon";
 
 const pillars = [
-  "Software implementation",
-  "Architecture + AI integration",
+  "Production engineering",
+  "Software architecture",
   "Technical leadership",
 ];
 
@@ -22,15 +22,18 @@ export default function JumboTron() {
               Software engineer · architect · leader
             </p>
             <h1 className="display-title max-w-5xl">
-              I build production software—and put{" "}
-              <span className="text-primary">AI to work inside it.</span>
+              <span className="block whitespace-nowrap">I write code.</span>
+              <span className="block whitespace-nowrap">I shape systems.</span>
+              <span className="block whitespace-nowrap text-primary">
+                I lead teams.
+              </span>
             </h1>
           </Reveal>
           <Reveal delay={0.08}>
             <p className="mt-8 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8 md:text-xl">
-              I combine hands-on implementation, durable software design,
-              applied AI, and technical leadership to ship systems teams can
-              trust and extend.
+              A hands-on software engineer and technical leader focused on
+              dependable implementation, thoughtful architecture, and practical
+              AI.
             </p>
           </Reveal>
           <Reveal delay={0.14} className="pillar-list mt-10">
@@ -42,8 +45,14 @@ export default function JumboTron() {
               </span>
             ))}
           </Reveal>
-          <Reveal delay={0.2} className="mt-10 grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 sm:flex sm:flex-wrap sm:items-center">
-            <Link className="button-primary group w-full sm:w-auto" href="/projects">
+          <Reveal
+            delay={0.2}
+            className="mt-10 grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 sm:flex sm:flex-wrap sm:items-center"
+          >
+            <Link
+              className="button-primary group w-full sm:w-auto"
+              href="/projects"
+            >
               Explore the work
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
@@ -59,7 +68,7 @@ export default function JumboTron() {
             <div className="system-card">
               <div className="flex items-center justify-between gap-3 border-b border-border px-3 py-3 sm:px-5 sm:py-4">
                 <span className="truncate font-mono text-[9px] uppercase tracking-[.16em] text-muted-foreground sm:text-[11px] sm:tracking-[.2em]">
-                  System / William Rice
+                  Home / William Rice
                 </span>
                 <span className="flex shrink-0 items-center gap-2 font-mono text-[9px] uppercase text-primary sm:text-[10px]">
                   <span className="status-dot" /> Available
@@ -77,7 +86,10 @@ export default function JumboTron() {
                 <div className="portrait-wash" aria-hidden="true" />
                 <div className="absolute inset-x-3 bottom-3 grid grid-cols-3 gap-px overflow-hidden rounded-sm border border-white/10 bg-black/30 backdrop-blur-md sm:inset-x-5 sm:bottom-5">
                   {["Build", "Design", "Lead"].map((label) => (
-                    <div className="px-1 py-2.5 text-center font-mono text-[9px] uppercase tracking-[.12em] text-white/75 sm:px-3 sm:py-3 sm:text-[10px] sm:tracking-[.18em]" key={label}>
+                    <div
+                      className="px-1 py-2.5 text-center font-mono text-[9px] uppercase tracking-[.12em] text-white/75 sm:px-3 sm:py-3 sm:text-[10px] sm:tracking-[.18em]"
+                      key={label}
+                    >
                       {label}
                     </div>
                   ))}
@@ -93,14 +105,29 @@ export default function JumboTron() {
 
         <div className="flex items-center justify-between border-t border-border pt-7 lg:col-span-2">
           <div className="flex gap-3">
-            <a className="icon-link" href="https://github.com/williamrice" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <a
+              className="icon-link"
+              href="https://github.com/williamrice"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+            >
               <BrandIcon brand="github" className="size-4" />
             </a>
-            <a className="icon-link" href="https://www.linkedin.com/in/billy-rice/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <a
+              className="icon-link"
+              href="https://www.linkedin.com/in/billy-rice/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
               <BrandIcon brand="linkedin" className="size-4" />
             </a>
           </div>
-          <a className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[.14em] text-muted-foreground hover:text-foreground sm:text-[10px] sm:tracking-[.2em]" href="#expertise">
+          <a
+            className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[.14em] text-muted-foreground hover:text-foreground sm:text-[10px] sm:tracking-[.2em]"
+            href="#expertise"
+          >
             <span className="hidden min-[390px]:inline">Scroll to examine</span>
             <span className="min-[390px]:hidden">Explore</span>
             <ArrowDownRight className="size-4" />

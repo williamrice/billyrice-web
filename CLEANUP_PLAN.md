@@ -25,6 +25,11 @@ now standardized on current shadcn/Base UI, Tailwind CSS 4, Lucide, Sonner, and
 `tw-animate-css`; the previous Radix, Headless UI, MUI, React Icons, Heroicons,
 and Devicon dependencies have been removed.
 
+The first publishing vertical slice is also in place: PostgreSQL-backed
+Markdown posts, draft/published states, custom slugs, immutable revisions, a
+live owner preview, and server-rendered public article pages. Redirects, feeds,
+taxonomy, and signed external ingestion remain later publishing increments.
+
 ## Decisions already made
 
 - Clean start: destructive replacement of the legacy application schema and

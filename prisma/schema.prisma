@@ -7,6 +7,11 @@ datasource db {
   provider = "postgresql"
 }
 
+enum PublicationStatus {
+  DRAFT
+  PUBLISHED
+}
+
 model User {
   id            String        @id
   name          String
@@ -244,4 +249,39 @@ model ResumeProjectSelection {
 
   @@unique([profileId, projectId])
   @@index([profileId, sortOrder])
+}
+
+model Post {
+  id          String            @id @default(cuid())
+  slug        String            @unique
+  title       String
+  excerpt     String            @db.Text
+  markdown    String            @db.Text
+  status      PublicationStatus @default(DRAFT)
+  publishedAt DateTime?
+  source      String            @default("admin")
+  externalId  String?           @unique
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  revisions   PostRevision[]
+
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([updatedAt(sort: Desc)])
+}
+
+model PostRevision {
+  id        String            @id @default(cuid())
+  postId    String
+  version   Int
+  slug      String
+  title     String
+  excerpt   String            @db.Text
+  markdown  String            @db.Text
+  status    PublicationStatus
+  source    String
+  createdAt DateTime          @default(now())
+  post      Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, version])
+  @@index([postId, createdAt(sort: Desc)])
 }

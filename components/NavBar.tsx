@@ -11,6 +11,7 @@ const links = [
   ["Expertise", "/#expertise"],
   ["About", "/#about-section"],
   ["Resume", "/resume"],
+  ["Writing", "/blog"],
   ["Contact", "/contact"],
 ] as const;
 

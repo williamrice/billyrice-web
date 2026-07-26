@@ -185,5 +185,5 @@ async function deleteFileFromS3(s3Key: string) {
     Key: s3Key,
   });
 
-  const response = await s3Client.send(command);
+  await s3Client.send(command);
 }

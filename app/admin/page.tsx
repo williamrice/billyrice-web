@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { ArrowRight, FileText, FolderKanban, Settings2 } from "lucide-react";
+import { ArrowRight, FileText, FolderKanban, Newspaper, Settings2 } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import prisma from "@/lib/prisma";
 import { getPublicResumeProfileId } from "@/features/settings/queries/settings";
 
 export default async function AdminPage() {
-  const [projectCount, resumeProfiles, publicProfileId] = await Promise.all([
+  const [projectCount, postCount, resumeProfiles, publicProfileId] = await Promise.all([
     prisma.project.count(),
+    prisma.post.count(),
     prisma.professionalProfile.findMany({
       orderBy: { updatedAt: "desc" },
       select: { id: true, label: true, published: true, updatedAt: true },
@@ -16,6 +17,14 @@ export default async function AdminPage() {
   const publicProfile = resumeProfiles.find((profile) => profile.id === publicProfileId);
 
   const cards = [
+    {
+      title: "Writing",
+      value: String(postCount),
+      detail: postCount === 1 ? "article in the publishing system" : "articles in the publishing system",
+      href: "/admin/blog",
+      action: "Manage writing",
+      icon: Newspaper,
+    },
     {
       title: "Projects",
       value: String(projectCount),
@@ -51,7 +60,7 @@ export default async function AdminPage() {
         action={<Link href="/" className="admin-button-secondary">View public site</Link>}
       />
 
-      <section className="grid gap-4 md:grid-cols-3" aria-label="Content overview">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4" aria-label="Content overview">
         {cards.map((card) => (
           <Link key={card.title} href={card.href} className="admin-card group flex min-h-52 flex-col hover:border-teal-300">
             <div className="flex items-start justify-between">

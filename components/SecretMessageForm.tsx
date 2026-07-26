@@ -41,7 +41,7 @@ const SecretMessageForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<Inputs>();
 
   const handleCopy = async () => {
