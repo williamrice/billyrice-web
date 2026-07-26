@@ -17,9 +17,9 @@ components. Current shadcn defaults to stable Base UI primitives and Lucide.
 
 - Use current shadcn-generated local components backed by `@base-ui/react`.
 - Use Tailwind CSS 4 and shadcn semantic theme tokens for styling.
-- Use `lucide-react` as the only icon package.
-- Render brand destinations as accessible text links when Lucide does not offer
-  an appropriate brand mark.
+- Use `lucide-react` for interface icons.
+- Use Font Awesome Brands only for authentic company and social marks that
+  Lucide intentionally excludes.
 - Use Sonner for notifications and `tw-animate-css` for shared UI animations.
 - Add only the shadcn components the application actively consumes.
 
@@ -30,4 +30,4 @@ components. Current shadcn defaults to stable Base UI primitives and Lucide.
 - Base UI composition uses `render` rather than Radix's `asChild`.
 - Local shadcn files remain application-owned and may be customized, but new
   primitives should be generated from the same Base UI style.
-- Technology lists use lightweight text badges rather than a brand-icon font.
+- Technology lists use lightweight text badges rather than decorative logos.

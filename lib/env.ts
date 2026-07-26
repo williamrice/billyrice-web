@@ -16,12 +16,14 @@ const serverEnvironmentSchema = z.object({
     .string()
     .min(32, 'BETTER_AUTH_SECRET must be at least 32 characters'),
   BETTER_AUTH_URL: z.url(),
+  BETTER_AUTH_TRUSTED_ORIGINS: optionalString,
   GOOGLE_CLIENT_ID: z.string().trim().min(1, 'GOOGLE_CLIENT_ID is required'),
   GOOGLE_SECRET: z.string().trim().min(1, 'GOOGLE_SECRET is required'),
   ALLOWED_AUTH_EMAILS: z
     .string()
     .trim()
     .min(1, 'ALLOWED_AUTH_EMAILS is required'),
+  REDIS_URL: optionalString,
   RESEND_API_KEY: optionalString,
   FROM_EMAIL: optionalString,
   TO_EMAIL: optionalString,

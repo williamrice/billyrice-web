@@ -85,6 +85,83 @@
     @apply mx-auto w-full max-w-[1440px] px-6 sm:px-8 lg:px-12 xl:px-16;
   }
 
+  .admin-page {
+    @apply mx-auto w-full max-w-7xl space-y-8;
+  }
+
+  .admin-page-header {
+    @apply flex flex-col gap-5 border-b border-gray-200 pb-7 sm:flex-row sm:items-end sm:justify-between;
+  }
+
+  .admin-page-header h1 {
+    @apply mt-2 text-3xl font-semibold tracking-[-.04em] text-gray-950 sm:text-4xl;
+  }
+
+  .admin-page-header > div:first-child > p:last-child {
+    @apply mt-3 max-w-2xl text-sm leading-6 text-gray-600;
+  }
+
+  .admin-eyebrow {
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-teal-700;
+  }
+
+  .admin-card {
+    @apply rounded-xl border border-gray-200 bg-white p-5 shadow-[0_1px_2px_rgb(15_23_42/0.04)] sm:p-6;
+  }
+
+  .admin-card-title {
+    @apply text-lg font-semibold tracking-[-.02em] text-gray-950;
+  }
+
+  .admin-card-description {
+    @apply mt-1 text-sm leading-6 text-gray-500;
+  }
+
+  .admin-button {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 text-sm font-medium text-white hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .admin-button-secondary {
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-sm font-medium text-gray-800 hover:border-teal-600 hover:text-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700;
+  }
+
+  .admin-field {
+    @apply h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-950 shadow-none outline-none placeholder:text-gray-400 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+  }
+
+  .admin-label {
+    @apply mb-1.5 block text-xs font-semibold text-gray-700;
+  }
+
+  .admin-form-grid {
+    @apply grid gap-5 sm:grid-cols-2;
+  }
+
+  .admin-surface form input:not([type="checkbox"]):not([type="radio"]),
+  .admin-surface form select {
+    @apply min-h-11 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-950 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+  }
+
+  .admin-surface form textarea {
+    @apply min-h-28 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm leading-6 text-gray-950 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+  }
+
+  .admin-surface form input[type="file"] {
+    @apply cursor-pointer py-2 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-gray-700;
+  }
+
+  .admin-surface form input[type="checkbox"] {
+    @apply size-4 rounded border-gray-300 accent-teal-700;
+  }
+
+  .admin-surface form label {
+    @apply text-sm font-medium text-gray-700;
+  }
+
+  .admin-surface form [class*="text-red-"] {
+    @apply text-sm text-red-700;
+  }
+
   .section-block {
     @apply w-full py-24 text-left sm:py-28 md:py-36;
   }

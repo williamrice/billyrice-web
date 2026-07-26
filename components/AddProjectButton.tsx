@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import React from "react";
+import { Plus } from "lucide-react";
 
 const AddProjectButton = () => {
   return (
     <Link
-      role="button"
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+      className="admin-button"
       href="/admin/add-project"
     >
-      Add Project
+      <Plus className="size-4" /> Add project
     </Link>
   );
 };

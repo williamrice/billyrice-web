@@ -71,8 +71,8 @@ research, not an instruction to preserve the current design.
 - Use current shadcn/ui components backed by `@base-ui/react` and styled with
   Tailwind CSS 4. Do not introduce another UI framework or use Radix primitives,
   Headless UI, or MUI alongside it.
-- Use `lucide-react` as the only icon package. Prefer text labels for brand links
-  that Lucide does not provide; do not add a second icon or logo package.
+- Use `lucide-react` for interface icons and Font Awesome Brands only for real
+  company/social marks that Lucide intentionally does not provide.
 - Use Sonner for notifications and `tw-animate-css` for shared UI animations.
 - Keep files focused. Split a component or module before it becomes a
   page-sized collection of unrelated forms and behaviors.

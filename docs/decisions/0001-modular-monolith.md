@@ -24,5 +24,6 @@ integrations rather than application services.
 - Route files stay thin and do not call the same application through internal
   HTTP requests.
 - Domains keep explicit schemas, queries, commands, DTOs, and cache boundaries.
-- No Redis, worker, search service, or separate admin deployment is introduced
-  without a new decision and a demonstrated requirement.
+- Redis is permitted as a non-authoritative settings cache under ADR 0004. No
+  worker, search service, or separate admin deployment is introduced without a
+  new decision and a demonstrated requirement.

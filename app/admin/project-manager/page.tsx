@@ -1,16 +1,19 @@
 import { getAllProjects } from "@/actions/projects";
 import ProjectList from "./ProjectList";
 import AddProjectButton from "@/components/AddProjectButton";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default async function ProjectManagerPage() {
   const projects = await getAllProjects();
 
   return (
-    <div className="container mx-auto mt-12 px-4 py-8">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold mb-4">Project Manager</h1>
-        <AddProjectButton />
-      </div>
+    <div className="admin-page">
+      <AdminPageHeader
+        eyebrow="Portfolio"
+        title="Projects"
+        description="Manage the canonical case studies shared by the portfolio and resume."
+        action={<AddProjectButton />}
+      />
       <ProjectList projects={projects} />
     </div>
   );

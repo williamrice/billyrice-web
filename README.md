@@ -7,9 +7,9 @@ The application is a Next.js modular monolith backed by PostgreSQL and Prisma.
 See `CLEANUP_PLAN.md` for the rebuild roadmap and `AGENTS.md` for repository
 working conventions.
 
-The UI system is current shadcn on Base UI with Tailwind CSS 4. Lucide is the
-only icon package, Sonner handles notifications, and `tw-animate-css` supplies
-shared component animations.
+The UI system is current shadcn on Base UI with Tailwind CSS 4. Lucide handles
+interface icons, Font Awesome Brands supplies authentic company marks, Sonner
+handles notifications, and `tw-animate-css` supplies shared animations.
 
 ## Requirements
 
@@ -37,18 +37,22 @@ nvm use
 3. Start PostgreSQL.
 
    ```bash
-   docker compose up -d postgres
+   docker compose up -d postgres redis
    ```
 
-4. During the current pre-migration cleanup phase, synchronize the development
-   database directly.
+4. Apply the clean initial database migration.
 
    ```bash
-   npx prisma db push
+   npx prisma migrate deploy
    ```
 
-   This temporary command will be replaced by `prisma migrate deploy` when the
-   clean initial migration lands in Phase 2.
+   Existing pre-rebuild development databases should be reset once instead:
+
+   ```bash
+   npx prisma migrate reset
+   ```
+
+   This intentionally discards legacy resume, project, and application content.
 
 5. Start the application.
 
@@ -57,6 +61,10 @@ nvm use
    ```
 
 The local site is available at `http://localhost:3000`.
+
+PostgreSQL is the source of truth for application settings. Redis provides a
+short-lived settings cache and can be omitted by leaving `REDIS_URL` empty; the
+application falls back to PostgreSQL when Redis is unavailable.
 
 ## Verification
 
@@ -86,6 +94,10 @@ The admin is owner-only. Google sign-in is accepted only when the account:
 
 Both conditions are enforced through the shared server guard.
 
+`BETTER_AUTH_TRUSTED_ORIGINS` contains the comma-separated exact origins that
+may initiate authentication. Add any Tailscale development origin explicitly;
+do not use a broad wildcard in production.
+
 ## Dependency policy
 
 Direct dependencies are kept on their newest compatible stable releases.
@@ -104,7 +116,7 @@ These holds should be rechecked during routine dependency updates.
 
 ## Deployment
 
-The target is one Next.js application plus PostgreSQL in Coolify. The production
-release step will run committed Prisma migrations exactly once before new
-application traffic. Nixpacks currently provides the application build; the
-final release and readiness configuration is part of Phase 1.
+The target is one Next.js application plus PostgreSQL and Redis in Coolify. The
+production release step will run committed Prisma migrations exactly once
+before new application traffic. Nixpacks currently provides the application
+build; the final release and readiness configuration is part of Phase 1.

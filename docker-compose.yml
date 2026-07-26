@@ -14,9 +14,24 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - dev_network
+  redis:
+    image: redis:8.2-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - dev_network
 volumes:
   postgres_data:
-  pgadmin_data:
+  redis_data:
 
 networks:
   dev_network:

@@ -31,13 +31,14 @@ and Devicon dependencies have been removed.
   content is allowed.
 - Architecture: one Next.js modular monolith and one PostgreSQL database.
 - Admin: same deployment, `/admin`, one Google-authenticated allowlisted owner.
+- Settings: typed PostgreSQL records with Redis as an optional read-through cache.
 - Canonical origin: `https://billyrice.com`.
 - Rendering: server components and cached published projections by default.
-- Resume: pragmatic relational career model, not JSON Resume-shaped storage.
+- Resume: named professional-profile versions selected through application settings.
 - Portfolio: one canonical `Project` model shared with resume content.
 - Blog source: Markdown in PostgreSQL; no raw HTML or MDX.
 - Media: one shared, hardened S3-compatible media subsystem.
-- PDF: browser print route first; server PDF deferred.
+- Print and PDF output are out of scope.
 - Deferred: scheduling, search, topic pages, generated social images, newsletter,
   private posts, comments, and multiple authors.
 
@@ -151,24 +152,23 @@ Portfolio slice:
 
 Resume slice:
 
-1. Implement focused editors for organizations, positions, accomplishments,
+1. Implement focused editors for named resume versions, organizations, positions, accomplishments,
    skills, education, credentials, and profiles.
-2. Implement a profile composer with explicit inclusion and ordering.
+2. Support duplicating a version and explicit ordering within each version.
 3. Server-render `/resume` from the published default profile.
 4. Group positions by organization, represent concurrent/current roles, feature
    measurable outcomes, and link claims to projects.
-5. Add `/resume/print` with deterministic ordering and print CSS.
-6. Add a public, cached JSON Resume-compatible projection that excludes private
-   fields.
-7. Add appropriate Person/ProfilePage structured data.
+5. Present the resume as a responsive web narrative; print and PDF output are
+   intentionally out of scope.
+6. Add appropriate Person/ProfilePage structured data.
 
 Exit criteria:
 
 - The complete admin-to-publish flow works from an empty database.
 - Draft content never appears publicly.
 - Public pages return useful server-rendered HTML without a client data fetch.
-- Profile ordering, current roles, authorization, cache invalidation, and print
-  output have automated coverage.
+- Profile ordering, current roles, authorization, and cache invalidation have
+  automated coverage.
 
 ## Phase 4 — Consolidate media, contact, and public UI
 
@@ -249,8 +249,8 @@ Work:
    browser tests.
 5. Measure public route performance, JavaScript, fonts, and image payloads; set
    budgets based on the rebuilt baseline.
-6. Validate responsive layouts, keyboard use, reduced motion, print output,
-   metadata, robots, sitemap, and broken links.
+6. Validate responsive layouts, keyboard use, reduced motion, metadata, robots,
+   sitemap, and broken links.
 7. Delete all remaining legacy code, unused assets, stale routes, unused
    dependencies, and temporary feature flags.
 8. Update README and decision records to match the deployed system.
@@ -271,7 +271,7 @@ Deliver work as small vertical pull requests:
 1. Tooling, environment validation, canonical metadata, and auth guard.
 2. Fresh schema and legacy deletion.
 3. Project read/publish path, then project admin.
-4. Resume read/print/JSON path, then resume admin/profile composer.
+4. Resume public narrative, then resume admin/profile composer.
 5. Media and contact hardening.
 6. UI/dependency/accessibility cleanup.
 7. Blog schema and renderer.
@@ -287,7 +287,7 @@ still moving.
 - A compatibility period for old database tables or numeric project URLs
 - Multiple authors, roles, or editorial approval workflows
 - Native comments or arbitrary third-party embeds
-- Redis, queues, or a dedicated search service
+- Queues or a dedicated search service; Redis is limited to optional caching
 - A generic block CMS
 - Scheduled publishing in the first blog release
 - Server-generated PDFs in the first resume release
