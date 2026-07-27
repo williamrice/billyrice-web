@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowDownRight, ArrowUpRight, Braces } from "lucide-react";
 import { Reveal, SystemPortrait } from "./PortfolioMotion";
 import BrandIcon from "./BrandIcon";
+import { DeviconBackdrop } from "./DeviconBackdrop";
 
 const pillars = [
   "Production engineering",
@@ -12,7 +13,8 @@ const pillars = [
 
 export default function JumboTron() {
   return (
-    <section className="hero-grid relative flex w-full items-center overflow-hidden border-b border-border pt-16 lg:min-h-[94svh] lg:pt-24">
+    <section className="relative flex w-full items-center overflow-hidden border-b border-border pt-16 lg:min-h-[94svh] lg:pt-24">
+      <DeviconBackdrop />
       <div className="ambient-orb ambient-orb-one" aria-hidden="true" />
       <div className="site-shell relative z-10 grid items-center gap-16 py-16 sm:py-20 lg:grid-cols-[1.12fr_.88fr] lg:gap-14 lg:py-24">
         <div className="text-left">

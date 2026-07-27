@@ -83,6 +83,7 @@ export default function RootLayout({
           href="https://williamarice-web.s3.amazonaws.com"
         />
         <link rel="dns-prefetch" href="https://cdn.credly.com" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       </head>
       <body className="w-full">
         <a

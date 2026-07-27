@@ -315,12 +315,53 @@
     @apply grid size-10 place-items-center rounded-full border border-border text-muted-foreground hover:border-primary/60 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring;
   }
 
-  .hero-grid {
-    background-image:
-      linear-gradient(to right, oklch(0.4 0.02 180 / 9%) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.4 0.02 180 / 9%) 1px, transparent 1px);
-    background-size: 4rem 4rem;
-    mask-image: linear-gradient(to bottom, black 76%, transparent);
+  .devicon-backdrop {
+    @apply pointer-events-none absolute inset-0 overflow-hidden;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 96%);
+  }
+
+  .devicon-backdrop::after {
+    @apply absolute inset-0;
+    content: "";
+    background: linear-gradient(90deg, var(--background) 0%, transparent 24%, transparent 78%, var(--background) 100%);
+  }
+
+  .devicon-backdrop-item {
+    @apply absolute grid place-items-center;
+    width: clamp(3rem, 5.5vw, 5rem);
+    aspect-ratio: 1;
+    opacity: 0.075;
+    animation: devicon-drift var(--icon-duration) ease-in-out infinite alternate;
+    animation-delay: var(--icon-delay);
+  }
+
+  .devicon-backdrop-item img {
+    @apply size-full object-contain;
+    filter: grayscale(1) invert(1);
+  }
+
+  .devicon-backdrop-item:nth-child(1) { left: 4%; top: 27%; }
+  .devicon-backdrop-item:nth-child(2) { left: 16%; top: 69%; }
+  .devicon-backdrop-item:nth-child(3) { left: 27%; top: 11%; }
+  .devicon-backdrop-item:nth-child(4) { left: 39%; top: 77%; }
+  .devicon-backdrop-item:nth-child(5) { left: 50%; top: 18%; }
+  .devicon-backdrop-item:nth-child(6) { left: 61%; top: 62%; }
+  .devicon-backdrop-item:nth-child(7) { left: 72%; top: 9%; }
+  .devicon-backdrop-item:nth-child(8) { left: 84%; top: 67%; }
+  .devicon-backdrop-item:nth-child(9) { left: 94%; top: 22%; }
+  .devicon-backdrop-item:nth-child(10) { left: 8%; top: 92%; }
+  .devicon-backdrop-item:nth-child(11) { left: 76%; top: 92%; }
+  .devicon-backdrop-item:nth-child(12) { left: 91%; top: 89%; }
+
+  @media (max-width: 639px) {
+    .devicon-backdrop-item {
+      width: 3.1rem;
+      opacity: 0.065;
+    }
+
+    .devicon-backdrop-item:nth-child(3n) {
+      display: none;
+    }
   }
 
   .hero-system {
@@ -403,11 +444,6 @@
 }
 
 @media (max-width: 639px) {
-  .hero-grid {
-    background-size: 3rem 3rem;
-    mask-image: linear-gradient(to bottom, black 90%, transparent);
-  }
-
   .system-card {
     transform: rotateY(-2deg) rotateX(1deg);
   }
@@ -421,6 +457,11 @@
 @keyframes ambient-drift {
   from { transform: translate3d(-2%, -2%, 0) scale(0.94); }
   to { transform: translate3d(4%, 4%, 0) scale(1.06); }
+}
+
+@keyframes devicon-drift {
+  from { transform: translate3d(-0.65rem, -0.4rem, 0) rotate(-4deg); }
+  to { transform: translate3d(0.85rem, 0.65rem, 0) rotate(5deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {

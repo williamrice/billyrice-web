@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { DeviconBackdrop } from "@/components/DeviconBackdrop";
 
 export default function Header({
   children,
@@ -10,8 +11,9 @@ export default function Header({
   return (
     <section
       style={{ minHeight: height }}
-      className="hero-grid relative flex w-full items-center overflow-hidden border-b border-border pt-20"
+      className="relative flex w-full items-center overflow-hidden border-b border-border pt-20"
     >
+      <DeviconBackdrop />
       <div className="ambient-orb ambient-orb-one" aria-hidden="true" />
       <div className="site-shell relative z-10 py-16 text-left sm:py-20">
         <p className="eyebrow mb-7">Billy Rice / Portfolio</p>
