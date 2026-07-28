@@ -10,7 +10,7 @@ export interface SecretMessage {
 
 export interface Skill {
   name: string;
-  iconClass: string;
+  icon: LucideIcon;
 }
 
 export interface RecaptchaVerificationResponse {
@@ -19,3 +19,4 @@ export interface RecaptchaVerificationResponse {
   score?: number;
   action?: string;
 }
+import type { LucideIcon } from 'lucide-react';

@@ -1,34 +1,27 @@
-import React from "react";
+import type { ReactNode } from "react";
+import { DeviconBackdrop } from "@/components/DeviconBackdrop";
+import { PageEyebrow } from "@/components/PageEyebrow";
 
-interface HeaderProps {
-  children: React.ReactNode;
+export default function Header({
+  children,
+  height = "360px",
+}: {
+  children: ReactNode;
   height?: string;
-}
-
-const Header = ({ children, height = "400px" }: HeaderProps) => {
+}) {
   return (
     <section
-      style={{
-        minHeight: height,
-      }}
-      className="w-full lg:bg-center shadow-lg border border-gray-700 overflow-hidden bg-linear-to-r from-blue-900 via-blue-800 to-gray-900"
+      style={{ minHeight: height }}
+      className="relative flex w-full items-center overflow-hidden border-b border-border pt-20"
     >
-      <div
-        style={{ minHeight: height }}
-        className="flex justify-center items-center relative"
-      >
-        {/* Background blur elements */}
-        <div className="absolute opacity-20">
-          <div className="absolute top-10 left-10 w-48 h-48 bg-blue-400 rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-64 h-64 bg-gray-600 rounded-full filter blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-600 rounded-full filter blur-3xl"></div>
+      <DeviconBackdrop />
+      <div className="ambient-orb ambient-orb-one" aria-hidden="true" />
+      <div className="site-shell relative z-10 py-16 text-left sm:py-20">
+        <PageEyebrow />
+        <div className="[&_h1]:max-w-5xl [&_h1]:text-balance [&_h1]:text-[clamp(2.8rem,8vw,6rem)] [&_h1]:font-medium [&_h1]:leading-[.98] [&_h1]:tracking-[-.055em] [&_h1]:text-foreground">
+          {children}
         </div>
-
-        {/* Content container */}
-        <div className="z-10 px-6 py-8 text-center">{children}</div>
       </div>
     </section>
   );
-};
-
-export default Header;
+}

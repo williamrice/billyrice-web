@@ -1,48 +1,52 @@
 import Link from "next/link";
-import React from "react";
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { ArrowUpRight } from "lucide-react";
 import { Project } from "@/prisma/generated/prisma/client";
 import { getAllProjects } from "@/actions/projects";
 import FeaturedProjectCard from "./FeaturedProjectCard";
+import { Reveal } from "./PortfolioMotion";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
-const FeaturedProjects = async () => {
+export default async function FeaturedProjects() {
+  const projectsSetting = await getProjectsSetting();
+  if (!projectsSetting.enabled) return null;
+
   const projects = await getAllProjects();
-  const featuredProjects = projects.filter(
-    (project: Project) => project.featured,
-  );
+  const featuredProjects = projects.filter((project: Project) => project.featured).slice(0, 3);
 
   return (
-    <div className="w-full py-24 bg-gray-900 -mt-1">
-      {" "}
-      {/* Added -mt-1 to fix the gap */}
-      <div className="px-4 sm:px-6">
-        <div className="text-center mb-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Featured Projects
-          </h2>
-          <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
-          <p className="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
-            Take a look at some of my recent work. Each project showcases
-            different technologies and solutions.
-          </p>
-        </div>
-        <div className="text-center mb-8">
-          <Link
-            href="/projects"
-            className="inline-flex items-center px-8 py-4 rounded-lg border-2 border-white text-white font-medium hover:bg-white hover:text-gray-900 transition-all duration-300 group"
-          >
-            <span>View All Projects</span>
-            <AiOutlineArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+    <section className="section-block border-t border-border" id="work">
+      <div className="site-shell">
+        <Reveal className="section-heading md:flex md:items-end md:justify-between">
+          <div>
+            <p className="eyebrow mb-7">Selected systems</p>
+            <h2>Proof, not a project gallery.</h2>
+          </div>
+          <Link className="text-link group mt-7 md:mt-0" href="/projects">
+            All case studies <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
-          {featuredProjects.map((project: Project) => (
-            <FeaturedProjectCard key={project.id} project={project} />
-          ))}
-        </div>
+        </Reveal>
+        {featuredProjects.length ? (
+          <div className="mt-16 grid gap-5 lg:grid-cols-3">
+            {featuredProjects.map((project: Project) => (
+              <FeaturedProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        ) : (
+          <Reveal className="mt-16 grid gap-px border border-border bg-border md:grid-cols-3">
+            {[
+              ["01", "Implementation", "Production software with the seams, tradeoffs, and operational details made visible."],
+              ["02", "Architecture", "Design decisions explained through constraints, alternatives, and durable outcomes."],
+              ["03", "Leadership", "Examples of alignment, mentorship, and delivery across organizational boundaries."],
+            ].map(([number, title, body]) => (
+              <div className="min-h-72 bg-background p-8" key={number}>
+                <span className="font-mono text-xs text-primary">{number}</span>
+                <h3 className="mt-20 text-2xl font-medium tracking-tight">{title}</h3>
+                <p className="mt-4 leading-7 text-muted-foreground">{body}</p>
+              </div>
+            ))}
+          </Reveal>
+        )}
       </div>
-    </div>
+    </section>
   );
-};
-
-export default FeaturedProjects;
+}

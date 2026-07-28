@@ -2,86 +2,86 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Pencil, Trash2 } from "lucide-react";
 import { deleteProject } from "@/actions/projects";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Project } from "@/prisma/generated/prisma/client";
+import { toast } from "sonner";
+import type { Project } from "@/prisma/generated/prisma/client";
 
-interface ProjectListProps {
-  projects: Project[];
-}
-
-export default function ProjectList({
-  projects: initialProjects,
-}: ProjectListProps) {
+export default function ProjectList({ projects: initialProjects }: { projects: Project[] }) {
   const [projects, setProjects] = useState(initialProjects);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const success = searchParams.get("success");
-
-  const handleDelete = async (id: number) => {
-    if (confirm("Are you sure you want to delete this project?")) {
-      const result = await deleteProject(id);
-      if (result.success) {
-        setProjects(projects.filter((project) => project.id !== id));
-        router.refresh();
-      } else {
-        alert("Failed to delete project");
-      }
+  async function handleDelete(id: number) {
+    if (!window.confirm("Delete this project? This action cannot be undone.")) return;
+    const result = await deleteProject(id);
+    if (result.success) {
+      setProjects((current) => current.filter((project) => project.id !== id));
+      toast.success("Project deleted.");
+      router.refresh();
+    } else {
+      toast.error("The project could not be deleted.");
     }
-  };
+  }
 
   return (
-    <div className="overflow-x-auto">
-      {/* Success/Error Banner */}
-      {success === "true" && (
-        <div className="bg-green-500 text-white p-4 text-center">
-          Project successfully added!
+    <div className="space-y-4">
+      {projects.length === 0 ? (
+        <div className="admin-card py-14 text-center">
+          <h2 className="admin-card-title">No projects yet</h2>
+          <p className="admin-card-description">Create the first case study to populate the portfolio.</p>
+        </div>
+      ) : (
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04)]">
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-gray-50/80">
+                <tr>
+                  {["Project", "Status", "Actions"].map((heading) => (
+                    <th
+                      key={heading}
+                      className={`border-b border-gray-200 px-5 py-3.5 font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-gray-500 ${heading === "Actions" ? "text-right" : "text-left"}`}
+                    >
+                      {heading}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {projects.map((project) => (
+                  <tr key={project.id} className="group hover:bg-gray-50/70">
+                    <td className="px-5 py-4">
+                      <p className="font-medium text-gray-950">{project.title}</p>
+                      <p className="mt-1 max-w-xl truncate text-xs text-gray-500">{project.description}</p>
+                    </td>
+                    <td className="whitespace-nowrap px-5 py-4">
+                      <span className={`inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium ${project.featured ? "bg-teal-50 text-teal-800" : "bg-gray-100 text-gray-600"}`}>
+                        <span className={`size-1.5 rounded-full ${project.featured ? "bg-teal-600" : "bg-gray-400"}`} />
+                        {project.featured ? "Featured" : "Standard"}
+                      </span>
+                    </td>
+                    <td className="whitespace-nowrap px-5 py-4 text-right">
+                      <Link
+                        href={`/admin/project-manager/edit/${project.id}`}
+                        className="inline-flex size-9 items-center justify-center rounded-md text-gray-500 hover:bg-teal-50 hover:text-teal-800 focus-visible:outline-2 focus-visible:outline-teal-700"
+                        aria-label={`Edit ${project.title}`}
+                      >
+                        <Pencil className="size-4" />
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(project.id)}
+                        className="inline-flex size-9 items-center justify-center rounded-md text-gray-400 hover:bg-red-50 hover:text-red-700 focus-visible:outline-2 focus-visible:outline-red-700"
+                        aria-label={`Delete ${project.title}`}
+                      >
+                        <Trash2 className="size-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
-      {success === "false" && (
-        <div className="bg-red-500 text-white p-4 text-center">
-          Failed to add project. Please try again.
-        </div>
-      )}
-      <table className="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Title
-            </th>
-            <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Featured
-            </th>
-            <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {projects.map((project) => (
-            <tr key={project.id}>
-              <td className="px-6 py-4 whitespace-nowrap">{project.title}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                {project.featured ? "Yes" : "No"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap">
-                <Link
-                  href={`/admin/project-manager/edit/${project.id}`}
-                  className="text-blue-600 hover:text-blue-900 mr-4"
-                >
-                  Edit
-                </Link>
-                <button
-                  onClick={() => handleDelete(project.id)}
-                  className="text-red-600 hover:text-red-900"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }

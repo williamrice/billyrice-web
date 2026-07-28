@@ -5,14 +5,11 @@ import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '@/components/ui/field';
 import {
   Select,
   SelectContent,
@@ -20,10 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useTheme } from 'next-themes';
-import { useEffect } from 'react';
-import { useUser } from '@/hooks/useUser';
 
 const formSchema = z.object({
   theme: z.string({
@@ -33,10 +28,9 @@ const formSchema = z.object({
 
 async function onSubmit(
   values: z.infer<typeof formSchema>,
-  setThemeFunction: Function,
+  setThemeFunction: (theme: string) => void,
 ) {
-  // using fetch, update the user's theme preference to the POST endpoint /api/user/settings
-  const response = await fetch('/api/user/settings', {
+  await fetch('/api/user/settings', {
     method: 'POST',
     body: JSON.stringify(values),
   });
@@ -50,39 +44,35 @@ export function UserSettingsForm() {
       theme: 'system',
     },
   });
-  const { theme, setTheme } = useTheme();
-  const user = useUser();
+  const { setTheme } = useTheme();
+
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => onSubmit(data, setTheme))}
-        className="space-y-8 max-w-lg mx-auto"
-      >
-        <FormField
-          control={form.control}
-          name="theme"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Theme</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a preferred theme" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>This is your preferred theme.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <form
+      onSubmit={form.handleSubmit((data) => onSubmit(data, setTheme))}
+      className="mx-auto max-w-lg space-y-8 border border-border bg-card/50 p-6 sm:p-8"
+    >
+      <Controller
+        control={form.control}
+        name="theme"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor="settings-theme">Theme</FieldLabel>
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger id="settings-theme" aria-invalid={fieldState.invalid}>
+                <SelectValue placeholder="Select a preferred theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+            <FieldDescription>This is your preferred theme.</FieldDescription>
+            <FieldError errors={[fieldState.error]} />
+          </Field>
+        )}
+      />
+      <Button type="submit" className="button-primary">Save settings</Button>
+    </form>
   );
 }

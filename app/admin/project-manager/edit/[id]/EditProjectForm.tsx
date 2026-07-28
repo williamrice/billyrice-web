@@ -359,12 +359,16 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           htmlFor="featuredImageSrc"
           className="block text-sm font-medium text-gray-700"
         >
-          Featured Image
+          Replace featured image
         </label>
+        <p id="featuredImageSrc-description" className="mt-1 text-xs text-gray-500">
+          Optional. Upload one JPEG, PNG, or WebP image up to 5 MB. Leave empty to keep the current image.
+        </p>
         <input
           type="file"
           id="featuredImageSrc"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
+          aria-describedby="featuredImageSrc-description"
           onChange={handleFeaturedImageChange}
           className="mt-1 block w-full"
         />
@@ -409,13 +413,17 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           htmlFor="galleryImages"
           className="block text-sm font-medium text-gray-700"
         >
-          Gallery Images
+          Replace gallery images
         </label>
+        <p id="galleryImages-description" className="mt-1 text-xs text-gray-500">
+          Optional. Upload up to six JPEG, PNG, or WebP images, each no larger than 5 MB. Selecting files replaces the current gallery.
+        </p>
         <input
           type="file"
           id="galleryImages"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           multiple
+          aria-describedby="galleryImages-description"
           onChange={handleGalleryImagesChange}
           className="mt-1 block w-full"
         />
@@ -455,7 +463,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="admin-button w-full"
         >
           {isLoading ? "Updating..." : "Update Project"}
         </button>

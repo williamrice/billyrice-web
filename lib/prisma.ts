@@ -1,11 +1,10 @@
 // lib/prisma.ts
 import { PrismaClient } from "@/prisma/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-
-const connectionString = process.env.POSTGRES_URL;
+import { env } from "@/lib/env";
 
 const adapter = new PrismaPg({
-  connectionString: connectionString!,
+  connectionString: env.POSTGRES_URL,
 });
 
 const prismaClientSingleton = () => {

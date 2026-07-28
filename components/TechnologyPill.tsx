@@ -1,17 +1,7 @@
-import React from "react";
-
-interface TechnologyPillProps {
-  technology: string;
-}
-
-const TechnologyPill = ({ technology }: TechnologyPillProps) => {
+export default function TechnologyPill({ technology }: { technology: string }) {
   return (
-    <div className="m-2 ">
-      <p className="text-xs font-bold text-white bg-blue-800 rounded-full py-2 px-4 hover:scale-110 transition-all ease-in-out border border-blue-600">
-        {technology}
-      </p>
-    </div>
+    <span className="inline-flex border border-border bg-card/50 px-3 py-2 font-mono text-[10px] uppercase tracking-[.13em] text-muted-foreground">
+      {technology}
+    </span>
   );
-};
-
-export default TechnologyPill;
+}

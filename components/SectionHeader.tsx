@@ -1,34 +1,16 @@
-"use client";
-
-import React, { useRef, useEffect, useState } from "react";
-
 interface SectionHeaderProps {
   title: string;
   className?: string;
 }
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({
+export default function SectionHeader({
   title,
   className = "",
-}) => {
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const [dividerWidth, setDividerWidth] = useState<number>(48);
-
-  useEffect(() => {
-    if (headingRef.current) {
-      const width = headingRef.current.offsetWidth;
-      setDividerWidth(width);
-    }
-  }, [title]); // Re-run when title changes
-
+}: SectionHeaderProps) {
   return (
-    <div className={`flex flex-col items-center mb-4 ${className}`}>
-      <h2 ref={headingRef} className="text-4xl font-bold mb-1 text-white">
-        {title}
-      </h2>
-      <div className="w-20 h-1 bg-blue-600"></div>
+    <div className={`mb-4 flex flex-col items-center ${className}`}>
+      <h2 className="mb-1 text-4xl font-bold text-white">{title}</h2>
+      <div className="h-1 w-20 bg-blue-600" />
     </div>
   );
-};
-
-export default SectionHeader;
+}

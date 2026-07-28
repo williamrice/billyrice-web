@@ -1,7 +1,13 @@
-import React from "react";
+import Header from "@/components/Header";
+import AboutSection from "@/components/AboutSection";
+import CallToAction from "@/components/CallToAction";
 
-const AboutPage = () => {
-  return <>About</>;
-};
-
-export default AboutPage;
+export default function AboutPage() {
+  return (
+    <>
+      <Header><h1>Engineering shaped by service and accountability.</h1></Header>
+      <AboutSection />
+      <CallToAction />
+    </>
+  );
+}

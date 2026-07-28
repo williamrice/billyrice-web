@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: williamarice
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+        ports:
+          - 5432:5432
+    env:
+      ALLOWED_AUTH_EMAILS: owner@example.com
+      BETTER_AUTH_SECRET: ci-only-secret-that-is-longer-than-32-characters
+      BETTER_AUTH_URL: http://localhost:3000
+      GOOGLE_CLIENT_ID: ci-google-client-id
+      GOOGLE_SECRET: ci-google-client-secret
+      POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/williamarice
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Prepare temporary schema
+        run: npx prisma db push
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build

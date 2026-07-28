@@ -1,59 +1,53 @@
-import React from "react";
-import ProjectCard from "../../components/ProjectCard";
-import { Project } from "@/prisma/generated/prisma/client";
+import ProjectCard from "@/components/ProjectCard";
 import { getAllProjects } from "@/actions/projects";
 import Header from "@/components/Header";
-import { Metadata } from "next";
-import { generateMetadataWithCanonical } from "@/lib/metadata";
+import type { Metadata } from "next";
+import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
+import BrandIcon from "@/components/BrandIcon";
+import { notFound } from "next/navigation";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/projects",
   "Projects | William Rice",
-  "Browse through my project portfolio featuring web applications and software solutions with detailed case studies.",
+  "Software implementation and architecture case studies by William Rice.",
 );
 
 export default async function ProjectsPage() {
+  const projectsSetting = await getProjectsSetting();
+  if (!projectsSetting.enabled) notFound();
+
   const projects = await getAllProjects();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* Header */}
+    <>
       <Header>
-        <div className="h-full flex flex-col items-center justify-center animate-slideDown">
-          <h1 className="text-4xl md:text-6xl font-bold text-white text-center mb-4">
-            Project Portfolio
-          </h1>
-        </div>
+        <h1>Selected systems and implementation work.</h1>
       </Header>
-
-      {/* Project Description */}
-      <div className="w-full flex flex-col justify-center px-4 py-16">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-6">My Projects</h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-            Browse through my project portfolio below. Each project includes a
-            detailed case study covering the problem, solution, and development
-            process. Click on any project to explore the full story behind it.
-            You can also check out more of my work on my{" "}
-            <a
-              href="https://github.com/williamrice"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-400 transition-colors"
-            >
-              GitHub
-            </a>
-            .
-          </p>
+      <section className="section-block">
+        <div className="site-shell">
+          <div className="section-heading">
+            <p className="eyebrow mb-7">Case studies</p>
+            <h2>How the work gets built.</h2>
+            <p>
+              A closer look at constraints, technical decisions, and shipped
+              outcomes. More implementation work is available on{" "}
+              <a className="text-link inline-flex items-center gap-2" href="https://github.com/williamrice" target="_blank" rel="noreferrer">
+                <BrandIcon brand="github" className="size-4" /> GitHub
+              </a>.
+            </p>
+          </div>
+          {projects.length ? (
+            <div className="mt-16 grid gap-6 md:grid-cols-2">
+              {projects.map((project) => <ProjectCard key={project.id} project={project} />)}
+            </div>
+          ) : (
+            <div className="mt-16 border border-border bg-card/40 p-8 text-muted-foreground">
+              Case studies are being prepared. The clean database state is supported.
+            </div>
+          )}
         </div>
-
-        {/* Projects Grid - 2 columns on desktop, 1 on mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 px-2">
-          {projects.map((project: Project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

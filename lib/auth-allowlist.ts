@@ -1,4 +1,8 @@
-const allowedAuthEmails = (process.env.ALLOWED_AUTH_EMAILS ?? '')
+import 'server-only';
+
+import { env } from './env';
+
+const allowedAuthEmails = env.ALLOWED_AUTH_EMAILS
   .split(',')
   .map((email) => email.trim().toLowerCase())
   .filter(Boolean);

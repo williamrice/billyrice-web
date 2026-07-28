@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
     const result = await sendEmail(name, email, message);
     return result;
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to send email' },
       { status: 500 },

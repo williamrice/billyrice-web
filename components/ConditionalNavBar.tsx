@@ -3,7 +3,11 @@
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/NavBar";
 
-export default function ConditionalNavBar() {
+export default function ConditionalNavBar({
+  projectsEnabled,
+}: {
+  projectsEnabled: boolean;
+}) {
   const pathname = usePathname();
   const isAdminRoute = pathname?.startsWith("/admin");
 
@@ -11,5 +15,5 @@ export default function ConditionalNavBar() {
     return null;
   }
 
-  return <Navbar />;
+  return <Navbar projectsEnabled={projectsEnabled} />;
 }

@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });

@@ -2,7 +2,7 @@ import Header from '@/components/Header';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div>
       <Header>
         <div className="h-full flex flex-col items-center justify-center">
           <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
@@ -12,8 +12,8 @@ const PrivacyPolicy = () => {
       </Header>
 
       {/* Content section with subtle gradient background */}
-      <div className="bg-linear-to-b from-gray-900 to-gray-800">
-        <div className="max-w-4xl mx-auto px-4 py-16">
+      <div>
+        <div className="legal-content site-shell max-w-4xl py-20 sm:py-28">
           <div className="text-center mb-8">
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               Your privacy is important to us. This policy outlines how we

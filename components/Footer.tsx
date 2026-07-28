@@ -1,70 +1,55 @@
-import React from 'react';
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import BrandIcon, { type BrandName } from "./BrandIcon";
 
-import SocialLinks from './SocialLinks';
-import Link from 'next/link';
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="inset-x-0 bottom-0 h-37.5 w-full p-4 bg-gray-900 border-t border-gray-700 shadow-xl md:flex-col md:items-center md:justify-center md:p-6">
-      <div className="flex justify-center gap-4 mb-2">
-        <SocialLinks />
-      </div>
-      <ul className="flex flex-wrap justify-center mt-3 text-sm font-medium text-gray-300 sm:mt-0 mb-2">
-        <li>
-          <Link
-            href="/#about-section"
-            className="mr-4 hover:underline hover:text-blue-400 md:mr-6 transition-colors"
-          >
-            About
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/privacy-policy"
-            className="mr-4 hover:underline hover:text-blue-400 md:mr-6 transition-colors"
-          >
-            Privacy Policy
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/licensing"
-            className="mr-4 hover:underline hover:text-blue-400 md:mr-6 transition-colors"
-          >
-            Licensing
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/secret-message"
-            className="mr-4 hover:underline hover:text-blue-400 md:mr-6 transition-colors"
-          >
-            Secret
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/contact"
-            className="hover:underline hover:text-blue-400 transition-colors"
-          >
-            Contact
-          </Link>
-        </li>
-      </ul>
-      <div className="flex justify-center">
-        <span className="text-sm text-gray-300 sm:text-center">
-          © {new Date().getFullYear()}{' '}
-          <Link
-            href="https://www.williamarice.com"
-            className="hover:underline hover:text-blue-400 transition-colors"
-          >
-            William Rice
-          </Link>
-          . All Rights Reserved.
-        </span>
+    <footer className="w-full shrink-0 border-t border-border bg-background">
+      <div className="site-shell pb-8 pt-10 sm:pb-10">
+        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[.2em] text-primary">
+              Billy Rice / Software engineer
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+              Implementation depth. Design judgment. Leadership with context.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            {(
+              [
+                ["GitHub", "https://github.com/williamrice", "github"],
+                [
+                  "LinkedIn",
+                  "https://www.linkedin.com/in/billy-rice/",
+                  "linkedin",
+                ],
+                ["Contact", "/contact", null],
+                ["Privacy", "/privacy-policy", null],
+              ] as const
+            ).map(([name, href, brand]) => (
+              <Link
+                key={name}
+                href={href}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary"
+              >
+                {brand && (
+                  <BrandIcon
+                    brand={brand satisfies BrandName}
+                    className="mr-1 size-3.5"
+                  />
+                )}
+                {name}
+                <ArrowUpRight className="size-3" />
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div className="mt-10 flex flex-col gap-2 border-t border-border pt-5 font-mono text-[9px] uppercase tracking-[.16em] text-muted-foreground min-[390px]:flex-row min-[390px]:justify-between">
+          <span>© {new Date().getFullYear()} William Rice</span>
+          <span>Stanton, Kentucky</span>
+        </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

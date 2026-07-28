@@ -2,9 +2,16 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { APIError } from 'better-auth/api';
 import { isAllowedAuthEmail } from './auth-allowlist';
+import { env } from './env';
 import prisma from './prisma';
 
 export const auth = betterAuth({
+  baseURL: env.BETTER_AUTH_URL,
+  trustedOrigins: env.BETTER_AUTH_TRUSTED_ORIGINS
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean),
+  secret: env.BETTER_AUTH_SECRET,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
@@ -50,8 +57,8 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_SECRET,
     },
   },
 });

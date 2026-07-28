@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 
 const LicensingPage = () => {
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div>
       <Header>
         <div className="h-full flex flex-col items-center justify-center">
           <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
@@ -13,8 +13,8 @@ const LicensingPage = () => {
       </Header>
 
       {/* Content section with subtle gradient background */}
-      <div className="bg-linear-to-b from-gray-900 to-gray-800">
-        <div className="max-w-4xl mx-auto px-4 py-16">
+      <div>
+        <div className="legal-content site-shell max-w-4xl py-20 sm:py-28">
           <div className="text-center mb-8">
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
               This website is built with modern web technologies and its source
@@ -29,7 +29,7 @@ const LicensingPage = () => {
               The source code for this website (www.billyrice.com) is open
               source and is made available under the following license:
             </p>
-            <div className="bg-gray-700/50 p-4 rounded-md mb-6 text-blue-100">
+            <div className="mb-6 border-l-2 border-primary bg-background/60 p-5 text-muted-foreground">
               <h3 className="font-bold mb-2">MIT License with Attribution</h3>
               <p className="mb-2">
                 Copyright © {new Date().getFullYear()} William Rice
