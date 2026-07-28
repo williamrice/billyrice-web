@@ -76,40 +76,51 @@ export default async function ResumePage() {
           </div>
         </section>
 
-        <section className="section-block" id="experience">
-          <div className="site-shell">
-            <div className="section-heading"><p className="eyebrow mb-7">Experience</p><h2>A record of building and leading.</h2></div>
-            <div className="mt-16 border-t border-border">
-              {[...organizationGroups.values()].map((positions, index) => {
-                const organization = positions[0].organization;
-                return (
-                  <section key={organization.id} className="grid gap-7 border-b border-border py-12 md:grid-cols-[4rem_.75fr_1.25fr] md:gap-12 md:py-16">
-                    <span className="font-mono text-xs text-primary">{String(index + 1).padStart(2, "0")}</span>
-                    <div>
-                      <h3 className="text-2xl font-medium tracking-[-.03em]">{organization.name}</h3>
-                      {organization.location && <p className="mt-2 text-muted-foreground">{organization.location}</p>}
-                    </div>
-                    <div className="space-y-10">
-                      {positions.map((position) => (
-                        <section key={position.id}>
-                          <p className="font-mono text-[10px] uppercase tracking-[.16em] text-primary">{position.kind}</p>
-                          <h4 className="mt-3 text-xl font-medium tracking-[-.02em]">{position.title}</h4>
-                          <p className="mt-2 font-mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">{formatDatePeriod(position.startDate, position.endDate)}</p>
-                          <p className="mt-5 text-lg leading-8 text-muted-foreground">{position.summary}</p>
-                          {position.accomplishments.length > 0 && (
-                            <ul className="mt-7 space-y-4">
-                              {position.accomplishments.map((item) => <li key={item.id} className="grid grid-cols-[1rem_1fr] gap-3 leading-7 text-foreground"><span className="mt-3 size-1 bg-primary" />{item.statement}</li>)}
-                            </ul>
-                          )}
-                        </section>
-                      ))}
-                    </div>
-                  </section>
-                );
-              })}
+        {resume.positions.length > 0 && (
+          <section className="section-block" id="experience">
+            <div className="site-shell">
+              <div className="section-heading"><p className="eyebrow mb-7">Experience</p><h2>A record of building and leading.</h2></div>
+              <div className="mt-16 border-t border-border">
+                {[...organizationGroups.values()].map((positions, index) => {
+                  const organization = positions[0].organization;
+                  return (
+                    <section key={organization.id} className="grid gap-7 border-b border-border py-12 md:grid-cols-[4rem_.75fr_1.25fr] md:gap-12 md:py-16">
+                      <span className="font-mono text-xs text-primary">{String(index + 1).padStart(2, "0")}</span>
+                      <div>
+                        <h3 className="text-2xl font-medium tracking-[-.03em]">{organization.name}</h3>
+                        {organization.location && <p className="mt-2 text-muted-foreground">{organization.location}</p>}
+                        {positions.length > 1 && (
+                          <p className="mt-4 font-mono text-[10px] uppercase tracking-[.14em] text-primary">
+                            {positions.length} roles
+                          </p>
+                        )}
+                      </div>
+                      <div className="relative space-y-12 before:absolute before:bottom-2 before:left-[5px] before:top-2 before:w-px before:bg-border">
+                        {positions.map((position) => (
+                          <section className="relative pl-9" key={position.id}>
+                            <span
+                              className="absolute left-0 top-1.5 size-[11px] rounded-full border-2 border-background bg-primary ring-1 ring-primary/35"
+                              aria-hidden="true"
+                            />
+                            <p className="font-mono text-[10px] uppercase tracking-[.16em] text-primary">{position.kind}</p>
+                            <h4 className="mt-3 text-xl font-medium tracking-[-.02em]">{position.title}</h4>
+                            <p className="mt-2 font-mono text-[10px] uppercase tracking-[.12em] text-muted-foreground">{formatDatePeriod(position.startDate, position.endDate)}</p>
+                            <p className="mt-5 text-lg leading-8 text-muted-foreground">{position.summary}</p>
+                            {position.accomplishments.length > 0 && (
+                              <ul className="mt-7 space-y-4">
+                                {position.accomplishments.map((item) => <li key={item.id} className="grid grid-cols-[1rem_1fr] gap-3 leading-7 text-foreground"><span className="mt-3 size-1 bg-primary" />{item.statement}</li>)}
+                              </ul>
+                            )}
+                          </section>
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {resume.skills.length > 0 && (
           <section className="section-block border-y border-border bg-card/30">
@@ -143,12 +154,18 @@ export default async function ResumePage() {
           </section>
         )}
 
-        <section className="section-block border-t border-border">
-          <div className="site-shell grid gap-14 md:grid-cols-2">
-            <div><p className="eyebrow mb-8">Education</p><div className="space-y-8">{resume.education.map((item) => <div key={item.id}><h3 className="text-lg font-medium">{item.credential} · {item.field}</h3><p className="mt-2 text-muted-foreground">{item.institution}{item.completedAt ? ` · ${item.completedAt.getUTCFullYear()}` : ""}</p></div>)}</div></div>
-            <div><p className="eyebrow mb-8">Credentials</p><div className="space-y-5">{resume.credentials.map((item) => <div key={item.id} className="flex items-start justify-between gap-5 border-b border-border pb-5"><div><h3 className="font-medium">{item.name}</h3><p className="mt-1 text-sm text-muted-foreground">{item.issuer}</p></div>{item.url && <a href={item.url} target="_blank" rel="noreferrer" aria-label={`Verify ${item.name}`}><ArrowUpRight className="size-4 text-primary" /></a>}</div>)}</div></div>
-          </div>
-        </section>
+        {(resume.education.length > 0 || resume.credentials.length > 0) && (
+          <section className="section-block border-t border-border">
+            <div className={`site-shell grid gap-14 ${resume.education.length > 0 && resume.credentials.length > 0 ? "md:grid-cols-2" : ""}`}>
+              {resume.education.length > 0 && (
+                <div><p className="eyebrow mb-8">Education</p><div className="space-y-8">{resume.education.map((item) => <div key={item.id}><h3 className="text-lg font-medium">{item.credential} · {item.field}</h3><p className="mt-2 text-muted-foreground">{item.institution}{item.completedAt ? ` · ${item.completedAt.getUTCFullYear()}` : ""}</p></div>)}</div></div>
+              )}
+              {resume.credentials.length > 0 && (
+                <div><p className="eyebrow mb-8">Credentials</p><div className="space-y-5">{resume.credentials.map((item) => <div key={item.id} className="flex items-start justify-between gap-5 border-b border-border pb-5"><div><h3 className="font-medium">{item.name}</h3><p className="mt-1 text-sm text-muted-foreground">{item.issuer}</p></div>{item.url && <a href={item.url} target="_blank" rel="noreferrer" aria-label={`Verify ${item.name}`}><ArrowUpRight className="size-4 text-primary" /></a>}</div>)}</div></div>
+              )}
+            </div>
+          </section>
+        )}
       </article>
     </>
   );

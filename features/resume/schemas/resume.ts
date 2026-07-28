@@ -36,13 +36,22 @@ export const positionSchema = z.object({
   title: z.string().trim().min(2).max(160),
   kind: z.enum(["work", "leadership", "service"]),
   startDate: z.coerce.date(),
-  endDate: z.union([z.coerce.date(), z.null()]),
+  endDate: z.coerce.date().nullable(),
+  currentRole: z.boolean(),
   summary: z.string().trim().min(10).max(3000),
-  sortOrder: z.coerce.number().int().min(0).max(999),
-}).refine(
-  ({ startDate, endDate }) => endDate === null || endDate >= startDate,
-  { path: ["endDate"], message: "End date cannot be before start date" },
-);
+})
+  .refine(
+    ({ currentRole, endDate }) => currentRole || endDate !== null,
+    { path: ["endDate"], message: "Add an end date or mark this as a current role" },
+  )
+  .refine(
+    ({ currentRole, endDate }) => !currentRole || endDate === null,
+    { path: ["endDate"], message: "A current role cannot have an end date" },
+  )
+  .refine(
+    ({ startDate, endDate }) => endDate === null || endDate >= startDate,
+    { path: ["endDate"], message: "End date cannot be before start date" },
+  );
 
 export const accomplishmentSchema = z.object({
   positionId: z.string().min(1),

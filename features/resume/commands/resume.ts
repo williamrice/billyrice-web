@@ -82,7 +82,6 @@ export async function duplicateProfile(formData: FormData) {
           startDate: position.startDate,
           endDate: position.endDate,
           summary: position.summary,
-          sortOrder: position.sortOrder,
           featured: position.featured,
           accomplishments: {
             create: position.accomplishments.map(({ statement, sortOrder }) => ({
@@ -138,8 +137,8 @@ export async function addPosition(formData: FormData) {
     kind: getFormString(formData, "kind"),
     startDate: new Date(`${getFormString(formData, "startDate")}T12:00:00Z`),
     endDate: parseOptionalDateInput(getFormString(formData, "endDate")),
+    currentRole: formData.get("currentRole") === "on",
     summary: getFormString(formData, "summary"),
-    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.$transaction(async (transaction) => {
     const organization = await transaction.organization.upsert({
@@ -156,7 +155,6 @@ export async function addPosition(formData: FormData) {
         startDate: data.startDate,
         endDate: data.endDate,
         summary: data.summary,
-        sortOrder: data.sortOrder,
       },
     });
   });
@@ -185,8 +183,8 @@ export async function updatePosition(formData: FormData) {
     kind: getFormString(formData, "kind"),
     startDate: new Date(`${getFormString(formData, "startDate")}T12:00:00Z`),
     endDate: parseOptionalDateInput(getFormString(formData, "endDate")),
+    currentRole: formData.get("currentRole") === "on",
     summary: getFormString(formData, "summary"),
-    sortOrder: getFormString(formData, "sortOrder"),
   });
   await prisma.$transaction(async (transaction) => {
     const organization = await transaction.organization.upsert({
@@ -203,7 +201,6 @@ export async function updatePosition(formData: FormData) {
         startDate: data.startDate,
         endDate: data.endDate,
         summary: data.summary,
-        sortOrder: data.sortOrder,
       },
     });
   });

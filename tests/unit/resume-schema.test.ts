@@ -12,7 +12,7 @@ describe("resume schemas", () => {
       label: "Primary",
       slug: "primary",
       name: "Billy Rice",
-      headline: "Software engineer and applied AI implementation leader",
+      headline: "Software engineer, architect, and technical leader",
       introduction:
         "I build dependable production software and integrate AI where it creates measurable leverage.",
       location: "Lexington, Kentucky",
@@ -45,8 +45,41 @@ describe("resume schemas", () => {
       kind: "work",
       startDate: new Date("2025-01-01T12:00:00Z"),
       endDate: new Date("2024-01-01T12:00:00Z"),
+      currentRole: false,
       summary: "Built and operated dependable production systems.",
-      sortOrder: 0,
+    });
+
+    expect(result.success).toBe(false);
+  });
+
+  it("accepts a current position without coercing its null end date", () => {
+    const result = positionSchema.safeParse({
+      organizationName: "Example Organization",
+      organizationLocation: "",
+      organizationUrl: "",
+      title: "Software Engineer",
+      kind: "work",
+      startDate: new Date("2025-01-01T12:00:00Z"),
+      endDate: null,
+      currentRole: true,
+      summary: "Builds and operates dependable production systems.",
+    });
+
+    expect(result.success).toBe(true);
+    if (result.success) expect(result.data.endDate).toBeNull();
+  });
+
+  it("requires either an end date or the current-role selection", () => {
+    const result = positionSchema.safeParse({
+      organizationName: "Example Organization",
+      organizationLocation: "",
+      organizationUrl: "",
+      title: "Software Engineer",
+      kind: "work",
+      startDate: new Date("2025-01-01T12:00:00Z"),
+      endDate: null,
+      currentRole: false,
+      summary: "Built and operated dependable production systems.",
     });
 
     expect(result.success).toBe(false);

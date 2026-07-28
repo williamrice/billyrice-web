@@ -10,7 +10,10 @@ const resumeInclude = {
       organization: true,
       accomplishments: { orderBy: { sortOrder: "asc" as const } },
     },
-    orderBy: [{ sortOrder: "asc" as const }, { startDate: "desc" as const }],
+    orderBy: [
+      { endDate: { sort: "desc" as const, nulls: "first" as const } },
+      { startDate: "desc" as const },
+    ],
   },
   skills: { orderBy: [{ category: "asc" as const }, { sortOrder: "asc" as const }] },
   education: { orderBy: { sortOrder: "asc" as const } },

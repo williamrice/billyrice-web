@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ExternalLink, Plus, Trash2 } from "lucide-react";
 import { AdminActionForm } from "@/components/admin/AdminActionForm";
 import { formatDateInputValue } from "@/lib/utils/dates";
+import { PositionDateFields } from "@/features/resume/components/PositionDateFields";
 import { getResumeAdmin, getResumeProfiles, getResumeProjectOptions } from "@/features/resume/queries/resume";
 import {
   addAccomplishment,
@@ -118,7 +119,7 @@ export default async function ResumeAdminPage({
           <Field label="Version slug" name="slug" defaultValue={resume?.slug ?? "primary"} required />
           <Field label="Name" name="name" defaultValue={resume?.name ?? "Billy Rice"} required />
           <Field label="Location" name="location" defaultValue={resume?.location ?? "Lexington, Kentucky"} required />
-          <label className="sm:col-span-2"><span className={labelClass}>Headline</span><input className={inputClass} name="headline" defaultValue={resume?.headline ?? "Software engineer, applied AI implementer, and technical leader"} required /></label>
+          <label className="sm:col-span-2"><span className={labelClass}>Headline</span><input className={inputClass} name="headline" defaultValue={resume?.headline ?? "Software engineer, architect, and technical leader"} required /></label>
           <label className="sm:col-span-2"><span className={labelClass}>Introduction</span><textarea className={textareaClass} name="introduction" defaultValue={resume?.introduction ?? "I build production software, integrate AI where it creates real leverage, and lead teams through consequential technical decisions."} required /></label>
           <Field label="Public email" name="email" type="email" defaultValue={resume?.email} />
           <Field label="Availability note" name="availability" defaultValue={resume?.availability} />
@@ -150,9 +151,7 @@ export default async function ResumeAdminPage({
                       <Field label="Organization URL" name="organizationUrl" type="url" defaultValue={position.organization.url} />
                       <Field label="Title" name="title" defaultValue={position.title} required />
                       <label><span className={labelClass}>Type</span><select className={inputClass} name="kind" defaultValue={position.kind}><option value="work">Work</option><option value="leadership">Leadership</option><option value="service">Service</option></select></label>
-                      <Field label="Start date" name="startDate" type="date" defaultValue={formatDateInputValue(position.startDate)} required />
-                      <Field label="End date" name="endDate" type="date" defaultValue={formatDateInputValue(position.endDate)} />
-                      <Field label="Display order" name="sortOrder" type="number" defaultValue={position.sortOrder} />
+                      <PositionDateFields startDate={position.startDate} endDate={position.endDate} />
                       <label className="sm:col-span-2"><span className={labelClass}>Summary</span><textarea className={textareaClass} name="summary" defaultValue={position.summary} required /></label>
                       <div className="sm:col-span-2"><button className={buttonClass}>Save experience</button></div>
                     </AdminActionForm>
@@ -188,9 +187,7 @@ export default async function ResumeAdminPage({
               <Field label="Organization URL" name="organizationUrl" type="url" />
               <Field label="Title" name="title" required />
               <label><span className={labelClass}>Type</span><select className={inputClass} name="kind"><option value="work">Work</option><option value="leadership">Leadership</option><option value="service">Service</option></select></label>
-              <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.positions.length} />
-              <Field label="Start date" name="startDate" type="date" required />
-              <Field label="End date" name="endDate" type="date" />
+              <PositionDateFields />
               <label className="sm:col-span-2"><span className={labelClass}>Summary</span><textarea className={textareaClass} name="summary" required /></label>
               <div className="sm:col-span-2"><button className={buttonClass}><Plus className="size-4" /> Add experience</button></div>
             </AdminActionForm>
