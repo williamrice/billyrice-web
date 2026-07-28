@@ -4,6 +4,11 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Toaster } from '@/components/ui/sonner';
 import ConditionalNavBar from '@/components/ConditionalNavBar';
 import { SITE_URL } from '@/lib/site';
+import {
+  getDeviconSetting,
+  getProjectsSetting,
+} from '@/features/settings/queries/settings';
+import { PublicSettingsProvider } from '@/features/settings/components/PublicSettingsProvider';
 
 import '@/app/globals.css';
 
@@ -67,11 +72,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [deviconSetting, projectsSetting] = await Promise.all([
+    getDeviconSetting(),
+    getProjectsSetting(),
+  ]);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -86,6 +96,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
       </head>
       <body className="w-full">
+        <PublicSettingsProvider settings={{ devicons: deviconSetting }}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
@@ -94,7 +105,7 @@ export default function RootLayout({
         </a>
         <div className="flex min-h-dvh flex-col items-center">
           <header>
-            <ConditionalNavBar />
+            <ConditionalNavBar projectsEnabled={projectsSetting.enabled} />
           </header>
           <main
             id="main-content"
@@ -106,6 +117,7 @@ export default function RootLayout({
           <Toaster />
           <Footer />
         </div>
+        </PublicSettingsProvider>
         <GoogleAnalytics gaId="G-Y46TG9779R" />
       </body>
     </html>

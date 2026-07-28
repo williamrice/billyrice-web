@@ -1,17 +1,20 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowDownRight, ArrowUpRight, Braces } from "lucide-react";
-import { Reveal, SystemPortrait } from "./PortfolioMotion";
-import BrandIcon from "./BrandIcon";
-import { DeviconBackdrop } from "./DeviconBackdrop";
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowDownRight, ArrowUpRight, Braces } from 'lucide-react';
+import { Reveal, SystemPortrait } from './PortfolioMotion';
+import BrandIcon from './BrandIcon';
+import { DeviconBackdrop } from './DeviconBackdrop';
+import { getProjectsSetting } from '@/features/settings/queries/settings';
 
 const pillars = [
-  "Production engineering",
-  "Software architecture",
-  "Technical leadership",
+  'Production engineering',
+  'Software architecture',
+  'Technical leadership',
 ];
 
-export default function JumboTron() {
+export default async function JumboTron() {
+  const projectsSetting = await getProjectsSetting();
+
   return (
     <section className="relative flex w-full items-center overflow-hidden border-b border-border pt-16 lg:min-h-[94svh] lg:pt-24">
       <DeviconBackdrop />
@@ -53,11 +56,12 @@ export default function JumboTron() {
           >
             <Link
               className="button-primary group w-full sm:w-auto"
-              href="/projects"
+              href="/resume"
             >
-              Explore the work
+              Resume
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
+
             <Link className="button-quiet w-full sm:w-auto" href="/contact">
               Start a conversation
             </Link>
@@ -87,7 +91,7 @@ export default function JumboTron() {
                 />
                 <div className="portrait-wash" aria-hidden="true" />
                 <div className="absolute inset-x-3 bottom-3 grid grid-cols-3 gap-px overflow-hidden rounded-sm border border-white/10 bg-black/30 backdrop-blur-md sm:inset-x-5 sm:bottom-5">
-                  {["Build", "Design", "Lead"].map((label) => (
+                  {['Build', 'Design', 'Lead'].map((label) => (
                     <div
                       className="px-1 py-2.5 text-center font-mono text-[9px] uppercase tracking-[.12em] text-white/75 sm:px-3 sm:py-3 sm:text-[10px] sm:tracking-[.18em]"
                       key={label}

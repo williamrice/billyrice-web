@@ -15,9 +15,12 @@ const links = [
   ["Contact", "/contact"],
 ] as const;
 
-export default function NavBar() {
+export default function NavBar({ projectsEnabled }: { projectsEnabled: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const visibleLinks = projectsEnabled
+    ? links
+    : links.filter(([, href]) => href !== "/projects");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -39,7 +42,7 @@ export default function NavBar() {
           <span className="text-sm font-medium tracking-tight">Billy Rice</span>
         </Link>
         <div className="hidden items-center gap-8 md:flex">
-          {links.map(([name, href]) => (
+          {visibleLinks.map(([name, href]) => (
             <Link key={name} href={href} className="font-mono text-[10px] uppercase tracking-[.16em] text-muted-foreground hover:text-primary">
               {name}
             </Link>
@@ -56,7 +59,7 @@ export default function NavBar() {
           <SheetContent side="right" className="w-full border-border bg-background p-6 pt-[max(1.5rem,env(safe-area-inset-top))] sm:w-[420px] sm:p-8">
             <SheetTitle className="sr-only">Main navigation</SheetTitle>
             <div className="mt-14 flex flex-col sm:mt-16">
-              {links.map(([name, href]) => (
+              {visibleLinks.map(([name, href]) => (
                 <Link key={name} href={href} onClick={() => setOpen(false)} className="flex min-h-16 items-center border-t border-border py-4 text-2xl font-medium tracking-tight hover:text-primary sm:py-6 sm:text-3xl">
                   {name}
                 </Link>

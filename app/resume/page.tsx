@@ -7,6 +7,7 @@ import { getPublishedResume } from "@/features/resume/queries/resume";
 import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
 import { SITE_URL } from "@/lib/site";
 import { formatDatePeriod } from "@/lib/utils/dates";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/resume",
@@ -17,13 +18,16 @@ export const metadata: Metadata = generateMetadataWithCanonical(
 export const dynamic = "force-dynamic";
 
 export default async function ResumePage() {
-  const resume = await getPublishedResume();
+  const [resume, projectsSetting] = await Promise.all([
+    getPublishedResume(),
+    getProjectsSetting(),
+  ]);
 
   if (!resume) {
     return (
       <>
         <Header><h1>Experience, currently being rewritten.</h1></Header>
-        <section className="section-block"><div className="site-shell"><p className="max-w-xl text-lg leading-8 text-muted-foreground">The new professional narrative is not published yet. In the meantime, start with the work or get in touch.</p><div className="mt-8 flex gap-3"><Link className="button-primary" href="/projects">View projects</Link><Link className="button-quiet" href="/contact">Contact</Link></div></div></section>
+        <section className="section-block"><div className="site-shell"><p className="max-w-xl text-lg leading-8 text-muted-foreground">The new professional narrative is not published yet. In the meantime, get in touch.</p><div className="mt-8 flex gap-3">{projectsSetting.enabled && <Link className="button-primary" href="/projects">View projects</Link>}<Link className="button-quiet" href="/contact">Contact</Link></div></div></section>
       </>
     );
   }
@@ -123,7 +127,7 @@ export default async function ResumePage() {
           </section>
         )}
 
-        {resume.projects.length > 0 && (
+        {projectsSetting.enabled && resume.projects.length > 0 && (
           <section className="section-block">
             <div className="site-shell">
               <div className="section-heading"><p className="eyebrow mb-7">Selected implementation</p><h2>Systems in practice.</h2></div>

@@ -2,10 +2,15 @@ import { MetadataRoute } from 'next';
 import { getAllProjects } from '@/actions/projects';
 import { SITE_URL } from '@/lib/site';
 import { getPublishedPosts } from '@/features/publishing/queries/posts';
+import { getProjectsSetting } from '@/features/settings/queries/settings';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch dynamic project data
-  const [projects, posts] = await Promise.all([getAllProjects(), getPublishedPosts()]);
+  const [projectsSetting, posts] = await Promise.all([
+    getProjectsSetting(),
+    getPublishedPosts(),
+  ]);
+  const projects = projectsSetting.enabled ? await getAllProjects() : [];
 
   // Static routes with priorities
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -25,12 +30,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${SITE_URL}/resume`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 1.0,
-    },
-    {
-      url: `${SITE_URL}/projects`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
@@ -64,6 +63,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
   ];
+  if (projectsSetting.enabled) {
+    staticRoutes.push({
+      url: `${SITE_URL}/projects`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    });
+  }
 
   // Dynamic project routes
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({

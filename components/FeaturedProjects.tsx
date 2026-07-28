@@ -4,8 +4,12 @@ import { Project } from "@/prisma/generated/prisma/client";
 import { getAllProjects } from "@/actions/projects";
 import FeaturedProjectCard from "./FeaturedProjectCard";
 import { Reveal } from "./PortfolioMotion";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export default async function FeaturedProjects() {
+  const projectsSetting = await getProjectsSetting();
+  if (!projectsSetting.enabled) return null;
+
   const projects = await getAllProjects();
   const featuredProjects = projects.filter((project: Project) => project.featured).slice(0, 3);
 

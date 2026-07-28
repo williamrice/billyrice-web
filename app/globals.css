@@ -328,9 +328,9 @@
 
   .devicon-backdrop-item {
     @apply absolute grid place-items-center;
-    width: clamp(3rem, 5.5vw, 5rem);
+    width: clamp(2.5rem, 5.5vw, var(--icon-size));
     aspect-ratio: 1;
-    opacity: 0.075;
+    opacity: var(--icon-opacity);
     animation: devicon-drift var(--icon-duration) ease-in-out infinite alternate;
     animation-delay: var(--icon-delay);
   }
@@ -338,6 +338,10 @@
   .devicon-backdrop-item img {
     @apply size-full object-contain;
     filter: grayscale(1) invert(1);
+  }
+
+  .devicon-backdrop-static .devicon-backdrop-item {
+    animation: none;
   }
 
   .devicon-backdrop-item:nth-child(1) { left: 4%; top: 27%; }
@@ -356,7 +360,7 @@
   @media (max-width: 639px) {
     .devicon-backdrop-item {
       width: 3.1rem;
-      opacity: 0.065;
+      opacity: min(var(--icon-opacity), 0.065);
     }
 
     .devicon-backdrop-item:nth-child(3n) {

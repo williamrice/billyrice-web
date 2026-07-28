@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { DeviconBackdrop } from "./DeviconBackdrop";
 import { Reveal } from "./PortfolioMotion";
 
 export default function CallToAction() {
   return (
     <section className="relative overflow-hidden border-t border-border py-28 sm:py-32 md:py-40">
+      <DeviconBackdrop />
       <div className="ambient-orb ambient-orb-two" aria-hidden="true" />
       <Reveal className="site-shell relative z-10">
         <p className="eyebrow mb-8">Build what lasts</p>

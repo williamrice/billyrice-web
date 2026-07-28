@@ -4,6 +4,8 @@ import Header from "@/components/Header";
 import type { Metadata } from "next";
 import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
 import BrandIcon from "@/components/BrandIcon";
+import { notFound } from "next/navigation";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/projects",
@@ -12,6 +14,9 @@ export const metadata: Metadata = generateMetadataWithCanonical(
 );
 
 export default async function ProjectsPage() {
+  const projectsSetting = await getProjectsSetting();
+  if (!projectsSetting.enabled) notFound();
+
   const projects = await getAllProjects();
 
   return (

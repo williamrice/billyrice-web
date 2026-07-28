@@ -5,8 +5,13 @@ import ImageLightbox from "@/components/ImageLightbox";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Eye } from "lucide-react";
 import BrandIcon from "@/components/BrandIcon";
+import { notFound } from "next/navigation";
+import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export default async function IndividualProjectPage({ params }: { params: Promise<{ projectId: string }> }) {
+  const projectsSetting = await getProjectsSetting();
+  if (!projectsSetting.enabled) notFound();
+
   const { projectId } = await params;
   const project = await getProjectById(Number.parseInt(projectId, 10));
 
