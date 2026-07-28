@@ -1,24 +1,38 @@
 import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL || '';
-const toEmail = process.env.TO_EMAIL || '';
+import { escapeHtml } from '@/lib/utils/strings';
 
 export const sendEmail = async (
   name: string,
   email: string,
   message: string,
 ): Promise<Response> => {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.FROM_EMAIL;
+  const toEmail = process.env.TO_EMAIL;
+
+  if (!apiKey || !fromEmail || !toEmail) {
+    return Response.json(
+      { error: 'Contact email is not configured' },
+      { status: 503 },
+    );
+  }
+
   try {
+    const resend = new Resend(apiKey);
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message).replaceAll('\n', '<br />');
+
     const { data, error } = await resend.emails.send({
       from: `William Rice <${fromEmail}>`,
       to: [toEmail],
       subject: `${name} <${email}> wants to connect with you`,
+      text: `New contact form submission\n\nFrom: ${name} (${email})\n\nMessage:\n${message}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>From:</strong> ${name} (${email})</p>
+        <p><strong>From:</strong> ${safeName} (${safeEmail})</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${safeMessage}</p>
       `,
     });
 

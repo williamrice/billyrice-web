@@ -13,3 +13,17 @@ export function formatPathSegment(value: string) {
     .replace(/[-_]+/g, " ")
     .replace(/\b\w/g, (character) => character.toUpperCase());
 }
+
+export function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (character) => {
+    const entities: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+
+    return entities[character];
+  });
+}
