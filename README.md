@@ -60,8 +60,6 @@ nvm use
    npm run dev
    ```
 
-The local site is available at `http://localhost:3000`.
-
 PostgreSQL is the source of truth for application settings. Redis provides a
 short-lived settings cache and can be omitted by leaving `REDIS_URL` empty; the
 application falls back to PostgreSQL when Redis is unavailable.
