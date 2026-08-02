@@ -1,5 +1,6 @@
 import { getProjectById } from "@/actions/projects";
 import Header from "@/components/Header";
+import CodeMark from "@/components/CodeMark";
 import TechnologyPill from "@/components/TechnologyPill";
 import ImageLightbox from "@/components/ImageLightbox";
 import Link from "next/link";
@@ -27,10 +28,10 @@ export default async function IndividualProjectPage({ params }: { params: Promis
   }
 
   const sections = [
-    ["01", "Description", project.description],
-    ["02", "Problem", project.problem],
-    ["03", "Solution", project.solution],
-    ["04", "Story", project.story],
+    ["Description", project.description],
+    ["Problem", project.problem],
+    ["Solution", project.solution],
+    ["Story", project.story],
   ] as const;
 
   return (
@@ -63,9 +64,9 @@ export default async function IndividualProjectPage({ params }: { params: Promis
           </div>
 
           <div className="border-t border-border">
-            {sections.map(([number, title, content]) => (
+            {sections.map(([title, content]) => (
               <section key={title} className="grid gap-6 border-b border-border py-12 md:grid-cols-[5rem_1fr_2fr] md:gap-10">
-                <span className="font-mono text-xs text-primary">{number}</span>
+                <CodeMark />
                 <h2 className="text-2xl font-medium tracking-tight">{title}</h2>
                 <p className="text-lg leading-8 text-muted-foreground">{content}</p>
               </section>

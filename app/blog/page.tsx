@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import Header from "@/components/Header";
+import CodeMark from "@/components/CodeMark";
 import { getPublishedPosts } from "@/features/publishing/queries/posts";
 import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
 import { formatLongDate } from "@/lib/utils/dates";
@@ -30,9 +31,9 @@ export default async function BlogPage() {
 
           {posts.length ? (
             <div className="mt-16 border-t border-border">
-              {posts.map((post, index) => (
+              {posts.map((post) => (
                 <article key={post.id} className="group grid gap-6 border-b border-border py-10 md:grid-cols-[4rem_1fr_auto] md:items-start md:gap-10 md:py-12">
-                  <span className="font-mono text-xs text-primary">{String(index + 1).padStart(2, "0")}</span>
+                  <CodeMark />
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[.14em] text-muted-foreground">{formatLongDate(post.publishedAt)}</p>
                     <h2 className="mt-3 text-2xl font-medium tracking-[-.035em] sm:text-3xl">

@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Project } from "@/prisma/generated/prisma/client";
 import { getAllProjects } from "@/actions/projects";
 import FeaturedProjectCard from "./FeaturedProjectCard";
+import CodeMark from "./CodeMark";
 import { Reveal } from "./PortfolioMotion";
 import { getProjectsSetting } from "@/features/settings/queries/settings";
 
@@ -34,12 +35,12 @@ export default async function FeaturedProjects() {
         ) : (
           <Reveal className="mt-16 grid gap-px border border-border bg-border md:grid-cols-3">
             {[
-              ["01", "Implementation", "Production software with the seams, tradeoffs, and operational details made visible."],
-              ["02", "Architecture", "Design decisions explained through constraints, alternatives, and durable outcomes."],
-              ["03", "Leadership", "Examples of alignment, mentorship, and delivery across organizational boundaries."],
-            ].map(([number, title, body]) => (
-              <div className="min-h-72 bg-background p-8" key={number}>
-                <span className="font-mono text-xs text-primary">{number}</span>
+              ["Implementation", "Production software with the seams, tradeoffs, and operational details made visible."],
+              ["Architecture", "Design decisions explained through constraints, alternatives, and durable outcomes."],
+              ["Leadership", "Examples of alignment, mentorship, and delivery across organizational boundaries."],
+            ].map(([title, body]) => (
+              <div className="min-h-72 bg-background p-8" key={title}>
+                <CodeMark />
                 <h3 className="mt-20 text-2xl font-medium tracking-tight">{title}</h3>
                 <p className="mt-4 leading-7 text-muted-foreground">{body}</p>
               </div>

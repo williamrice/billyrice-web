@@ -1,9 +1,9 @@
 import { Blocks, GitPullRequestArrow, UsersRound } from "lucide-react";
+import CodeMark from "./CodeMark";
 import { Reveal } from "./PortfolioMotion";
 
 const expertise = [
   {
-    number: "01",
     icon: GitPullRequestArrow,
     title: "Implementation",
     lead: "The last mile matters.",
@@ -11,7 +11,6 @@ const expertise = [
     detail: "TypeScript · React · Next.js · Node · .NET · SQL",
   },
   {
-    number: "02",
     icon: Blocks,
     title: "Software design",
     lead: "Simple where it can be. Rigorous where it must be.",
@@ -19,7 +18,6 @@ const expertise = [
     detail: "Architecture · APIs · Data · Security · Reliability",
   },
   {
-    number: "03",
     icon: UsersRound,
     title: "Leadership",
     lead: "Clarity creates momentum.",
@@ -46,7 +44,7 @@ export default function SkillsSection() {
             return (
               <Reveal key={item.title} delay={index * 0.06}>
                 <article className="expertise-row group">
-                  <span className="font-mono text-xs text-primary">{item.number}</span>
+                  <CodeMark />
                   <div>
                     <Icon className="mb-6 size-7 text-primary" strokeWidth={1.5} />
                     <h3>{item.title}</h3>
