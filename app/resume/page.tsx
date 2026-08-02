@@ -3,6 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import Header from "@/components/Header";
+import CodeMark from "@/components/CodeMark";
 import { getPublishedResume } from "@/features/resume/queries/resume";
 import { generateMetadataWithCanonical } from "@/lib/utils/metadata";
 import { SITE_URL } from "@/lib/site";
@@ -81,11 +82,11 @@ export default async function ResumePage() {
             <div className="site-shell">
               <div className="section-heading"><p className="eyebrow mb-7">Experience</p><h2>A record of building and leading.</h2></div>
               <div className="mt-16 border-t border-border">
-                {[...organizationGroups.values()].map((positions, index) => {
+                {[...organizationGroups.values()].map((positions) => {
                   const organization = positions[0].organization;
                   return (
                     <section key={organization.id} className="grid gap-7 border-b border-border py-12 md:grid-cols-[4rem_.75fr_1.25fr] md:gap-12 md:py-16">
-                      <span className="font-mono text-xs text-primary">{String(index + 1).padStart(2, "0")}</span>
+                      <CodeMark />
                       <div>
                         <h3 className="text-2xl font-medium tracking-[-.03em]">{organization.name}</h3>
                         {organization.location && <p className="mt-2 text-muted-foreground">{organization.location}</p>}

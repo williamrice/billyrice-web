@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { ArrowDownRight, ArrowUpRight, Braces } from 'lucide-react';
 import { Reveal, SystemPortrait } from './PortfolioMotion';
 import BrandIcon from './BrandIcon';
+import CodeMark from './CodeMark';
 import { DeviconBackdrop } from './DeviconBackdrop';
-import { getProjectsSetting } from '@/features/settings/queries/settings';
 
 const pillars = [
   'Production engineering',
@@ -12,9 +12,7 @@ const pillars = [
   'Technical leadership',
 ];
 
-export default async function JumboTron() {
-  const projectsSetting = await getProjectsSetting();
-
+export default function JumboTron() {
   return (
     <section className="relative flex w-full items-center overflow-hidden border-b border-border pt-16 lg:min-h-[94svh] lg:pt-24">
       <DeviconBackdrop />
@@ -42,9 +40,9 @@ export default async function JumboTron() {
             </p>
           </Reveal>
           <Reveal delay={0.14} className="pillar-list mt-10">
-            {pillars.map((pillar, index) => (
+            {pillars.map((pillar) => (
               <span className="signal-chip" key={pillar}>
-                <span className="pillar-number">0{index + 1}</span>
+                <CodeMark className="pillar-code-mark" />
                 <span className="pillar-label">{pillar}</span>
                 <span className="pillar-mark" aria-hidden="true" />
               </span>
