@@ -69,9 +69,7 @@ const LicensingPage = () => {
             </p>
             <ul className="list-disc pl-6 mb-4 space-y-1">
               <li>Include the original copyright notice</li>
-              <li>
-                Include attribution to Billy Rice as the original author
-              </li>
+              <li>Include attribution to Billy Rice as the original author</li>
               <li>Include the license text in your derivative work</li>
             </ul>
             <p>
