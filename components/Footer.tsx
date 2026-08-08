@@ -46,7 +46,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-5 font-mono text-[9px] uppercase tracking-[.16em] text-muted-foreground min-[390px]:flex-row min-[390px]:justify-between">
-          <span>© {new Date().getFullYear()} William Rice</span>
+          <span>© {new Date().getFullYear()} Billy Rice</span>
           <span>Stanton, Kentucky</span>
         </div>
       </div>

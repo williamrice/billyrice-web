@@ -24,7 +24,7 @@ export const sendEmail = async (
     const safeMessage = escapeHtml(message).replaceAll('\n', '<br />');
 
     const { data, error } = await resend.emails.send({
-      from: `William Rice <${fromEmail}>`,
+      from: `Billy Rice <${fromEmail}>`,
       to: [toEmail],
       subject: `${name} <${email}> wants to connect with you`,
       text: `New contact form submission\n\nFrom: ${name} (${email})\n\nMessage:\n${message}`,

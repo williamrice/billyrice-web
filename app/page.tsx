@@ -10,7 +10,7 @@ import { HomeScrollReset, ScrollProgress } from '@/components/PortfolioMotion';
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'William Rice',
+  name: 'Billy Rice',
   jobTitle: 'Software Engineer and Technical Leader',
   description:
     'Software engineer and technical leader specializing in implementation, software design, and dependable systems.',
@@ -61,17 +61,17 @@ const personSchema = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'William Rice Portfolio',
+  name: 'Billy Rice Portfolio',
   url: SITE_URL,
   description:
     'Full-stack software developer portfolio featuring web applications and software solutions',
   author: {
     '@type': 'Person',
-    name: 'William Rice',
+    name: 'Billy Rice',
   },
   publisher: {
     '@type': 'Person',
-    name: 'William Rice',
+    name: 'Billy Rice',
   },
 };
 

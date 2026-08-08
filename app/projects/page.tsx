@@ -9,8 +9,8 @@ import { getProjectsSetting } from "@/features/settings/queries/settings";
 
 export const metadata: Metadata = generateMetadataWithCanonical(
   "/projects",
-  "Projects | William Rice",
-  "Software implementation and architecture case studies by William Rice.",
+  "Projects | Billy Rice",
+  "Software implementation and architecture case studies by Billy Rice.",
 );
 
 export default async function ProjectsPage() {

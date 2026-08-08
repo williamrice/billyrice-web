@@ -32,7 +32,7 @@ const LicensingPage = () => {
             <div className="mb-6 border-l-2 border-primary bg-background/60 p-5 text-muted-foreground">
               <h3 className="font-bold mb-2">MIT License with Attribution</h3>
               <p className="mb-2">
-                Copyright © {new Date().getFullYear()} William Rice
+                Copyright © {new Date().getFullYear()} Billy Rice
               </p>
               <p className="mb-2">
                 Permission is hereby granted, free of charge, to any person
@@ -47,7 +47,7 @@ const LicensingPage = () => {
               <p className="mb-2">
                 <strong>
                   The above copyright notice, this permission notice, and
-                  attribution to William Rice shall be included in all copies or
+                  attribution to Billy Rice shall be included in all copies or
                   substantial portions of the Software.
                 </strong>
               </p>
@@ -70,7 +70,7 @@ const LicensingPage = () => {
             <ul className="list-disc pl-6 mb-4 space-y-1">
               <li>Include the original copyright notice</li>
               <li>
-                Include attribution to William Rice as the original author
+                Include attribution to Billy Rice as the original author
               </li>
               <li>Include the license text in your derivative work</li>
             </ul>
