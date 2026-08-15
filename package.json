@@ -7,9 +7,12 @@
     "npm": ">=11.11.0 <12"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run db:setup && next dev",
     "build": "next build",
     "start": "next start",
+    "db:seed": "prisma db seed",
+    "db:setup": "prisma migrate deploy && prisma db seed",
+    "db:reset": "prisma migrate reset --force && prisma db seed",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit --incremental false",
     "test": "vitest run",
