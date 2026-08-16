@@ -72,6 +72,7 @@ export async function createMermaidDiagramRecord(
         title: diagram.title,
         slug: diagram.slug,
         source: diagram.source,
+        notes: diagram.notes,
         theme: diagram.theme,
         visibility: diagram.visibility,
       },
@@ -102,6 +103,7 @@ export async function updateMermaidDiagramRecord(
       current.title !== data.title ||
       current.slug !== data.slug ||
       current.source !== data.source ||
+      current.notes !== data.notes ||
       current.theme !== theme ||
       current.visibility !== visibility;
 
@@ -133,6 +135,7 @@ export async function updateMermaidDiagramRecord(
         title: data.title,
         slug: data.slug,
         source: data.source,
+        notes: data.notes,
         theme,
         visibility,
         currentRevision: nextRevision,
@@ -149,6 +152,7 @@ export async function updateMermaidDiagramRecord(
         title: data.title,
         slug: data.slug,
         source: data.source,
+        notes: data.notes,
         theme,
         visibility,
       },

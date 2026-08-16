@@ -305,6 +305,7 @@ model MermaidDiagram {
   title           String
   slug            String                       @unique
   source          String                       @db.Text
+  notes           String?                      @db.Text
   theme           MermaidDiagramTheme          @default(DEFAULT)
   visibility      MermaidDiagramVisibility     @default(PRIVATE)
   currentRevision Int                          @default(1)
@@ -325,6 +326,7 @@ model MermaidDiagramRevision {
   title      String
   slug       String
   source     String                   @db.Text
+  notes      String?                  @db.Text
   theme      MermaidDiagramTheme
   visibility MermaidDiagramVisibility
   createdAt  DateTime                 @default(now())

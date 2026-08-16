@@ -51,11 +51,11 @@ export async function loadMermaidRevision(diagramId: string, version: number) {
       version: request.version,
       diagram: { ownerId: session.user.id },
     },
-    select: { version: true, source: true, theme: true },
+    select: { version: true, source: true, notes: true, theme: true },
   });
   if (!revision) throw new Error("Revision not found.");
 
-  return { ...revision, theme: fromPrismaMermaidTheme(revision.theme) };
+  return { ...revision, notes: revision.notes ?? "", theme: fromPrismaMermaidTheme(revision.theme) };
 }
 
 export async function deleteMermaidDiagram(formData: FormData) {

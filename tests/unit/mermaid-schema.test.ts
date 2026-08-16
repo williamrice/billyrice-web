@@ -9,6 +9,7 @@ const validDiagram = {
   title: "Request lifecycle",
   slug: "request-lifecycle",
   source: "flowchart LR\n  Request --> Response",
+  notes: "Why this request flow exists",
   theme: "neutral" as const,
   visibility: "private" as const,
 };
@@ -31,5 +32,10 @@ describe("Mermaid diagram schemas", () => {
 
   it("requires a positive expected revision for updates", () => {
     expect(updateMermaidDiagramSchema.safeParse({ ...validDiagram, id: "clz1234567890abcdefghijkl", expectedRevision: 0 }).success).toBe(false);
+  });
+
+  it("normalizes empty notes and rejects oversized notes", () => {
+    expect(mermaidDiagramInputSchema.parse({ ...validDiagram, notes: "   " }).notes).toBeNull();
+    expect(mermaidDiagramInputSchema.safeParse({ ...validDiagram, notes: "x".repeat(5_001) }).success).toBe(false);
   });
 });
