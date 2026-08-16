@@ -11,7 +11,7 @@ export default async function ProjectManagerPage() {
       <AdminPageHeader
         eyebrow="Portfolio"
         title="Projects"
-        description="Manage the canonical case studies shared by the portfolio and resume."
+        description="Manage projects shown across the site."
         action={<AddProjectButton />}
       />
       <ProjectList

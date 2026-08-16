@@ -4,7 +4,7 @@ import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 export const metadata: Metadata = {
   title: "Mermaid Renderer",
-  description: "Write, preview, and export Mermaid diagrams directly in your browser.",
+  description: "Write, preview, and export Mermaid diagrams.",
 };
 
 export default async function MermaidToolPage() {

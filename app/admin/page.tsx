@@ -29,7 +29,7 @@ export default async function AdminPage() {
     {
       title: "Writing",
       value: String(postCount),
-      detail: postCount === 1 ? "article in the publishing system" : "articles in the publishing system",
+      detail: postCount === 1 ? "saved article" : "saved articles",
       href: "/admin/blog",
       action: "Manage writing",
       icon: Newspaper,
@@ -37,7 +37,7 @@ export default async function AdminPage() {
     {
       title: "Projects",
       value: String(projectCount),
-      detail: projectCount === 1 ? "case study in the portfolio" : "case studies in the portfolio",
+      detail: projectCount === 1 ? "case study" : "case studies",
       href: "/admin/project-manager",
       action: "Manage projects",
       icon: FolderKanban,
@@ -47,13 +47,13 @@ export default async function AdminPage() {
       value: String(resumeProfiles.length),
       detail: publicProfile ? `${publicProfile.label} is public` : "No public version configured",
       href: "/admin/resume",
-      action: "Open resume studio",
+      action: "Manage resume",
       icon: FileText,
     },
     {
       title: "Site settings",
       value: publicProfile ? "Ready" : "Review",
-      detail: "PostgreSQL-backed configuration with Redis caching",
+      detail: "Public content and presentation",
       href: "/admin/settings",
       action: "Configure site",
       icon: Settings2,
@@ -65,7 +65,7 @@ export default async function AdminPage() {
       <AdminPageHeader
         eyebrow="Owner workspace"
         title="Dashboard"
-        description="A concise view of the content and configuration currently driving billyrice.com."
+        description="Manage site content and settings."
         action={<Link href="/" className="admin-button-secondary">View public site</Link>}
       />
 

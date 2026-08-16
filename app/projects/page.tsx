@@ -43,7 +43,7 @@ export default async function ProjectsPage() {
             </div>
           ) : (
             <div className="mt-16 border border-border bg-card/40 p-8 text-muted-foreground">
-              Case studies are being prepared. The clean database state is supported.
+              Case studies are coming soon.
             </div>
           )}
         </div>

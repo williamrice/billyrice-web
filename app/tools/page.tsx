@@ -4,15 +4,15 @@ import { ArrowRight, Workflow } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Small browser-based tools for working with software and technical ideas.",
+  description: "Practical tools for diagrams and technical work.",
 };
 
 export default function ToolsPage() {
   return (
     <div className="site-shell pb-24 pt-32 sm:pt-40">
-      <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-primary">Public workbench</p>
+      <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-primary">Utilities</p>
       <h1 className="mt-4 text-5xl font-medium tracking-[-.05em] sm:text-6xl">Tools</h1>
-      <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">Focused utilities that run in your browser and keep the useful controls close at hand.</p>
+      <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">Practical tools for diagrams and technical work.</p>
       <section className="mt-12 grid gap-5 md:grid-cols-2" aria-label="Available tools">
         <Link href="/tools/mermaid" className="group flex min-h-64 flex-col border border-border bg-card p-6 hover:border-primary sm:p-8">
           <Workflow className="size-7 text-primary" />

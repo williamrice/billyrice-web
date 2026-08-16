@@ -23,9 +23,9 @@ const SettingsPage = async () => {
   return (
     <div className="admin-page max-w-4xl">
       <AdminPageHeader
-        eyebrow="Application configuration"
+        eyebrow="Site"
         title="Settings"
-        description="Control site-wide behavior through typed settings stored in PostgreSQL and cached through Redis."
+        description="Manage public content and presentation settings."
       />
 
       <section className="admin-card">
@@ -58,7 +58,7 @@ const SettingsPage = async () => {
       <section className="admin-card">
         <h2 className="admin-card-title">Public projects</h2>
         <p className="admin-card-description">
-          Disable the public project feature while case studies are being prepared. Admin project management remains available.
+          Choose whether projects appear on the public site.
         </p>
         <form action={setProjectsSetting} className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <label className="flex items-center gap-3 text-sm font-medium">
@@ -77,7 +77,7 @@ const SettingsPage = async () => {
       <section className="admin-card">
         <h2 className="admin-card-title">Devicon background</h2>
         <p className="admin-card-description">
-          Configure the decorative technology marks used behind the public headers and homepage jumbotron.
+          Choose the technology marks shown in public page backgrounds.
         </p>
         <form action={setDeviconSetting} className="mt-6 space-y-6">
           <div className="grid gap-5 sm:grid-cols-3">

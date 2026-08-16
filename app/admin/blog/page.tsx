@@ -12,7 +12,7 @@ export default async function BlogAdminPage() {
       <AdminPageHeader
         eyebrow="Publishing"
         title="Writing"
-        description="Create, revise, and publish Markdown articles without rebuilding the application."
+        description="Create, edit, and publish articles."
         action={<Link href="/admin/blog/new" className="admin-button"><Plus className="size-4" /> New post</Link>}
       />
 
@@ -46,7 +46,7 @@ export default async function BlogAdminPage() {
       ) : (
         <div className="admin-card py-14 text-center">
           <h2 className="admin-card-title">No posts yet</h2>
-          <p className="admin-card-description">Create the first draft and start writing in Markdown.</p>
+          <p className="admin-card-description">Create the first article.</p>
         </div>
       )}
     </div>

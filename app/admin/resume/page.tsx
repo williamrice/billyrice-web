@@ -69,7 +69,7 @@ export default async function ResumeAdminPage({
         <div>
           <p className="admin-eyebrow">Professional narrative</p>
           <h1>Resume studio</h1>
-          <p className="mt-3 max-w-2xl text-gray-600">Manage canonical career records. Changes appear on the public resume immediately when published.</p>
+          <p className="mt-3 max-w-2xl text-gray-600">Manage resume versions and career details.</p>
         </div>
         <Link href="/resume" target="_blank" className="inline-flex items-center gap-2 text-sm font-medium text-teal-800">
           View public resume <ExternalLink className="size-4" />
@@ -249,7 +249,7 @@ export default async function ResumeAdminPage({
             </div>
             <AdminActionForm action={addResumeProject} className={`${cardClass} mt-4 grid gap-4 sm:grid-cols-2`}>
               <input type="hidden" name="profileId" value={resume.id} />
-              <label><span className={labelClass}>Canonical project</span><select className={inputClass} name="projectId" required><option value="">Choose a project</option>{projectOptions.map((project) => <option value={project.id} key={project.id}>{project.title}</option>)}</select></label>
+              <label><span className={labelClass}>Project</span><select className={inputClass} name="projectId" required><option value="">Choose a project</option>{projectOptions.map((project) => <option value={project.id} key={project.id}>{project.title}</option>)}</select></label>
               <Field label="Display order" name="sortOrder" type="number" defaultValue={resume.projects.length} />
               <label className="sm:col-span-2"><span className={labelClass}>Resume context</span><textarea className={textareaClass} name="note" placeholder="Why this project matters in the professional narrative" /></label>
               <div className="sm:col-span-2"><button className={buttonClass}><Plus className="size-4" /> Add project</button></div>

@@ -16,7 +16,7 @@ export default async function MermaidLibraryPage({ searchParams }: { searchParam
       <AdminPageHeader
         eyebrow="Tools"
         title="Mermaid library"
-        description="Reopen saved diagrams, manage public sharing, and preserve immutable revision history."
+        description="Manage saved diagrams, revisions, and sharing."
         action={<Link href="/tools/mermaid" className="admin-button"><Plus className="size-4" /> New diagram</Link>}
       />
       <form className="admin-card flex flex-col gap-3 sm:flex-row" role="search">

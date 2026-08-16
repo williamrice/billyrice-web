@@ -48,7 +48,8 @@ supporting research, not an instruction to preserve the current design.
 ## Architecture and code conventions
 
 - Organize new code by domain under `features/`:
-  `identity`, `resume`, `portfolio`, `publishing`, `media`, and `operations`.
+  `identity`, `resume`, `portfolio`, `publishing`, `media`, `operations`, and
+  `tools`.
 - A domain may contain `schemas`, `queries`, `commands`, `components`, and
   `types`. Keep route files thin and delegate domain work to these modules.
 - Server components may call server-only queries directly. Do not add an
@@ -85,6 +86,19 @@ supporting research, not an instruction to preserve the current design.
   `metadata`, or `cache-invalidation`, and import them where needed. Event
   handlers, React components, route handlers, and domain operations are not
   utilities, but should still be extracted when they make a file unfocused.
+
+## Product copy
+
+- Write public-facing copy for visitors: concise, polished, and focused on what
+  they can do or learn. Do not describe infrastructure, persistence mechanics,
+  internal architecture, or admin behavior unless the visitor needs that detail
+  to complete a task or understand an important state or security consequence.
+- Write admin copy for the owner's immediate task. Prefer short labels and
+  actionable descriptions; do not advertise that a feature is PostgreSQL-,
+  Redis-, server-, cache-, or schema-backed.
+- Treat metadata, empty states, helper text, toasts, and navigation labels as
+  product copy. Remove explanations that repeat behavior already made clear by
+  the interface, and always match the copy to its audience and context.
 
 ## Security and accessibility
 

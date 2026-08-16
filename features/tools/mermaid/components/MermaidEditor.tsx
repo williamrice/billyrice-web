@@ -231,7 +231,7 @@ export function MermaidEditor({
             {diagram ? diagram.title : "Diagram workbench"}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-            Write Mermaid syntax, inspect the live SVG, and export the result. Drafts stay in this browser unless the owner saves them.
+            Write Mermaid syntax, preview the diagram, and export the result.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -324,7 +324,7 @@ export function MermaidEditor({
       {canManage && diagram && diagram.revisions.length > 0 && (
         <section className="mt-8 border border-border bg-card p-5 sm:p-6">
           <div className="flex items-end justify-between gap-4">
-            <div><p className="font-mono text-[10px] font-semibold uppercase tracking-[.18em] text-primary">Owner history</p><h2 className="mt-2 text-2xl font-medium tracking-tight">Revisions</h2></div>
+            <div><p className="font-mono text-[10px] font-semibold uppercase tracking-[.18em] text-primary">Revision history</p><h2 className="mt-2 text-2xl font-medium tracking-tight">Revisions</h2></div>
             <span className="text-sm text-muted-foreground">Current revision {currentRevision}</span>
           </div>
           <ol className="mt-5 divide-y divide-border border-y border-border">
