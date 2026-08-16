@@ -5,6 +5,13 @@ import {
 } from "@/features/tools/mermaid/schemas/diagram";
 
 const LOCAL_DRAFT_VERSION = 1;
+const MERMAID_ZOOM_MIN = 25;
+const MERMAID_ZOOM_MAX = 400;
+
+export type MermaidSvgDimensions = {
+  width: number;
+  height: number;
+};
 
 export type MermaidLocalDraft = {
   version: typeof LOCAL_DRAFT_VERSION;
@@ -78,4 +85,36 @@ export function mermaidDownloadFilename(title: string, extension: "mmd" | "svg")
 export function getMermaidErrorMessage(error: unknown) {
   const message = error instanceof Error ? error.message : "The diagram could not be rendered.";
   return message.split("\n").find((line) => line.trim())?.trim() || "The diagram could not be rendered.";
+}
+
+export function getMermaidSvgDimensions(svg: string): MermaidSvgDimensions | null {
+  const viewBox = svg.match(/\bviewBox=["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)\s*["']/i);
+  if (!viewBox) return null;
+
+  const width = Number(viewBox[1]);
+  const height = Number(viewBox[2]);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return null;
+  }
+
+  return { width, height };
+}
+
+export function calculateMermaidFitZoom(
+  viewportWidth: number,
+  viewportHeight: number,
+  diagramWidth: number,
+  diagramHeight: number,
+) {
+  if (
+    viewportWidth <= 0 ||
+    viewportHeight <= 0 ||
+    diagramWidth <= 0 ||
+    diagramHeight <= 0
+  ) {
+    return 100;
+  }
+
+  const scale = Math.min(viewportWidth / diagramWidth, viewportHeight / diagramHeight);
+  return Math.min(MERMAID_ZOOM_MAX, Math.max(MERMAID_ZOOM_MIN, Math.floor(scale * 100)));
 }

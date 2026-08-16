@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  calculateMermaidFitZoom,
   createMermaidLocalDraft,
   getMermaidDraftKey,
   getMermaidErrorMessage,
+  getMermaidSvgDimensions,
   hasMermaidContentChanged,
   mermaidDownloadFilename,
   parseMermaidLocalDraft,
@@ -44,5 +46,16 @@ describe("Mermaid editor utilities", () => {
       suppressErrorRendering: true,
     });
     expect(config.secure).toEqual(expect.arrayContaining(["securityLevel", "maxTextSize", "maxEdges", "theme"]));
+  });
+
+  it("reads Mermaid viewBox dimensions and calculates a bounded fit zoom", () => {
+    expect(getMermaidSvgDimensions('<svg viewBox="0 0 800 400"></svg>')).toEqual({
+      width: 800,
+      height: 400,
+    });
+    expect(getMermaidSvgDimensions("<svg></svg>")).toBeNull();
+    expect(calculateMermaidFitZoom(600, 300, 800, 400)).toBe(75);
+    expect(calculateMermaidFitZoom(4000, 2000, 100, 50)).toBe(400);
+    expect(calculateMermaidFitZoom(100, 100, 1000, 1000)).toBe(25);
   });
 });

@@ -18,18 +18,23 @@ import {
   FileDown,
   FolderOpen,
   Maximize2,
+  Minimize2,
   Minus,
   Plus,
   RotateCcw,
   Save,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { copyTextToClipboard, downloadTextFile } from "@/lib/utils/browser-files";
 import { slugify } from "@/lib/utils/strings";
 import {
   createMermaidLocalDraft,
+  calculateMermaidFitZoom,
   getMermaidDraftKey,
   getMermaidErrorMessage,
+  getMermaidSvgDimensions,
   hasMermaidContentChanged,
   mermaidDownloadFilename,
   parseMermaidLocalDraft,
@@ -48,6 +53,7 @@ import {
   type MermaidTheme,
   type MermaidVisibility,
 } from "../types/diagram";
+import { MermaidToolbarButton } from "./MermaidToolbarButton";
 
 const ZOOM_MIN = 25;
 const ZOOM_MAX = 400;
@@ -62,6 +68,7 @@ export function MermaidEditor({
   const router = useRouter();
   const renderId = useId().replace(/:/g, "");
   const previewRef = useRef<HTMLDivElement>(null);
+  const previewViewportRef = useRef<HTMLDivElement>(null);
   const renderSequence = useRef(0);
   const [title, setTitle] = useState(diagram?.title ?? "Untitled diagram");
   const [slug, setSlug] = useState(diagram?.slug ?? "untitled-diagram");
@@ -80,6 +87,7 @@ export function MermaidEditor({
   const [renderError, setRenderError] = useState<string>();
   const [zoom, setZoom] = useState(100);
   const [localDraftRestored, setLocalDraftRestored] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -92,6 +100,16 @@ export function MermaidEditor({
       hasMermaidContentChanged(source, theme, baseline.source, baseline.theme),
     [baseline, slug, source, theme, title, visibility],
   );
+  const svgDimensions = useMemo(() => getMermaidSvgDimensions(svg), [svg]);
+
+  useEffect(() => {
+    function handleFullscreenChange() {
+      setIsFullscreen(document.fullscreenElement === previewRef.current);
+    }
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
 
   useEffect(() => {
     const draft = parseMermaidLocalDraft(window.localStorage.getItem(draftKey));
@@ -215,14 +233,38 @@ export function MermaidEditor({
 
   async function toggleFullscreen() {
     if (!previewRef.current) return;
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
-    } else {
-      await previewRef.current.requestFullscreen();
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        await previewRef.current.requestFullscreen();
+      }
+    } catch {
+      toast.error("Fullscreen mode is not available.");
     }
   }
 
+  function fitDiagram() {
+    if (!previewViewportRef.current || !svgDimensions) return;
+    const styles = window.getComputedStyle(previewViewportRef.current);
+    const horizontalPadding = Number.parseFloat(styles.paddingLeft) + Number.parseFloat(styles.paddingRight);
+    const verticalPadding = Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
+    const viewportWidth = previewViewportRef.current.clientWidth - horizontalPadding;
+    const viewportHeight = previewViewportRef.current.clientHeight - verticalPadding;
+
+    setZoom(
+      calculateMermaidFitZoom(
+        viewportWidth,
+        viewportHeight,
+        svgDimensions.width,
+        svgDimensions.height,
+      ),
+    );
+    previewViewportRef.current.scrollTo({ top: 0, left: 0 });
+  }
+
   return (
+    <TooltipProvider>
     <div className="site-shell pb-20 pt-28 sm:pt-32">
       <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
@@ -252,8 +294,15 @@ export function MermaidEditor({
       </div>
 
       {localDraftRestored && (
-        <div className="mb-4 border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-foreground" role="status">
-          A newer local draft was restored from this browser.
+        <div className="mb-4 flex items-center justify-between gap-4 border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-foreground" role="status">
+          <span>A newer local draft was restored from this browser.</span>
+          <MermaidToolbarButton
+            label="Dismiss restored draft notice"
+            onClick={() => setLocalDraftRestored(false)}
+            className="shrink-0 border-transparent hover:border-primary hover:text-primary"
+          >
+            <X className="size-4" />
+          </MermaidToolbarButton>
         </div>
       )}
 
@@ -288,8 +337,8 @@ export function MermaidEditor({
                   {mermaidThemes.map((option) => <option key={option} value={option}>{option}</option>)}
                 </select>
               </label>
-              <button type="button" disabled={!svg || Boolean(renderError)} onClick={() => copyValue(source, "Mermaid source copied.")} className="grid size-9 place-items-center border border-border hover:border-primary hover:text-primary disabled:opacity-40" aria-label="Copy Mermaid source"><Clipboard className="size-4" /></button>
-              <button type="button" disabled={!svg || Boolean(renderError)} onClick={() => downloadTextFile(source, mermaidDownloadFilename(title, "mmd"), "text/plain;charset=utf-8")} className="grid size-9 place-items-center border border-border hover:border-primary hover:text-primary disabled:opacity-40" aria-label="Download Mermaid source"><FileDown className="size-4" /></button>
+              <MermaidToolbarButton label="Copy Mermaid source" disabled={!svg || Boolean(renderError)} onClick={() => copyValue(source, "Mermaid source copied.")} className="border-border hover:border-primary hover:text-primary"><Clipboard className="size-4" /></MermaidToolbarButton>
+              <MermaidToolbarButton label="Download Mermaid source" disabled={!svg || Boolean(renderError)} onClick={() => downloadTextFile(source, mermaidDownloadFilename(title, "mmd"), "text/plain;charset=utf-8")} className="border-border hover:border-primary hover:text-primary"><FileDown className="size-4" /></MermaidToolbarButton>
             </div>
           </div>
           <label htmlFor={`source-${renderId}`} className="sr-only">Mermaid diagram source</label>
@@ -301,19 +350,23 @@ export function MermaidEditor({
           <div className="flex min-h-14 flex-wrap items-center justify-between gap-2 border-b border-gray-200 bg-white px-4">
             <span className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-teal-700"><Check className="size-4" /> Live preview</span>
             <div className="flex items-center gap-1">
-              <button type="button" onClick={() => setZoom((value) => Math.max(ZOOM_MIN, value - 25))} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600" aria-label="Zoom out"><Minus className="size-4" /></button>
-              <span className="w-14 text-center font-mono text-[10px] text-gray-500">{zoom}%</span>
-              <button type="button" onClick={() => setZoom((value) => Math.min(ZOOM_MAX, value + 25))} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600" aria-label="Zoom in"><Plus className="size-4" /></button>
-              <button type="button" onClick={() => setZoom(100)} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600" aria-label="Fit diagram"><Maximize2 className="size-4" /></button>
-              <button type="button" onClick={toggleFullscreen} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600" aria-label="Toggle fullscreen"><Expand className="size-4" /></button>
-              <button type="button" disabled={!svg || Boolean(renderError)} onClick={() => copyValue(svg, "SVG copied.")} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600 disabled:opacity-40" aria-label="Copy SVG"><Clipboard className="size-4" /></button>
-              <button type="button" disabled={!svg || Boolean(renderError)} onClick={() => downloadTextFile(svg, mermaidDownloadFilename(title, "svg"), "image/svg+xml;charset=utf-8")} className="grid size-9 place-items-center border border-gray-200 hover:border-teal-600 disabled:opacity-40" aria-label="Download SVG"><Download className="size-4" /></button>
+              <MermaidToolbarButton label="Zoom out" onClick={() => setZoom((value) => Math.max(ZOOM_MIN, value - 25))} className="border-gray-200 hover:border-teal-600"><Minus className="size-4" /></MermaidToolbarButton>
+              <MermaidToolbarButton label="Reset zoom to 100%" onClick={() => setZoom(100)} className="w-14 border-transparent font-mono text-[10px] text-gray-500 hover:border-gray-200 hover:text-teal-700">{zoom}%</MermaidToolbarButton>
+              <MermaidToolbarButton label="Zoom in" onClick={() => setZoom((value) => Math.min(ZOOM_MAX, value + 25))} className="border-gray-200 hover:border-teal-600"><Plus className="size-4" /></MermaidToolbarButton>
+              <MermaidToolbarButton label="Fit diagram to preview" disabled={!svgDimensions} onClick={fitDiagram} className="border-gray-200 hover:border-teal-600"><Maximize2 className="size-4" /></MermaidToolbarButton>
+              <MermaidToolbarButton label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"} onClick={toggleFullscreen} className="border-gray-200 hover:border-teal-600">{isFullscreen ? <Minimize2 className="size-4" /> : <Expand className="size-4" />}</MermaidToolbarButton>
+              <MermaidToolbarButton label="Copy SVG" disabled={!svg || Boolean(renderError)} onClick={() => copyValue(svg, "SVG copied.")} className="border-gray-200 hover:border-teal-600"><Clipboard className="size-4" /></MermaidToolbarButton>
+              <MermaidToolbarButton label="Download SVG" disabled={!svg || Boolean(renderError)} onClick={() => downloadTextFile(svg, mermaidDownloadFilename(title, "svg"), "image/svg+xml;charset=utf-8")} className="border-gray-200 hover:border-teal-600"><Download className="size-4" /></MermaidToolbarButton>
             </div>
           </div>
           {renderError && <div className="border-b border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">{renderError} The last valid preview remains below.</div>}
-          <div className="min-h-0 flex-1 overflow-auto p-6 sm:p-10">
+          <div ref={previewViewportRef} className="min-h-0 flex-1 overflow-auto p-6 sm:p-10">
             {svg ? (
-              <div className="mx-auto origin-top-left transition-transform motion-reduce:transition-none [&_svg]:h-auto [&_svg]:max-w-none" style={{ width: `${zoom}%` }} dangerouslySetInnerHTML={{ __html: svg }} />
+              <div
+                className="mx-auto [&_svg]:block [&_svg]:h-auto! [&_svg]:w-full! [&_svg]:max-w-none!"
+                style={{ width: svgDimensions ? `${svgDimensions.width * (zoom / 100)}px` : `${zoom}%` }}
+                dangerouslySetInnerHTML={{ __html: svg }}
+              />
             ) : (
               <div className="grid min-h-80 place-items-center text-sm text-gray-500">Rendering preview…</div>
             )}
@@ -338,5 +391,6 @@ export function MermaidEditor({
         </section>
       )}
     </div>
+    </TooltipProvider>
   );
 }
