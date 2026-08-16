@@ -1,6 +1,14 @@
 [variables]
-# Pinned nixpkgs archive below has no nodejs_24.
-NIXPACKS_NODE_VERSION = '22'
+NIXPACKS_NODE_VERSION = '24'
 
 [phases.setup]
-nixpkgsArchive = '51ad838b03a05b1de6f9f2a0fffecee64a9788ee'
+# nixpkgs 25.05; the previous pin predated nodejs_24.
+nixpkgsArchive = 'ac62194c3917d5f474c1a844b6fd6da2db95077d'
+
+[phases.install]
+# npm 10 rejects this lockfile over @napi-rs/wasm-runtime peer deps (napi-rs#3174),
+# so pin npm 11 explicitly instead of trusting the image default.
+cmds = [
+  'npm install -g --prefix /usr/local npm@11',
+  '/usr/local/bin/npm ci --no-audit --no-fund',
+]
