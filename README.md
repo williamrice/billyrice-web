@@ -9,6 +9,9 @@ years as I have grown as a developer.
 It is built with Next.js, React, TypeScript, Tailwind CSS, PostgreSQL, Prisma,
 and Better Auth.
 
+Project roadmaps, research, and architectural decisions are collected in the
+[`docs/`](docs/) directory.
+
 ## Browser tools
 
 `/tools/mermaid` is a public Mermaid workbench. Diagram rendering and SVG

@@ -7,8 +7,8 @@ publishing application. Keep the useful platform foundation—Next.js, React,
 TypeScript, PostgreSQL, Prisma, Better Auth, Tailwind, and the App Router—but
 replace legacy content and data subsystems when that produces a simpler result.
 
-`CLEANUP_PLAN.md` is the implementation roadmap. `analysis.md` is supporting
-research, not an instruction to preserve the current design.
+`docs/cleanup-plan.md` is the implementation roadmap. `docs/analysis.md` is
+supporting research, not an instruction to preserve the current design.
 
 ## Clean-start policy
 
@@ -23,7 +23,7 @@ research, not an instruction to preserve the current design.
 - Remove `public/resume.json`, `prisma/schema.prisma.gen`, obsolete API routes,
   unused components, and unused dependencies once their replacements work.
 - Do not preserve a feature merely because it exists. Keep it only when it serves
-  the target site described in `CLEANUP_PLAN.md`.
+  the target site described in `docs/cleanup-plan.md`.
 - Never expose or copy values from `.env`. Add or update `.env.example` using
   placeholder values when configuration changes.
 
@@ -136,12 +136,12 @@ npm run build
 
 ## Change discipline
 
-- Work in the phase order in `CLEANUP_PLAN.md`; finish a vertical slice before
+- Work in the phase order in `docs/cleanup-plan.md`; finish a vertical slice before
   starting another large subsystem.
 - Keep unrelated user changes intact.
 - Prefer deleting superseded code over retaining commented-out or duplicate
   implementations.
-- Update `README.md`, `.env.example`, and `CLEANUP_PLAN.md` when commands,
+- Update `README.md`, `.env.example`, and `docs/cleanup-plan.md` when commands,
   configuration, architecture, or phase status changes.
 - Record a short architectural decision in `docs/decisions/` when introducing a
   new service, data-store pattern, rendering strategy, or major dependency.
