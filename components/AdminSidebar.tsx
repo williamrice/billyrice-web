@@ -3,7 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, FileText, Folder, Home, Newspaper, Settings } from "lucide-react";
+import { ArrowUpRight, FileText, Folder, Home, Newspaper, Settings, Workflow } from "lucide-react";
 import Signout from "./auth-helpers/Signout";
 
 interface NavItem {
@@ -17,6 +17,7 @@ const navItems: NavItem[] = [
   { name: "Projects", href: "/admin/project-manager", icon: Folder },
   { name: "Resume", href: "/admin/resume", icon: FileText },
   { name: "Writing", href: "/admin/blog", icon: Newspaper },
+  { name: "Tools", href: "/admin/tools/mermaid", icon: Workflow },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
