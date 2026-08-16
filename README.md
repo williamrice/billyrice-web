@@ -28,3 +28,5 @@ To apply the same database bootstrap without starting the app, run
 `npm run db:setup`. To recreate the local database and its defaults from
 scratch, run `npm run db:reset`. The reset command deletes all data in the
 configured database and is intended only for local development.
+
+test
