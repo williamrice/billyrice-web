@@ -30,6 +30,10 @@ Markdown posts, draft/published states, custom slugs, immutable revisions, a
 live owner preview, and server-rendered public article pages. Redirects, feeds,
 taxonomy, and signed external ingestion remain later publishing increments.
 
+The Mermaid tools vertical slice is also implemented: a public browser editor
+and SVG exporter, local drafts, owner-only saved diagrams, private/public
+sharing, stable slug redirects, optimistic saves, and immutable revisions.
+
 ## Decisions already made
 
 - Clean start: destructive replacement of the legacy application schema and
@@ -140,6 +144,32 @@ Exit criteria:
 - The supported reset command recreates an empty or sample development database.
 - No public or admin code imports the removed legacy models.
 - Prisma validation, lint, typecheck, tests, and build pass.
+
+## Phase 2A — Add the Mermaid browser tool
+
+Goal: provide a useful public diagram workbench without creating a separate
+service or a server-side rendering boundary.
+
+Work:
+
+1. Add `/tools` and a client-rendered `/tools/mermaid` editor with strict
+   Mermaid security, bounded input, accessible errors, themes, preview controls,
+   local drafts, and source/SVG exports.
+2. Add owner-only diagram persistence with private/public visibility,
+   optimistic saves, immutable revisions, revision loading, and stable slug
+   redirects.
+3. Add the searchable admin diagram library and keep saved shared pages out of
+   search indexes and the sitemap.
+4. Record the browser-rendering security decision and cover editor helpers,
+   schemas, authorization, persistence, and public/private reads with tests.
+
+Exit criteria:
+
+- Anonymous visitors can edit and export without creating an account or server
+  record.
+- Only the allowlisted owner can persist, revise, list, or delete diagrams.
+- Private diagrams and revision history never appear through public reads.
+- Lint, typecheck, tests, and build pass.
 
 ## Phase 3 — Rebuild portfolio and resume as vertical slices
 

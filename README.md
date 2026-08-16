@@ -9,6 +9,14 @@ years as I have grown as a developer.
 It is built with Next.js, React, TypeScript, Tailwind CSS, PostgreSQL, Prisma,
 and Better Auth.
 
+## Browser tools
+
+`/tools/mermaid` is a public Mermaid workbench. Diagram rendering and SVG
+exports happen in the browser with Mermaid's strict security mode. Unsaved work
+is stored only in browser local storage. The allowlisted owner can save diagrams,
+manage private or public sharing, and load immutable revisions from the admin
+diagram library at `/admin/tools/mermaid`.
+
 ## Local development
 
 Requirements: Node.js 24, npm 11, and Docker.
@@ -21,8 +29,11 @@ npm run dev
 ```
 
 `npm run dev` applies all committed database migrations and idempotently seeds
-the default application settings before starting Next.js. Existing settings are
-left unchanged.
+the default application settings before starting Next.js. It also regenerates
+Prisma Client before Next.js starts so schema additions are available at
+runtime. Existing settings are left unchanged. Restart the dev server after
+changing the Prisma schema; hot reload cannot replace an existing Prisma client
+singleton.
 
 To apply the same database bootstrap without starting the app, run
 `npm run db:setup`. To recreate the local database and its defaults from
