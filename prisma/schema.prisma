@@ -12,18 +12,32 @@ enum PublicationStatus {
   PUBLISHED
 }
 
+enum MermaidDiagramVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+enum MermaidDiagramTheme {
+  DEFAULT
+  BASE
+  DARK
+  FOREST
+  NEUTRAL
+}
+
 model User {
-  id            String        @id
-  name          String
-  email         String
-  emailVerified Boolean       @default(false)
-  image         String?
-  isAdmin       Boolean       @default(false)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  settings      UserSettings?
+  id              String           @id
+  name            String
+  email           String
+  emailVerified   Boolean          @default(false)
+  image           String?
+  isAdmin         Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  sessions        Session[]
+  accounts        Account[]
+  settings        UserSettings?
+  mermaidDiagrams MermaidDiagram[]
 
   @@unique([email])
   @@map("user")
@@ -283,4 +297,48 @@ model PostRevision {
 
   @@unique([postId, version])
   @@index([postId, createdAt(sort: Desc)])
+}
+
+model MermaidDiagram {
+  id              String                       @id @default(cuid())
+  ownerId         String
+  title           String
+  slug            String                       @unique
+  source          String                       @db.Text
+  theme           MermaidDiagramTheme          @default(DEFAULT)
+  visibility      MermaidDiagramVisibility     @default(PRIVATE)
+  currentRevision Int                          @default(1)
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  owner           User                         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  revisions       MermaidDiagramRevision[]
+  redirects       MermaidDiagramSlugRedirect[]
+
+  @@index([ownerId, updatedAt(sort: Desc)])
+  @@index([visibility, updatedAt(sort: Desc)])
+}
+
+model MermaidDiagramRevision {
+  id         String                   @id @default(cuid())
+  diagramId  String
+  version    Int
+  title      String
+  slug       String
+  source     String                   @db.Text
+  theme      MermaidDiagramTheme
+  visibility MermaidDiagramVisibility
+  createdAt  DateTime                 @default(now())
+  diagram    MermaidDiagram           @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+
+  @@unique([diagramId, version])
+  @@index([diagramId, createdAt(sort: Desc)])
+}
+
+model MermaidDiagramSlugRedirect {
+  slug      String         @id
+  diagramId String
+  createdAt DateTime       @default(now())
+  diagram   MermaidDiagram @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+
+  @@index([diagramId])
 }
