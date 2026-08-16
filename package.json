@@ -7,7 +7,8 @@
     "npm": ">=11 <12"
   },
   "scripts": {
-    "dev": "npm run db:setup && next dev",
+    "dev": "npm run monaco:worker && npm run db:setup && next dev",
+    "prebuild": "npm run monaco:worker",
     "build": "next build",
     "start": "next start",
     "db:generate": "prisma generate",
@@ -18,7 +19,8 @@
     "typecheck": "tsc --noEmit --incremental false",
     "test": "vitest run",
     "test:watch": "vitest",
-    "postinstall": "npm run db:generate"
+    "monaco:worker": "node scripts/copy-monaco-worker.mjs",
+    "postinstall": "npm run db:generate && npm run monaco:worker"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1111.0",
@@ -28,6 +30,7 @@
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
     "@fortawesome/react-fontawesome": "^3.5.0",
     "@hookform/resolvers": "^5.9.0",
+    "@monaco-editor/react": "^4.7.0",
     "@next/third-parties": "^16.3.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
@@ -39,6 +42,7 @@
     "framer-motion": "^13.1.0",
     "lucide-react": "^1.31.0",
     "mermaid": "^11.16.1",
+    "monaco-editor": "^0.56.0",
     "next": "^16.3.1",
     "next-themes": "^0.4.6",
     "react": "^19.2.8",
@@ -46,6 +50,7 @@
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.85.0",
     "react-markdown": "^10.1.0",
+    "react-resizable-panels": "^4.12.3",
     "react-spinners": "^0.17.0",
     "react-type-animation": "^3.2.0",
     "redis": "^6.2.1",

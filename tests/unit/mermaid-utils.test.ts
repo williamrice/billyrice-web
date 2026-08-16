@@ -10,6 +10,14 @@ import {
   parseMermaidLocalDraft,
 } from "../../lib/utils/mermaid";
 import { createMermaidRenderConfig } from "../../lib/utils/mermaid-rendering";
+import {
+  createMermaidLayout,
+  hasMermaidEditorChanged,
+  normalizeMermaidDiagnostic,
+  parseMermaidLayout,
+  stripMermaidMarkdownFence,
+} from "../../lib/utils/mermaid-editor";
+import { getMermaidCompletions, mermaidStarterCompletions } from "../../features/tools/mermaid/editor/completions";
 
 describe("Mermaid editor utilities", () => {
   it("uses separate storage keys for new and saved diagrams", () => {
@@ -58,4 +66,63 @@ describe("Mermaid editor utilities", () => {
     expect(calculateMermaidFitZoom(4000, 2000, 100, 50)).toBe(400);
     expect(calculateMermaidFitZoom(100, 100, 1000, 1000)).toBe(25);
   });
+
+  it("strips a complete Mermaid Markdown fence without changing other pastes", () => {
+    expect(stripMermaidMarkdownFence("```mermaid\nflowchart LR\n  A --> B\n```"))
+      .toBe("flowchart LR\n  A --> B");
+    expect(stripMermaidMarkdownFence("~~~~ MMD\nsequenceDiagram\n  A->>B: Hi\n~~~~"))
+      .toBe("sequenceDiagram\n  A->>B: Hi");
+    expect(stripMermaidMarkdownFence("Text\n```mermaid\nA-->B\n```" )).toBeNull();
+    expect(stripMermaidMarkdownFence("```javascript\nA-->B\n```" )).toBeNull();
+    expect(stripMermaidMarkdownFence("```mermaid\nA-->B\n```\n```mermaid\nB-->C\n```" )).toBeNull();
+  });
+
+  it("normalizes parser locations and falls back to the first source line", () => {
+    const rangedError = Object.assign(new Error("Parse error\nDetails"), {
+      hash: { loc: { first_line: 2, last_line: 2, first_column: 2, last_column: 5 } },
+    });
+    expect(normalizeMermaidDiagnostic(rangedError, "flowchart LR\n  A -- B")).toEqual({
+      message: "Parse error",
+      startLineNumber: 2,
+      startColumn: 3,
+      endLineNumber: 2,
+      endColumn: 6,
+    });
+    expect(normalizeMermaidDiagnostic(new Error("Unknown diagram"), "\nflowchart LR")).toMatchObject({
+      startLineNumber: 2,
+      startColumn: 1,
+    });
+  });
+
+  it("recovers invalid panel layouts and round-trips valid ones", () => {
+    const layout = createMermaidLayout(40, 60, true);
+    expect(parseMermaidLayout(JSON.stringify(layout))).toEqual(layout);
+    expect(parseMermaidLayout("not-json")).toMatchObject({ source: 50, preview: 50, collapsed: false });
+    expect(parseMermaidLayout('{"version":1,"source":10,"preview":90,"collapsed":false}'))
+      .toMatchObject({ source: 50, preview: 50 });
+  });
+
+  it("includes private notes in owner dirty-state detection", () => {
+    const baseline = {
+      title: "Flow",
+      slug: "flow",
+      source: "flowchart LR\nA-->B",
+      theme: "default" as const,
+      visibility: "private" as const,
+      notes: "Original note",
+    };
+    expect(hasMermaidEditorChanged(baseline, baseline)).toBe(false);
+    expect(hasMermaidEditorChanged({ ...baseline, notes: "Updated note" }, baseline)).toBe(true);
+  });
+
+  it("offers starters for blank documents and contextual Mermaid keywords", () => {
+    expect(mermaidStarterCompletions.map(({ label }) => label)).toEqual(expect.arrayContaining([
+      "flowchart", "sequenceDiagram", "classDiagram", "stateDiagram-v2", "erDiagram", "gantt",
+      "mindmap", "timeline", "kanban", "architecture-beta",
+    ]));
+    expect(getMermaidCompletions("flowchart LR\n  A --> B").map(({ label }) => label))
+      .toEqual(expect.arrayContaining(["title", "subgraph", "direction"]));
+    expect(getMermaidCompletions("   ")).toBe(mermaidStarterCompletions);
+  });
+
 });

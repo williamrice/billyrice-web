@@ -14,7 +14,7 @@ export type MermaidRevisionSummary = {
   createdAt: string;
 };
 
-export type MermaidEditorDiagram = {
+export type PublicMermaidDiagram = {
   id: string;
   title: string;
   slug: string;
@@ -23,10 +23,16 @@ export type MermaidEditorDiagram = {
   visibility: MermaidVisibility;
   currentRevision: number;
   updatedAt: string;
+};
+
+export type OwnerMermaidDiagram = PublicMermaidDiagram & {
+  notes: string;
   revisions: MermaidRevisionSummary[];
 };
 
-export type MermaidLibraryDiagram = Omit<MermaidEditorDiagram, "source" | "revisions"> & {
+export type MermaidEditorDiagram = PublicMermaidDiagram | OwnerMermaidDiagram;
+
+export type MermaidLibraryDiagram = Omit<PublicMermaidDiagram, "source"> & {
   revisionCount: number;
 };
 

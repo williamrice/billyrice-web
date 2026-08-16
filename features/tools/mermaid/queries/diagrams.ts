@@ -5,6 +5,8 @@ import { MermaidDiagramVisibility } from "@/prisma/generated/prisma/client";
 import type {
   MermaidEditorDiagram,
   MermaidLibraryDiagram,
+  OwnerMermaidDiagram,
+  PublicMermaidDiagram,
   MermaidRevisionSummary,
 } from "../types/diagram";
 import {
@@ -51,19 +53,25 @@ export async function getMermaidDiagramForEditor(
       return { diagram: null, canManage: false };
     }
 
+    const publicDiagram: PublicMermaidDiagram = {
+      id: diagram.id,
+      title: diagram.title,
+      slug: diagram.slug,
+      source: diagram.source,
+      theme: fromPrismaMermaidTheme(diagram.theme),
+      visibility: fromPrismaMermaidVisibility(diagram.visibility),
+      currentRevision: diagram.currentRevision,
+      updatedAt: diagram.updatedAt.toISOString(),
+    };
+    const ownerDiagram: OwnerMermaidDiagram | undefined = canManage ? {
+      ...publicDiagram,
+      notes: diagram.notes ?? "",
+      revisions: diagram.revisions ? diagram.revisions.map(mapRevision) : [],
+    } : undefined;
+
     return {
       canManage,
-      diagram: {
-        id: diagram.id,
-        title: diagram.title,
-        slug: diagram.slug,
-        source: diagram.source,
-        theme: fromPrismaMermaidTheme(diagram.theme),
-        visibility: fromPrismaMermaidVisibility(diagram.visibility),
-        currentRevision: diagram.currentRevision,
-        updatedAt: diagram.updatedAt.toISOString(),
-        revisions: canManage && diagram.revisions ? diagram.revisions.map(mapRevision) : [],
-      },
+      diagram: ownerDiagram ?? publicDiagram,
     };
   }
 
@@ -93,6 +101,7 @@ export async function getMermaidDiagramLibrary(
         OR: [
           { title: { contains: query, mode: "insensitive" } },
           { slug: { contains: query, mode: "insensitive" } },
+          { notes: { contains: query, mode: "insensitive" } },
         ],
       } : {}),
     },

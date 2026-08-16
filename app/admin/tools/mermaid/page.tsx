@@ -21,7 +21,7 @@ export default async function MermaidLibraryPage({ searchParams }: { searchParam
       />
       <form className="admin-card flex flex-col gap-3 sm:flex-row" role="search">
         <label htmlFor="diagram-search" className="sr-only">Search saved diagrams</label>
-        <input id="diagram-search" name="q" defaultValue={search} placeholder="Search by title or slug" className="admin-field flex-1" />
+        <input id="diagram-search" name="q" defaultValue={search} placeholder="Search by title, slug, or notes" className="admin-field flex-1" />
         <button className="admin-button-secondary">Search</button>
         {search && <Link href="/admin/tools/mermaid" className="admin-button-secondary">Clear</Link>}
       </form>
