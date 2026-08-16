@@ -1,5 +1,6 @@
 [variables]
-NIXPACKS_NODE_VERSION = '24'
+# Pinned nixpkgs archive below has no nodejs_24.
+NIXPACKS_NODE_VERSION = '22'
 
 [phases.setup]
 nixpkgsArchive = '51ad838b03a05b1de6f9f2a0fffecee64a9788ee'
