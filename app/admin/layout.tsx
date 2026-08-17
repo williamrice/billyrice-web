@@ -17,9 +17,7 @@ export default async function AdminLayout({
           <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-teal-700">Owner access</p>
           <h1 className="mt-3 text-3xl font-semibold tracking-[-.04em]">Administration</h1>
           <p className="mt-4 text-sm leading-6 text-gray-600">
-            This website doesn&apos;t currently support registering or signing in
-            with user accounts. The sign-in button below is for the web
-            administrator only.
+            Sign in with the owner account to continue.
           </p>
           <div className="mt-7"><Signin /></div>
         </div>

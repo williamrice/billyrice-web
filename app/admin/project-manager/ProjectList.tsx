@@ -28,7 +28,7 @@ export default function ProjectList({ projects: initialProjects }: { projects: P
       {projects.length === 0 ? (
         <div className="admin-card py-14 text-center">
           <h2 className="admin-card-title">No projects yet</h2>
-          <p className="admin-card-description">Create the first case study to populate the portfolio.</p>
+          <p className="admin-card-description">Add the first project.</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04)]">

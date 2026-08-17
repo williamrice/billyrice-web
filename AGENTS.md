@@ -7,8 +7,8 @@ publishing application. Keep the useful platform foundation—Next.js, React,
 TypeScript, PostgreSQL, Prisma, Better Auth, Tailwind, and the App Router—but
 replace legacy content and data subsystems when that produces a simpler result.
 
-`CLEANUP_PLAN.md` is the implementation roadmap. `analysis.md` is supporting
-research, not an instruction to preserve the current design.
+`docs/cleanup-plan.md` is the implementation roadmap. `docs/analysis.md` is
+supporting research, not an instruction to preserve the current design.
 
 ## Clean-start policy
 
@@ -23,7 +23,7 @@ research, not an instruction to preserve the current design.
 - Remove `public/resume.json`, `prisma/schema.prisma.gen`, obsolete API routes,
   unused components, and unused dependencies once their replacements work.
 - Do not preserve a feature merely because it exists. Keep it only when it serves
-  the target site described in `CLEANUP_PLAN.md`.
+  the target site described in `docs/cleanup-plan.md`.
 - Never expose or copy values from `.env`. Add or update `.env.example` using
   placeholder values when configuration changes.
 
@@ -48,7 +48,8 @@ research, not an instruction to preserve the current design.
 ## Architecture and code conventions
 
 - Organize new code by domain under `features/`:
-  `identity`, `resume`, `portfolio`, `publishing`, `media`, and `operations`.
+  `identity`, `resume`, `portfolio`, `publishing`, `media`, `operations`, and
+  `tools`.
 - A domain may contain `schemas`, `queries`, `commands`, `components`, and
   `types`. Keep route files thin and delegate domain work to these modules.
 - Server components may call server-only queries directly. Do not add an
@@ -85,6 +86,19 @@ research, not an instruction to preserve the current design.
   `metadata`, or `cache-invalidation`, and import them where needed. Event
   handlers, React components, route handlers, and domain operations are not
   utilities, but should still be extracted when they make a file unfocused.
+
+## Product copy
+
+- Write public-facing copy for visitors: concise, polished, and focused on what
+  they can do or learn. Do not describe infrastructure, persistence mechanics,
+  internal architecture, or admin behavior unless the visitor needs that detail
+  to complete a task or understand an important state or security consequence.
+- Write admin copy for the owner's immediate task. Prefer short labels and
+  actionable descriptions; do not advertise that a feature is PostgreSQL-,
+  Redis-, server-, cache-, or schema-backed.
+- Treat metadata, empty states, helper text, toasts, and navigation labels as
+  product copy. Remove explanations that repeat behavior already made clear by
+  the interface, and always match the copy to its audience and context.
 
 ## Security and accessibility
 
@@ -136,12 +150,12 @@ npm run build
 
 ## Change discipline
 
-- Work in the phase order in `CLEANUP_PLAN.md`; finish a vertical slice before
+- Work in the phase order in `docs/cleanup-plan.md`; finish a vertical slice before
   starting another large subsystem.
 - Keep unrelated user changes intact.
 - Prefer deleting superseded code over retaining commented-out or duplicate
   implementations.
-- Update `README.md`, `.env.example`, and `CLEANUP_PLAN.md` when commands,
+- Update `README.md`, `.env.example`, and `docs/cleanup-plan.md` when commands,
   configuration, architecture, or phase status changes.
 - Record a short architectural decision in `docs/decisions/` when introducing a
   new service, data-store pattern, rendering strategy, or major dependency.

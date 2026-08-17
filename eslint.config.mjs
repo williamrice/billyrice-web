@@ -31,6 +31,7 @@ export default defineConfig([
     'coverage/**',
     'out/**',
     'prisma/generated/**',
+    'public/vendor/monaco/**',
     'next-env.d.ts',
   ]),
 ]);

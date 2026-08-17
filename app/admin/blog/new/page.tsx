@@ -27,7 +27,7 @@ export default function NewPostPage() {
       <AdminPageHeader
         eyebrow="Publishing"
         title="New post"
-        description="Draft an article with a live preview, then publish it when it is ready."
+        description="Write and preview a new article."
         action={<Link href="/admin/blog" className="admin-button-secondary"><ArrowLeft className="size-4" /> Writing</Link>}
       />
       <PostEditor

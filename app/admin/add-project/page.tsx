@@ -17,7 +17,7 @@ export default async function AddProjectPage() {
       <AdminPageHeader
         eyebrow="Portfolio"
         title="Add project"
-        description="Create a new case study with clear context, outcomes, technology, and accessible media."
+        description="Add a project to the portfolio."
         action={<Link href="/admin/project-manager" className="admin-button-secondary"><ArrowLeft className="size-4" /> Projects</Link>}
       />
       <AddProjectForm />
