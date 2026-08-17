@@ -19,6 +19,7 @@ import { MermaidPreview } from "./MermaidPreview";
 import { MermaidToolbarButton } from "./MermaidToolbarButton";
 
 const MermaidSourceEditor = dynamic(
+  // NodeNext requires the emitted .js specifier and resolves it to the TSX source.
   () => import("./MermaidSourceEditor.js").then((module) => module.MermaidSourceEditor),
   { ssr: false, loading: () => <div className="grid min-h-[34rem] place-items-center bg-[#07110f] text-sm text-gray-400">Loading editor…</div> },
 );
@@ -136,7 +137,10 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
 
   useEffect(() => {
     if (!isDirty) return;
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => event.preventDefault();
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [isDirty]);
