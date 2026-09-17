@@ -7,7 +7,8 @@ import { FolderOpen, GripVertical, PanelLeftOpen, RotateCcw, Save, X } from "luc
 import { Group, Panel, Separator, usePanelRef } from "react-resizable-panels";
 import { toast } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { copyTextToClipboard, downloadTextFile } from "@/lib/utils/browser-files";
+import { copyTextToClipboard, downloadBlob, downloadTextFile } from "@/lib/utils/browser-files";
+import { mermaidSvgToPng, serializeMermaidSvg } from "@/lib/utils/mermaid-export";
 import { createMermaidLayout, hasMermaidEditorChanged, MERMAID_LAYOUT_KEY, normalizeMermaidDiagnostic, parseMermaidLayout, type MermaidDiagnostic, type MermaidLayout } from "@/lib/utils/mermaid-editor";
 import { createMermaidLocalDraft, getMermaidDraftKey, mermaidDownloadFilename, parseMermaidLocalDraft } from "@/lib/utils/mermaid";
 import { createMermaidRenderConfig } from "@/lib/utils/mermaid-rendering";
@@ -21,7 +22,7 @@ import { MermaidToolbarButton } from "./MermaidToolbarButton";
 const MermaidSourceEditor = dynamic(
   // NodeNext requires the emitted .js specifier and resolves it to the TSX source.
   () => import("./MermaidSourceEditor.js").then((module) => module.MermaidSourceEditor),
-  { ssr: false, loading: () => <div className="grid min-h-[34rem] place-items-center bg-[#07110f] text-sm text-gray-400">Loading editor…</div> },
+  { ssr: false, loading: () => <div className="grid h-full place-items-center bg-[#07110f] text-sm text-gray-400">Loading editor…</div> },
 );
 
 export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorDiagram; canManage: boolean }) {
@@ -232,6 +233,24 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
     }
   }
 
+  async function exportDiagram(format: "svg" | "png") {
+    try {
+      const exportedSvg = serializeMermaidSvg(svg);
+      const filename = mermaidDownloadFilename(title, format);
+      if (format === "svg") downloadTextFile(exportedSvg, filename, "image/svg+xml;charset=utf-8");
+      else downloadBlob(await mermaidSvgToPng(exportedSvg, theme === "dark" ? "#1f2020" : "#ffffff"), filename);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "The diagram could not be downloaded.");
+    }
+  }
+
+  const sourceEditor = (
+    <MermaidSourceEditor source={source} modelPath={`inmemory://mermaid/${diagram?.id ?? "new"}.mmd`} theme={theme} diagnostic={diagnostic} diagramType={diagramType} checking={checking} canExport={canExport} onSourceChange={setSource} onThemeChange={setTheme} onCopySource={() => copyValue(source, "Mermaid source copied.")} onDownloadSource={() => downloadTextFile(source, mermaidDownloadFilename(title, "mmd"), "text/plain;charset=utf-8")} onCollapse={collapseEditor} />
+  );
+  const preview = (
+    <MermaidPreview svg={svg} diagnostic={diagnostic} canExport={canExport} onCopySvg={() => { try { void copyValue(serializeMermaidSvg(svg), "SVG copied."); } catch { toast.error("The diagram SVG could not be copied."); } }} onDownloadSvg={() => void exportDiagram("svg")} onDownloadPng={() => void exportDiagram("png")} />
+  );
+
   return (
     <TooltipProvider>
       <div className="site-shell pb-20 pt-28 sm:pt-32">
@@ -247,17 +266,17 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
         {localDraftRestored && <div className="mb-4 flex items-center justify-between gap-4 border border-primary/40 bg-primary/10 px-4 py-3 text-sm text-foreground" role="status"><span>A newer local draft was restored from this browser.</span><MermaidToolbarButton label="Dismiss restored draft notice" onClick={() => setLocalDraftRestored(false)} className="shrink-0 border-transparent hover:border-primary hover:text-primary"><X className="size-4" /></MermaidToolbarButton></div>}
         {canManage && <MermaidOwnerFields title={title} slug={slug} visibility={visibility} notes={notes} onTitleChange={setTitle} onSlugChange={setSlug} onGenerateSlug={() => setSlug(slugify(title))} onVisibilityChange={setVisibility} onNotesChange={setNotes} />}
 
-        <Group id="mermaid-workspace" orientation={isDesktop ? "horizontal" : "vertical"} defaultLayout={{ source: layout.source, preview: layout.preview }} onLayoutChanged={(next) => { if (isDesktop && !layout.collapsed && next.source >= 25 && next.preview >= 35) persistLayout(createMermaidLayout(next.source, next.preview, false)); }} className="h-[min(52rem,120svh)] overflow-hidden border border-border bg-card xl:h-[min(34rem,65svh)]">
-          <Panel id="source" panelRef={sourcePanelRef} defaultSize={`${layout.source}%`} minSize={isDesktop ? "25%" : "16rem"} collapsible={isDesktop} collapsedSize="2.75rem" className="overflow-hidden" onResize={(size, _id, previousSize) => {
-            if (!isDesktop || !previousSize) return;
+        {isDesktop ? <Group id="mermaid-workspace" orientation="horizontal" defaultLayout={{ source: layout.source, preview: layout.preview }} onLayoutChanged={(next) => { if (!layout.collapsed && next.source >= 25 && next.preview >= 35) persistLayout(createMermaidLayout(next.source, next.preview, false)); }} className="h-[clamp(24rem,65svh,34rem)] min-w-0 overflow-hidden border border-border bg-card">
+          <Panel id="source" panelRef={sourcePanelRef} defaultSize={`${layout.source}%`} minSize="25%" collapsible collapsedSize="2.75rem" className="overflow-hidden" onResize={(size, _id, previousSize) => {
+            if (!previousSize) return;
             if (size.inPixels <= 50 && !layout.collapsed) persistLayout(createMermaidLayout(layout.source, layout.preview, true));
             if (size.asPercentage >= 25 && layout.collapsed) persistLayout(createMermaidLayout(size.asPercentage, 100 - size.asPercentage, false));
           }}>
             <div className="relative h-full bg-[#07110f]">
-              <div className={`h-full ${isDesktop && layout.collapsed ? "pointer-events-none absolute inset-0 opacity-0" : ""}`} aria-hidden={isDesktop && layout.collapsed} inert={isDesktop && layout.collapsed}>
-                <MermaidSourceEditor source={source} theme={theme} diagnostic={diagnostic} diagramType={diagramType} checking={checking} canExport={canExport} onSourceChange={setSource} onThemeChange={setTheme} onCopySource={() => copyValue(source, "Mermaid source copied.")} onDownloadSource={() => downloadTextFile(source, mermaidDownloadFilename(title, "mmd"), "text/plain;charset=utf-8")} onCollapse={collapseEditor} />
+              <div className={`h-full ${layout.collapsed ? "pointer-events-none absolute inset-0 opacity-0" : ""}`} aria-hidden={layout.collapsed} inert={layout.collapsed}>
+                {sourceEditor}
               </div>
-              {isDesktop && layout.collapsed && (
+              {layout.collapsed && (
                 <aside className="absolute inset-0 flex flex-col items-center gap-4 border-r border-gray-700 bg-[#07110f] py-3 text-gray-300" aria-label="Collapsed source editor">
                   <MermaidToolbarButton label="Show source editor" onClick={showEditor} className="border-gray-700 text-gray-200 hover:border-primary hover:text-primary">
                     <PanelLeftOpen className="size-4" />
@@ -267,11 +286,14 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
               )}
             </div>
           </Panel>
-          <Separator id="mermaid-workspace-divider" disabled={!isDesktop} className="group relative hidden w-2 items-center justify-center border-x border-border bg-secondary/40 outline-none hover:bg-primary/10 focus-visible:bg-primary/15 xl:flex"><GripVertical className="size-4 text-muted-foreground group-hover:text-primary" /></Separator>
-          <Panel id="preview" defaultSize={`${layout.preview}%`} minSize={isDesktop ? "35%" : "16rem"}>
-            <MermaidPreview svg={svg} diagnostic={diagnostic} onCopySvg={() => copyValue(svg, "SVG copied.")} onDownloadSvg={() => downloadTextFile(svg, mermaidDownloadFilename(title, "svg"), "image/svg+xml;charset=utf-8")} />
+          <Separator id="mermaid-workspace-divider" className="group relative flex w-2 items-center justify-center border-x border-border bg-secondary/40 outline-none hover:bg-primary/10 focus-visible:bg-primary/15"><GripVertical className="size-4 text-muted-foreground group-hover:text-primary" /></Separator>
+          <Panel id="preview" defaultSize={`${layout.preview}%`} minSize="35%" className="min-w-0">
+            {preview}
           </Panel>
-        </Group>
+        </Group> : <div className="grid min-w-0 gap-4" aria-label="Mermaid workspace">
+          <div className="h-[clamp(24rem,62svh,36rem)] min-w-0 overflow-hidden border border-border bg-card">{sourceEditor}</div>
+          <div className="h-[clamp(24rem,62svh,36rem)] min-w-0 overflow-hidden border border-border bg-card">{preview}</div>
+        </div>}
 
         {ownerDiagram && ownerDiagram.revisions.length > 0 && <section className="mt-8 border border-border bg-card p-5 sm:p-6"><div className="flex items-end justify-between gap-4"><div><p className="font-mono text-[10px] font-semibold uppercase tracking-[.18em] text-primary">Revision history</p><h2 className="mt-2 text-2xl font-medium tracking-tight">Revisions</h2></div><span className="text-sm text-muted-foreground">Current revision {currentRevision}</span></div><ol className="mt-5 divide-y divide-border border-y border-border">{ownerDiagram.revisions.map((revision) => <li key={revision.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-sm font-medium">Revision {revision.version}{revision.version === currentRevision ? " · current" : ""}</p><p className="mt-1 text-xs text-muted-foreground">{new Date(revision.createdAt).toLocaleString("en-US")} · {revision.theme} · {revision.visibility}</p></div><button type="button" disabled={isPending || revision.version === currentRevision} onClick={() => restoreRevision(revision.version)} className="inline-flex min-h-9 items-center justify-center border border-border px-3 text-xs hover:border-primary hover:text-primary disabled:opacity-40">Load source, theme, and notes</button></li>)}</ol></section>}
       </div>

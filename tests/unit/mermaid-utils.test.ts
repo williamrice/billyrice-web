@@ -40,6 +40,7 @@ describe("Mermaid editor utilities", () => {
 
   it("creates portable filenames and concise errors", () => {
     expect(mermaidDownloadFilename("Résumé / Request Flow", "svg")).toBe("resume-request-flow.svg");
+    expect(mermaidDownloadFilename("Résumé / Request Flow", "png")).toBe("resume-request-flow.png");
     expect(mermaidDownloadFilename("***", "mmd")).toBe("mermaid-diagram.mmd");
     expect(getMermaidErrorMessage(new Error("Parse error\nline two"))).toBe("Parse error");
   });

@@ -26,8 +26,9 @@ development, and production builds. Do not load editor code or workers from a
 CDN.
 
 Use `react-resizable-panels` for the desktop source/preview workspace. Store a
-validated, versioned layout locally, while keeping the smaller-screen layout
-stacked and expanded.
+validated, versioned layout locally. On smaller screens, render ordinary
+stacked sections with independent heights so both editor and preview remain
+available even when the viewport becomes too short for two panel minimums.
 
 The rendering boundary from ADR 0006 is unchanged: Mermaid runs with strict,
 locked configuration and no interaction callbacks. Monaco performs editing and
