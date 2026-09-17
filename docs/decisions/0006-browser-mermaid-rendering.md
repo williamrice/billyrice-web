@@ -7,7 +7,7 @@ Accepted
 ## Context
 
 The public tools area needs an interactive Mermaid source editor, immediate
-preview, and portable source/SVG exports. Sending arbitrary diagram source to a
+preview, and portable source/SVG/PNG exports. Sending arbitrary diagram source to a
 server-side browser or image-rendering service would add a second execution
 boundary, operational dependencies, and a larger abuse surface.
 
@@ -21,7 +21,10 @@ Import Mermaid only from the client editor and render with `mermaid.render`.
 Initialize it with automatic startup disabled, strict security, locked security
 configuration, bounded source and edge counts, and suppressed error rendering.
 Do not bind Mermaid's optional interaction callbacks. The strict renderer's
-sanitized SVG is the only markup inserted into the preview and exported.
+sanitized SVG is the only markup inserted into the preview. Serialize the rendered
+SVG as XML before copying or exporting it, because HTML labels can contain void
+elements such as `<br>` that are invalid in an SVG file. Rasterize that SVG in
+the browser for PNG downloads.
 
 Store anonymous working state in versioned browser local storage. Persist only
 through owner-authorized server actions. PostgreSQL stores the current diagram,
@@ -37,7 +40,7 @@ the owner.
 - Preview and export require JavaScript, but the tool needs browser interaction
   by definition.
 - The application does not need Puppeteer, a worker, or an image-rendering API.
-- PNG/PDF export and collaborative editing remain out of scope.
+- PDF export and collaborative editing remain out of scope.
 - Mermaid upgrades require rerunning malicious-input, rendering, and export
   regression tests because the sanitizer and diagram parsers are part of the
   security boundary.

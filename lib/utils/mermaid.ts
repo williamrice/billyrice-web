@@ -70,7 +70,7 @@ export function hasMermaidContentChanged(
   return source !== baselineSource || theme !== baselineTheme;
 }
 
-export function mermaidDownloadFilename(title: string, extension: "mmd" | "svg") {
+export function mermaidDownloadFilename(title: string, extension: "mmd" | "svg" | "png") {
   const base = title
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")

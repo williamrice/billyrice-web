@@ -27,15 +27,15 @@ export function MermaidOwnerFields({
 }) {
   return (
     <section className="mb-5 grid gap-4 border border-border bg-card p-4 md:grid-cols-[1fr_1fr_auto]" aria-label="Owner save settings">
-      <label className="text-sm">
+      <label className="min-w-0 text-sm">
         <span className="mb-1.5 block font-medium">Title</span>
         <input value={title} onChange={(event) => onTitleChange(event.target.value)} maxLength={120} className="h-11 w-full border border-input bg-background px-3 outline-none focus:border-primary" />
       </label>
-      <label className="text-sm">
+      <label className="min-w-0 text-sm">
         <span className="mb-1.5 flex items-center justify-between font-medium"><span>Slug</span><button type="button" onClick={onGenerateSlug} className="text-xs text-primary">Generate</button></span>
         <input value={slug} onChange={(event) => onSlugChange(event.target.value)} maxLength={100} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" className="h-11 w-full border border-input bg-background px-3 font-mono text-sm outline-none focus:border-primary" />
       </label>
-      <label className="text-sm">
+      <label className="min-w-0 text-sm">
         <span className="mb-1.5 block font-medium">Visibility</span>
         <select value={visibility} onChange={(event) => onVisibilityChange(event.target.value as MermaidVisibility)} className="h-11 border border-input bg-background px-3 outline-none focus:border-primary">
           <option value="private">Private</option>

@@ -24,6 +24,7 @@ loader.config({ monaco });
 
 export function MermaidSourceEditor({
   source,
+  modelPath,
   theme,
   diagnostic,
   diagramType,
@@ -36,6 +37,7 @@ export function MermaidSourceEditor({
   onCollapse,
 }: {
   source: string;
+  modelPath: string;
   theme: MermaidTheme;
   diagnostic?: MermaidDiagnostic;
   diagramType?: string;
@@ -121,11 +123,11 @@ export function MermaidSourceEditor({
   return (
     <section className="flex h-full min-h-0 flex-col overflow-hidden bg-card" aria-label="Mermaid source editor">
       <div className="flex min-h-14 flex-wrap items-center justify-between gap-3 border-b border-border bg-secondary/40 px-4">
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <MermaidToolbarButton label="Collapse source editor" onClick={onCollapse} className="hidden border-border hover:border-primary hover:text-primary xl:grid"><PanelLeftClose className="size-4" /></MermaidToolbarButton>
           <span className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-muted-foreground"><Code2 className="size-4 text-primary" /> Source</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <label className="flex items-center gap-2 text-xs text-muted-foreground">
             Theme
             <select value={theme} onChange={(event) => onThemeChange(event.target.value as MermaidTheme)} className="h-9 border border-input bg-background px-2 text-foreground outline-none focus:border-primary">
@@ -138,6 +140,8 @@ export function MermaidSourceEditor({
       </div>
       <div className="min-h-0 flex-1 overflow-hidden bg-[#07110f]" aria-label="Mermaid diagram source">
         <Editor
+          path={modelPath}
+          keepCurrentModel
           beforeMount={registerMermaidLanguage}
           onMount={handleMount}
           language={MERMAID_LANGUAGE_ID}
