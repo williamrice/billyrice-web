@@ -1,7 +1,7 @@
-import { auth } from "@/lib/auth";
-import prisma from "@/lib/prisma";
-import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { auth } from '@/lib/auth';
+import prisma from '@/lib/prisma';
+import { headers } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
@@ -39,20 +39,31 @@ export async function POST(req: NextRequest) {
       },
     });
   }
-  return NextResponse.json({ message: "success" });
+  return NextResponse.json({ message: 'success' });
 }
 
-export async function GET(req: NextRequest) {
-  const data = await req.json();
-  const user = await prisma.user.findUnique({
-    where: {
-      email: data.email,
-    },
+export async function GET() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
   });
+
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const userSettings = await prisma.userSettings.findUnique({
     where: {
-      userId: user?.id,
+      userId: session.user.id,
+    },
+    select: {
+      theme: true,
+      language: true,
     },
   });
-  return NextResponse.json(userSettings);
+
+  return NextResponse.json(userSettings, {
+    headers: {
+      'Cache-Control': 'private, no-store',
+    },
+  });
 }
