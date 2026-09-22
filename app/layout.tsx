@@ -1,6 +1,7 @@
 import Footer from '@/components//Footer';
 import type { Metadata, Viewport } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from '@/components/ui/sonner';
 import ConditionalNavBar from '@/components/ConditionalNavBar';
 import { SITE_URL } from '@/lib/site';
@@ -119,6 +120,7 @@ export default async function RootLayout({
         </div>
         </PublicSettingsProvider>
         <GoogleAnalytics gaId="G-Y46TG9779R" />
+        <Analytics />
       </body>
     </html>
   );
