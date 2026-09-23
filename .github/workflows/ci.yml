@@ -13,7 +13,7 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_DB: williamarice
+          POSTGRES_DB: billyricecom
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
         options: >-
@@ -29,8 +29,8 @@ jobs:
       BETTER_AUTH_URL: http://localhost:3000
       GOOGLE_CLIENT_ID: ci-google-client-id
       GOOGLE_SECRET: ci-google-client-secret
-      POSTGRES_PRISMA_URL: postgresql://postgres:postgres@localhost:5432/williamarice
-      POSTGRES_URL_NON_POOLING: postgresql://postgres:postgres@localhost:5432/williamarice
+      POSTGRES_PRISMA_URL: postgresql://postgres:postgres@localhost:5432/billyricecom
+      POSTGRES_URL_NON_POOLING: postgresql://postgres:postgres@localhost:5432/billyricecom
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
