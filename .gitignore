@@ -40,3 +40,5 @@ next-env.d.ts
 PLAN.md
 prisma/generated/
 public/vendor/monaco/editor.worker.js
+.env*
+!.env.example
