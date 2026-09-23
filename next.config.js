@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  cacheComponents: true,
   allowedDevOrigins: ['warbox.llama-luma.ts.net'],
   experimental: {},
   images: {

@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllProjects } from '@/actions/projects';
+import { getAllProjects } from '@/features/projects/queries/projects';
 import { SITE_URL } from '@/lib/site';
 import { getPublishedPosts } from '@/features/publishing/queries/posts';
 import { getProjectsSetting } from '@/features/settings/queries/settings';

@@ -1,4 +1,4 @@
-import { getAllProjects } from "@/actions/projects";
+import { getAllProjects } from "@/features/projects/queries/projects";
 import ProjectList from "./ProjectList";
 import AddProjectButton from "@/components/AddProjectButton";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";

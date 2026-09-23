@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Project } from "@/prisma/generated/prisma/client";
-import { getAllProjects } from "@/actions/projects";
+import { getAllProjects } from "@/features/projects/queries/projects";
 import FeaturedProjectCard from "./FeaturedProjectCard";
 import CodeMark from "./CodeMark";
 import { Reveal } from "./PortfolioMotion";

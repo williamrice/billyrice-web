@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cache } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { getPublicResumeProfileId } from "@/features/settings/queries/settings";
 
@@ -24,7 +25,10 @@ const resumeInclude = {
   },
 };
 
-export const getPublishedResume = cache(async () => {
+export async function getPublishedResume() {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("published-resume");
   const configuredProfileId = await getPublicResumeProfileId();
   return prisma.professionalProfile.findFirst({
     where: configuredProfileId
@@ -33,7 +37,7 @@ export const getPublishedResume = cache(async () => {
     orderBy: { createdAt: "asc" },
     include: resumeInclude,
   });
-});
+}
 
 export const getResumeAdmin = cache(async (profileId?: string) =>
   prisma.professionalProfile.findUnique({

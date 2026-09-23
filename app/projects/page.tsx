@@ -1,5 +1,5 @@
 import ProjectCard from "@/components/ProjectCard";
-import { getAllProjects } from "@/actions/projects";
+import { getAllProjects } from "@/features/projects/queries/projects";
 import Header from "@/components/Header";
 import type { Metadata } from "next";
 import { generateMetadataWithCanonical } from "@/lib/utils/metadata";

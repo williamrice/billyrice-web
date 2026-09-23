@@ -1,8 +1,9 @@
 import "server-only";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 export function revalidateResumeContent() {
+  updateTag("published-resume");
   revalidatePath("/resume");
   revalidatePath("/admin");
   revalidatePath("/admin/resume");
@@ -10,6 +11,8 @@ export function revalidateResumeContent() {
 }
 
 export function revalidatePublishingContent(slug?: string) {
+  updateTag("published-posts");
+  if (slug) updateTag(`published-post:${slug}`);
   revalidatePath("/blog");
   revalidatePath("/admin");
   revalidatePath("/admin/blog");

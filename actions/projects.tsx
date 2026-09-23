@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { getAllowedAdminSession } from "@/lib/auth-guards";
 import { deleteS3Object } from "@/lib/utils/s3";
@@ -24,11 +24,6 @@ interface ProjectData {
   featuredImageSrc: string;
   featuredImageAlt: string;
   galleryImages?: GalleryImage[];
-}
-
-export async function getAllProjects() {
-  const projects = await prisma.project.findMany();
-  return projects;
 }
 
 export async function createProject(data: ProjectData) {
@@ -67,6 +62,7 @@ export async function createProject(data: ProjectData) {
       data: projectDataToCreate,
     });
 
+    updateTag("projects");
     revalidatePath("/projects");
     revalidatePath("/admin");
     revalidatePath("/admin/project-manager");
@@ -114,6 +110,8 @@ export async function deleteProject(id: number) {
       where: { id },
     });
 
+    updateTag("projects");
+    updateTag(`project:${id}`);
     revalidatePath("/projects");
     revalidatePath("/admin");
     revalidatePath("/admin/project-manager");
@@ -121,19 +119,6 @@ export async function deleteProject(id: number) {
   } catch (error) {
     console.error("Error deleting project:", error);
     return { success: false, error };
-  }
-}
-
-export async function getProjectById(id: number) {
-  try {
-    const project = await prisma.project.findUnique({
-      where: { id },
-      include: { galleryImages: true },
-    });
-    return project;
-  } catch (error) {
-    console.error("Error fetching project:", error);
-    return null;
   }
 }
 
@@ -164,6 +149,8 @@ export async function updateProject(data: ProjectData & { id: number }) {
       },
     });
 
+    updateTag("projects");
+    updateTag(`project:${id}`);
     revalidatePath("/projects");
     revalidatePath("/admin");
     revalidatePath("/admin/project-manager");

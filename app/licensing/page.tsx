@@ -1,7 +1,10 @@
 import React from 'react';
+import { cacheLife } from 'next/cache';
 import Header from '@/components/Header';
 
-const LicensingPage = () => {
+const LicensingPage = async () => {
+  'use cache';
+  cacheLife('days');
   return (
     <div>
       <Header>

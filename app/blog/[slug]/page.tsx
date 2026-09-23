@@ -9,8 +9,6 @@ import { SITE_NAME } from "@/lib/site";
 import { formatLongDate } from "@/lib/utils/dates";
 import { absoluteUrl } from "@/lib/utils/urls";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({
   params,
 }: {

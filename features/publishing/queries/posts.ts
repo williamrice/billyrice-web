@@ -1,11 +1,15 @@
 import "server-only";
 
 import { cache } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 import prisma from "@/lib/prisma";
 import { PublicationStatus } from "../types/publication";
 
-export const getPublishedPosts = cache(async () =>
-  prisma.post.findMany({
+export async function getPublishedPosts() {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("published-posts");
+  return prisma.post.findMany({
     where: {
       status: PublicationStatus.Published,
       publishedAt: { lte: new Date() },
@@ -19,18 +23,21 @@ export const getPublishedPosts = cache(async () =>
       publishedAt: true,
       updatedAt: true,
     },
-  }),
-);
+  });
+}
 
-export const getPublishedPostBySlug = cache(async (slug: string) =>
-  prisma.post.findFirst({
+export async function getPublishedPostBySlug(slug: string) {
+  "use cache";
+  cacheLife("minutes");
+  cacheTag("published-posts", `published-post:${slug}`);
+  return prisma.post.findFirst({
     where: {
       slug,
       status: PublicationStatus.Published,
       publishedAt: { lte: new Date() },
     },
-  }),
-);
+  });
+}
 
 export const getAdminPosts = cache(async () =>
   prisma.post.findMany({

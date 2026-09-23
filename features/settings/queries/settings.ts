@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cache } from "react";
+import { updateTag } from "next/cache";
 import {
   invalidateApplicationSettings,
   readApplicationSetting,
@@ -28,6 +29,7 @@ export async function getPublicResumeProfileId() {
 
 export async function invalidatePublicResumeSetting() {
   await invalidateApplicationSettings([PUBLIC_RESUME_PROFILE_KEY]);
+  updateTag("published-resume");
 }
 
 export const getDeviconSetting = cache(() =>

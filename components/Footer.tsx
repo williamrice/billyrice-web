@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { cacheLife } from "next/cache";
 import BrandIcon, { type BrandName } from "./BrandIcon";
 
-export default function Footer() {
+export default async function Footer() {
+  "use cache";
+  cacheLife("days");
   return (
     <footer className="w-full shrink-0 border-t border-border bg-background">
       <div className="site-shell pb-8 pt-10 sm:pb-10">

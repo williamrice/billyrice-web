@@ -44,4 +44,27 @@ To apply the same database bootstrap without starting the app, run
 scratch, run `npm run db:reset`. The reset command deletes all data in the
 configured database and is intended only for local development.
 
-test
+## Vercel deployment
+
+The production application uses the Node.js 24 Vercel runtime and a Neon
+database connected through the Vercel Marketplace. Keep these generated
+connection variables available in Development, Preview, and Production:
+
+- `POSTGRES_PRISMA_URL`: Neon's pooled URL, used by the running application.
+- `POSTGRES_URL_NON_POOLING`: Neon's direct URL, used only by Prisma CLI
+  commands such as migrations and introspection.
+
+Use `vercel env pull .env.local` to sync the selected Vercel environment for
+local work. Apply committed migrations with `npx prisma migrate deploy` as a
+separate release or CI step; application builds only generate Prisma Client and
+must not mutate the database.
+
+Public settings, projects, resume content, and published posts use Next.js Cache
+Components with tagged invalidation. Vercel serves their static or partially
+prerendered output from its managed cache, while authenticated admin and API
+work remains request-time. No external cache service is required.
+
+For the lowest database latency, set the project's Vercel Function region to
+the region nearest the Neon database. Keep each environment's
+`BETTER_AUTH_URL` and `BETTER_AUTH_TRUSTED_ORIGINS` aligned with its deployed
+domain.
