@@ -48,16 +48,21 @@ configured database and is intended only for local development.
 
 The production application uses the Node.js 24 Vercel runtime and a Neon
 database connected through the Vercel Marketplace. Keep these generated
-connection variables available in Development, Preview, and Production:
+connection variables available in Preview and Production:
 
 - `POSTGRES_PRISMA_URL`: Neon's pooled URL, used by the running application.
 - `POSTGRES_URL_NON_POOLING`: Neon's direct URL, used only by Prisma CLI
   commands such as migrations and introspection.
 
-Use `vercel env pull .env.local` to sync the selected Vercel environment for
-local work. Apply committed migrations with `npx prisma migrate deploy` as a
-separate release or CI step; application builds only generate Prisma Client and
-must not mutate the database.
+Both URLs must point to the same Neon branch and database. In Neon Connection
+Details, select the intended branch and database before copying either URL.
+Vercel's sensitive Production and Preview variables cannot be read back with
+`vercel env pull`; it writes placeholders. For local work, populate the ignored
+`.env` from `.env.example` and obtain any Neon connection strings directly from
+Neon. Apply committed migrations with `npx prisma migrate deploy` as a separate
+release or CI step; application builds only generate Prisma Client and must not
+mutate the database. `/api/ready` checks the `ApplicationSetting` table so a
+connection to an empty or incorrect database does not report ready.
 
 Public settings, projects, resume content, and published posts use Next.js Cache
 Components with tagged invalidation. Vercel serves their static or partially
@@ -68,3 +73,13 @@ For the lowest database latency, set the project's Vercel Function region to
 the region nearest the Neon database. Keep each environment's
 `BETTER_AUTH_URL` and `BETTER_AUTH_TRUSTED_ORIGINS` aligned with its deployed
 domain.
+
+### Vercel AI products
+
+The site currently makes no model requests. AI SDK and AI Gateway are useful
+when an AI-backed feature is designed, but installing them now would not improve
+hosting or the existing pages. The planned AI publishing ingestion boundary is
+documented in [ADR 0005](docs/decisions/0005-postgresql-markdown-publishing.md).
+Vercel Agent's [PR code review and incident investigation](https://vercel.com/docs/agent)
+are dashboard-level options, not app dependencies; investigation has additional
+plan and Observability requirements. Enable them separately if desired.

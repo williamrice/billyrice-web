@@ -5,7 +5,8 @@ import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    await prisma.$queryRaw`SELECT 1`;
+    // A live connection alone can succeed against the wrong Neon database.
+    await prisma.applicationSetting.findFirst({ select: { key: true } });
 
     return NextResponse.json(
       {
