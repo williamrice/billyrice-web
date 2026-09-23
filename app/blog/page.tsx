@@ -13,8 +13,6 @@ export const metadata: Metadata = generateMetadataWithCanonical(
   "Notes on software implementation, applied AI, architecture, and technical leadership by Billy Rice.",
 );
 
-export const dynamic = "force-dynamic";
-
 export default async function BlogPage() {
   const posts = await getPublishedPosts();
 

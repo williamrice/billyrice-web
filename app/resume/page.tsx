@@ -16,8 +16,6 @@ export const metadata: Metadata = generateMetadataWithCanonical(
   "The professional experience, applied AI practice, software design work, and leadership record of Billy Rice.",
 );
 
-export const dynamic = "force-dynamic";
-
 export default async function ResumePage() {
   const [resume, projectsSetting] = await Promise.all([
     getPublishedResume(),

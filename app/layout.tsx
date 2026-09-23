@@ -1,4 +1,5 @@
 import Footer from "@/components//Footer";
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next";
@@ -107,14 +108,16 @@ export default async function RootLayout({
           </a>
           <div className="flex min-h-dvh flex-col items-center">
             <header>
-              <ConditionalNavBar projectsEnabled={projectsSetting.enabled} />
+              <Suspense>
+                <ConditionalNavBar projectsEnabled={projectsSetting.enabled} />
+              </Suspense>
             </header>
             <main
               id="main-content"
               className="w-full min-w-0 flex-1"
               tabIndex={-1}
             >
-              {children}
+              <Suspense>{children}</Suspense>
             </main>
             <Toaster />
             <Footer />

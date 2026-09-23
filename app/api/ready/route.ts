@@ -3,8 +3,6 @@ import { NextResponse } from 'next/server';
 import { logger } from '@/features/operations/logger';
 import prisma from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET() {
   try {
     await prisma.$queryRaw`SELECT 1`;

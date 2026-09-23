@@ -24,6 +24,7 @@ integrations rather than application services.
 - Route files stay thin and do not call the same application through internal
   HTTP requests.
 - Domains keep explicit schemas, queries, commands, DTOs, and cache boundaries.
-- Redis is permitted as a non-authoritative settings cache under ADR 0004. No
-  worker, search service, or separate admin deployment is introduced without a
-  new decision and a demonstrated requirement.
+- Shared public data may use the Next.js Data Cache under ADR 0004. No cache may
+  become authoritative for application state. No worker, search service, or
+  separate admin deployment is introduced without a new decision and a
+  demonstrated requirement.

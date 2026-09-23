@@ -1,4 +1,4 @@
-import { getProjectById } from "@/actions/projects";
+import { getProjectById } from "@/features/projects/queries/projects";
 import Header from "@/components/Header";
 import CodeMark from "@/components/CodeMark";
 import TechnologyPill from "@/components/TechnologyPill";

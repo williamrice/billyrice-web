@@ -1,58 +1,36 @@
 import "server-only";
 
+import { cacheLife, cacheTag, updateTag } from "next/cache";
 import type { ZodType } from "zod";
 import prisma from "@/lib/prisma";
-import { getRedisClient } from "@/lib/redis";
 
 const SETTING_CACHE_TTL_SECONDS = 300;
+const settingCacheTag = (key: string) => `application-setting:${key}`;
+
+async function readCachedApplicationSetting(key: string) {
+  "use cache";
+  cacheLife({
+    stale: SETTING_CACHE_TTL_SECONDS,
+    revalidate: SETTING_CACHE_TTL_SECONDS,
+    expire: 86_400,
+  });
+  cacheTag(settingCacheTag(key));
+  return prisma.applicationSetting.findUnique({
+    where: { key },
+    select: { value: true },
+  });
+}
 
 export async function readApplicationSetting<T>(
   key: string,
   schema: ZodType<T>,
   fallback: T,
 ) {
-  const redis = await getRedisClient();
-  const cacheKey = `setting:${key}`;
-
-  if (redis) {
-    try {
-      const cached = await redis.get(cacheKey);
-      if (cached) {
-        const parsed = schema.safeParse(JSON.parse(cached));
-        if (parsed.success) return parsed.data;
-      }
-    } catch {
-      // PostgreSQL remains authoritative when Redis is unavailable or stale.
-    }
-  }
-
-  const setting = await prisma.applicationSetting.findUnique({
-    where: { key },
-    select: { value: true },
-  });
+  const setting = await readCachedApplicationSetting(key);
   const parsed = schema.safeParse(setting?.value);
-  const value = parsed.success ? parsed.data : fallback;
-
-  if (redis) {
-    try {
-      await redis.set(cacheKey, JSON.stringify(value), {
-        EX: SETTING_CACHE_TTL_SECONDS,
-      });
-    } catch {
-      // A cache write failure must not fail a public read.
-    }
-  }
-
-  return value;
+  return parsed.success ? parsed.data : fallback;
 }
 
 export async function invalidateApplicationSettings(keys: string[]) {
-  const redis = await getRedisClient();
-  if (!redis || keys.length === 0) return;
-
-  try {
-    await redis.del(keys.map((key) => `setting:${key}`));
-  } catch {
-    // The short TTL bounds stale cache behavior.
-  }
+  keys.forEach((key) => updateTag(settingCacheTag(key)));
 }

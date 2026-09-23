@@ -1,4 +1,4 @@
-import { getProjectById } from '@/actions/projects';
+import { getProjectById } from '@/features/projects/queries/projects';
 import EditProjectForm from './EditProjectForm';
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
