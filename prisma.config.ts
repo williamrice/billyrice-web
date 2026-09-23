@@ -8,6 +8,6 @@ export default defineConfig({
     seed: "prisma db execute --file prisma/seed.sql",
   },
   datasource: {
-    url: env("POSTGRES_URL"),
+    url: env("POSTGRES_URL_NON_POOLING"),
   },
 });

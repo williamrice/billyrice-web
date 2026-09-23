@@ -4,7 +4,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { env } from "@/lib/env";
 
 const adapter = new PrismaPg({
-  connectionString: env.POSTGRES_URL,
+  connectionString: env.POSTGRES_PRISMA_URL,
 });
 
 const prismaClientSingleton = () => {

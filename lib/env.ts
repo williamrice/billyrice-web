@@ -11,7 +11,10 @@ const serverEnvironmentSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  POSTGRES_URL: z.string().trim().min(1, 'POSTGRES_URL is required'),
+  POSTGRES_PRISMA_URL: z
+    .string()
+    .trim()
+    .min(1, 'POSTGRES_PRISMA_URL is required'),
   BETTER_AUTH_SECRET: z
     .string()
     .min(32, 'BETTER_AUTH_SECRET must be at least 32 characters'),
