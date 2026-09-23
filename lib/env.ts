@@ -26,7 +26,6 @@ const serverEnvironmentSchema = z.object({
     .string()
     .trim()
     .min(1, 'ALLOWED_AUTH_EMAILS is required'),
-  REDIS_URL: optionalString,
   RESEND_API_KEY: optionalString,
   FROM_EMAIL: optionalString,
   TO_EMAIL: optionalString,
