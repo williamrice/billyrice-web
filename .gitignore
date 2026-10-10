@@ -38,6 +38,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 PLAN.md
+.local-notes/
 prisma/generated/
 public/vendor/monaco/editor.worker.js
 .env*

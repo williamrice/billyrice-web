@@ -9,8 +9,8 @@ years as I have grown as a developer.
 It is built with Next.js, React, TypeScript, Tailwind CSS, PostgreSQL, Prisma,
 and Better Auth.
 
-Project roadmaps, research, and architectural decisions are collected in the
-[`docs/`](docs/) directory.
+Repository engineering conventions and agent instructions are in
+[`AGENTS.md`](AGENTS.md).
 
 ## Browser tools
 
@@ -78,8 +78,8 @@ domain.
 
 The site currently makes no model requests. AI SDK and AI Gateway are useful
 when an AI-backed feature is designed, but installing them now would not improve
-hosting or the existing pages. The planned AI publishing ingestion boundary is
-documented in [ADR 0005](docs/decisions/0005-postgresql-markdown-publishing.md).
+hosting or the existing pages. Publishing domain services can support a future
+authenticated ingestion API when that feature is needed.
 Vercel Agent's [PR code review and incident investigation](https://vercel.com/docs/agent)
 are dashboard-level options, not app dependencies; investigation has additional
 plan and Observability requirements. Enable them separately if desired.
