@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   cacheComponents: true,
+  partialPrefetching: true,
   allowedDevOrigins: ['warbox.llama-luma.ts.net'],
   experimental: {},
   images: {
