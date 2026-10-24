@@ -4,10 +4,12 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { DeleteDiagramForm } from "@/features/tools/mermaid/components/DeleteDiagramForm";
 import { deleteMermaidDiagram } from "@/features/tools/mermaid/commands/diagrams";
 import { getMermaidDiagramLibrary } from "@/features/tools/mermaid/queries/diagrams";
-import { requireAllowedAdminSession } from "@/lib/auth-guards";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 export default async function MermaidLibraryPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
-  const [session, params] = await Promise.all([requireAllowedAdminSession(), searchParams]);
+  const [session, params] = await Promise.all([getAllowedAdminSession(), searchParams]);
+  if (!session) return <AdminSignIn />;
   const search = params.q ?? "";
   const diagrams = await getMermaidDiagramLibrary(session.user.id, search);
 

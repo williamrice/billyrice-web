@@ -22,6 +22,7 @@ import {
   updateSkill,
 } from "@/features/resume/commands/resume";
 import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 const inputClass = "admin-field";
 const textareaClass = `${inputClass} min-h-24 py-2`;
@@ -56,8 +57,7 @@ export default async function ResumeAdminPage({
 }: {
   searchParams: Promise<{ profile?: string }>;
 }) {
-  // The admin layout shows sign-in; never load owner data without a session.
-  if (!(await getAllowedAdminSession())) return null;
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
 
   const { profile: requestedProfileId } = await searchParams;
   const profiles = await getResumeProfiles();
