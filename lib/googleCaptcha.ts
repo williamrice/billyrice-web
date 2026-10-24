@@ -4,7 +4,7 @@
  * @returns An object containing the verification result, including success status, score, and action
  */
 
-import { RecaptchaVerificationResponse } from './types';
+import { RecaptchaVerificationResponse } from "./types";
 
 export async function verifyRecaptcha(
   token: string,
@@ -23,15 +23,15 @@ export async function verifyRecaptcha(
   const response = await fetch(
     `https://recaptchaenterprise.googleapis.com/v1/projects/williamarice-web/assessments`,
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-goog-api-key': API_KEY ?? '',
+        "Content-Type": "application/json",
+        "X-goog-api-key": API_KEY ?? "",
       },
       body: JSON.stringify({
         event: {
           token: token,
-          expectedAction: 'contact_form_submit',
+          expectedAction: "contact_form_submit",
           siteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
         },
       }),
@@ -40,20 +40,19 @@ export async function verifyRecaptcha(
 
   if (response.status !== 200) {
     console.error(
-      'reCAPTCHA verification failed with status:',
+      "reCAPTCHA verification failed with status:",
       response.status,
     );
     return {
       success: false,
-      message: 'reCAPTCHA verification failed - Invalid Request',
+      message: "reCAPTCHA verification failed - Invalid Request",
     };
   }
   const data = await response.json();
-  console.log('reCAPTCHA verification response:', data);
   if (data.riskAnalysis.score < 0.3) {
     return {
       success: false,
-      message: 'reCAPTCHA verification failed',
+      message: "reCAPTCHA verification failed",
       score: data.riskAnalysis.score,
       action: data.tokenProperties.action,
     };

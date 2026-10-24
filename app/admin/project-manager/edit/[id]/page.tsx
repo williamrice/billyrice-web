@@ -3,6 +3,8 @@ import EditProjectForm from './EditProjectForm';
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 interface EditProjectPageProps {
   params: Promise<{ id: string }>;
@@ -11,6 +13,8 @@ interface EditProjectPageProps {
 export default async function EditProjectPage({
   params,
 }: EditProjectPageProps) {
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
+
   const { id } = await params;
 
   const projectId = parseInt(id);

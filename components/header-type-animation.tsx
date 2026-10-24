@@ -6,7 +6,7 @@ function HeaderTypeAnimation() {
   return (
     <TypeAnimation
       cursor={false}
-      className="lg:text-4xl text-2xl font-bold text-center text-white"
+      className="lg:text-4xl text-2xl font-bold text-center text-foreground"
       sequence={[
         "I am a Dad",
         2000,

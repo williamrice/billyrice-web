@@ -23,7 +23,7 @@ export function DeleteDiagramForm({
       }}
     >
       <input type="hidden" name="id" value={id} />
-      <button className="inline-flex min-h-9 items-center gap-2 text-xs font-semibold text-red-700 hover:text-red-900">
+      <button className="inline-flex min-h-9 items-center gap-2 text-xs font-semibold text-destructive hover:text-destructive">
         <Trash2 className="size-3.5" /> Delete
       </button>
     </AdminActionForm>

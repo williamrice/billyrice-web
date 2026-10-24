@@ -22,6 +22,39 @@ if (typeof self !== "undefined") {
 }
 loader.config({ monaco });
 
+const EDITOR_THEME = "site-dark";
+
+// Build the Monaco theme from the site's CSS theme tokens so the editor follows
+// globals.css instead of keeping its own palette.
+function defineSiteEditorTheme(monacoInstance: typeof monaco) {
+  const styles = getComputedStyle(document.documentElement);
+  const token = (name: string) => styles.getPropertyValue(`--${name}`).trim();
+  monacoInstance.editor.defineTheme(EDITOR_THEME, {
+    base: "vs-dark",
+    inherit: true,
+    rules: [],
+    colors: {
+      "editor.background": token("inset"),
+      "editor.foreground": token("foreground"),
+      "editorLineNumber.foreground": token("muted-foreground"),
+      "editorLineNumber.activeForeground": token("foreground"),
+      "editor.lineHighlightBackground": token("muted"),
+      "editorCursor.foreground": token("primary"),
+      "editorWidget.background": token("popover"),
+      "editorWidget.border": token("border"),
+      "editorSuggestWidget.background": token("popover"),
+      "editorSuggestWidget.border": token("border"),
+      "editorSuggestWidget.selectedBackground": token("accent"),
+      "focusBorder": token("ring"),
+    },
+  });
+}
+
+function prepareEditor(monacoInstance: typeof monaco) {
+  registerMermaidLanguage(monacoInstance);
+  defineSiteEditorTheme(monacoInstance);
+}
+
 export function MermaidSourceEditor({
   source,
   modelPath,
@@ -138,17 +171,17 @@ export function MermaidSourceEditor({
           <MermaidToolbarButton label="Download Mermaid source" disabled={!canExport} onClick={onDownloadSource} className="border-border hover:border-primary hover:text-primary"><FileDown className="size-4" /></MermaidToolbarButton>
         </div>
       </div>
-      <div className="min-h-0 flex-1 overflow-hidden bg-[#07110f]" aria-label="Mermaid diagram source">
+      <div className="min-h-0 flex-1 overflow-hidden bg-inset" aria-label="Mermaid diagram source">
         <Editor
           path={modelPath}
           keepCurrentModel
-          beforeMount={registerMermaidLanguage}
+          beforeMount={prepareEditor}
           onMount={handleMount}
           language={MERMAID_LANGUAGE_ID}
-          theme="vs-dark"
+          theme={EDITOR_THEME}
           value={source}
           onChange={(value) => onSourceChange((value ?? "").slice(0, MERMAID_SOURCE_MAX_LENGTH))}
-          loading={<div className="grid h-full place-items-center text-sm text-gray-400">Loading editor…</div>}
+          loading={<div className="grid h-full place-items-center text-sm text-muted-foreground">Loading editor…</div>}
           options={{
             automaticLayout: true,
             contextmenu: true,
@@ -172,7 +205,7 @@ export function MermaidSourceEditor({
       </div>
       <div className="flex min-h-10 items-center justify-between gap-4 border-t border-border px-4 py-2 font-mono text-[10px] text-muted-foreground">
         {diagnostic ? (
-          <button type="button" onClick={focusDiagnostic} className="truncate text-left text-red-400 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+          <button type="button" onClick={focusDiagnostic} className="truncate text-left text-destructive hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
             1 error · {diagnostic.message}
           </button>
         ) : (

@@ -7,12 +7,16 @@ import { deletePost, updatePost } from "@/features/publishing/commands/posts";
 import { getAdminPost } from "@/features/publishing/queries/posts";
 import { DeletePostForm } from "@/features/publishing/components/DeletePostForm";
 import { PublicationStatus } from "@/features/publishing/types/publication";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 export default async function EditPostPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
+
   const { id } = await params;
   const post = await getAdminPost(id);
   if (!post) notFound();
@@ -34,9 +38,9 @@ export default async function EditPostPage({
         }
       />
       <PostEditor key={post.updatedAt.toISOString()} action={updatePost} post={post} />
-      <details className="admin-card border-red-200">
-        <summary className="cursor-pointer text-sm font-semibold text-red-800">Danger zone</summary>
-        <p className="mt-3 text-sm text-gray-600">Deleting a post also deletes its complete revision history.</p>
+      <details className="admin-card border-destructive/40">
+        <summary className="cursor-pointer text-sm font-semibold text-destructive">Danger zone</summary>
+        <p className="mt-3 text-sm text-muted-foreground">Deleting a post also deletes its complete revision history.</p>
         <DeletePostForm postId={post.id} action={deletePost} />
       </details>
     </div>

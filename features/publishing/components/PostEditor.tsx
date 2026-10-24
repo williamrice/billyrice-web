@@ -78,7 +78,7 @@ export function PostEditor({
               <WandSparkles className="size-4" /> Generate
             </button>
           </div>
-          <span className="mt-1.5 block text-xs font-normal text-gray-500">
+          <span className="mt-1.5 block text-xs font-normal text-muted-foreground">
             Published at /blog/{slug || "your-slug"}
           </span>
         </label>
@@ -96,14 +96,14 @@ export function PostEditor({
         </label>
       </div>
 
-      <div className="grid min-h-[42rem] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-[0_1px_2px_rgb(15_23_42/0.04)] xl:grid-cols-2">
-        <section className="flex min-h-[32rem] flex-col border-b border-gray-200 xl:border-b-0 xl:border-r">
-          <div className="flex h-12 items-center justify-between border-b border-gray-200 bg-gray-50/80 px-4">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-gray-500">Markdown</span>
-            <span className="text-xs text-gray-400">{markdown.length.toLocaleString()} characters</span>
+      <div className="grid min-h-[42rem] overflow-hidden rounded-xl border border-border bg-card xl:grid-cols-2">
+        <section className="flex min-h-[32rem] flex-col border-b border-border xl:border-b-0 xl:border-r">
+          <div className="flex h-12 items-center justify-between border-b border-border bg-secondary/80 px-4">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-muted-foreground">Markdown</span>
+            <span className="text-xs text-muted-foreground">{markdown.length.toLocaleString()} characters</span>
           </div>
           <textarea
-            className="min-h-0 flex-1 resize-none rounded-none! border-0! bg-white! p-5! font-mono text-[13px]! leading-6! ring-0! sm:p-6!"
+            className="min-h-0 flex-1 resize-none rounded-none! border-0! bg-card! p-5! font-mono text-[13px]! leading-6! ring-0! sm:p-6!"
             name="markdown"
             value={markdown}
             onChange={(event) => setMarkdown(event.target.value)}
@@ -111,15 +111,15 @@ export function PostEditor({
             required
           />
         </section>
-        <section className="min-h-[32rem] bg-[#0d1514] text-white">
-          <div className="flex h-12 items-center border-b border-white/10 px-4">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-teal-400">Live preview</span>
+        <section className="min-h-[32rem] bg-background text-foreground">
+          <div className="flex h-12 items-center border-b border-border px-4">
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-primary">Live preview</span>
           </div>
           <div className="max-h-[calc(42rem-3rem)] overflow-y-auto p-5 sm:p-7">
             {markdown ? (
               <MarkdownContent markdown={markdown} />
             ) : (
-              <p className="text-sm text-gray-500">Start writing to preview the article.</p>
+              <p className="text-sm text-muted-foreground">Start writing to preview the article.</p>
             )}
           </div>
         </section>

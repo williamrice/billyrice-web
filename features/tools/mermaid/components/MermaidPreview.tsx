@@ -6,6 +6,8 @@ import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import type { MermaidDiagnostic } from "@/lib/utils/mermaid-editor";
 import { calculateMermaidFitZoom, getMermaidSvgDimensions } from "@/lib/utils/mermaid";
+import { mermaidCanvasBackground } from "@/lib/utils/mermaid-export";
+import type { MermaidTheme } from "../types/diagram";
 import { MermaidToolbarButton } from "./MermaidToolbarButton";
 
 const ZOOM_MIN = 25;
@@ -13,6 +15,7 @@ const ZOOM_MAX = 400;
 
 export function MermaidPreview({
   svg,
+  theme,
   diagnostic,
   canExport,
   onCopySvg,
@@ -20,6 +23,7 @@ export function MermaidPreview({
   onDownloadPng,
 }: {
   svg: string;
+  theme: MermaidTheme;
   diagnostic?: MermaidDiagnostic;
   canExport: boolean;
   onCopySvg: () => void;
@@ -90,18 +94,18 @@ export function MermaidPreview({
   }
 
   return (
-    <section ref={previewRef} className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-[#f8faf9] text-gray-950 fullscreen:min-h-dvh" aria-label="Diagram preview">
-      <div className="flex min-h-14 flex-wrap items-center justify-between gap-2 border-b border-gray-200 bg-white px-4">
-        <span className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-teal-700"><Check className="size-4" /> Live preview</span>
+    <section ref={previewRef} className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-background text-foreground fullscreen:min-h-dvh" aria-label="Diagram preview">
+      <div className="flex min-h-14 flex-wrap items-center justify-between gap-2 border-b border-border bg-card px-4">
+        <span className="inline-flex items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[.16em] text-primary"><Check className="size-4" /> Live preview</span>
         <div className="flex min-w-0 flex-wrap items-center justify-end gap-1">
-          <MermaidToolbarButton label="Zoom out" onClick={() => setZoom((value) => Math.max(ZOOM_MIN, value - 25))} className="border-gray-200 hover:border-teal-600"><Minus className="size-4" /></MermaidToolbarButton>
-          <MermaidToolbarButton label="Reset zoom to 100%" onClick={() => setZoom(100)} className="w-14 border-transparent font-mono text-[10px] text-gray-500 hover:border-gray-200 hover:text-teal-700">{zoom}%</MermaidToolbarButton>
-          <MermaidToolbarButton label="Zoom in" onClick={() => setZoom((value) => Math.min(ZOOM_MAX, value + 25))} className="border-gray-200 hover:border-teal-600"><Plus className="size-4" /></MermaidToolbarButton>
-          <MermaidToolbarButton label="Fit diagram to preview" disabled={!svgDimensions} onClick={fitDiagram} className="border-gray-200 hover:border-teal-600"><Maximize2 className="size-4" /></MermaidToolbarButton>
-          <MermaidToolbarButton label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"} onClick={toggleFullscreen} className="border-gray-200 hover:border-teal-600">{isFullscreen ? <Minimize2 className="size-4" /> : <Expand className="size-4" />}</MermaidToolbarButton>
-          <MermaidToolbarButton label="Copy SVG" disabled={!canExport} onClick={onCopySvg} className="border-gray-200 hover:border-teal-600"><Clipboard className="size-4" /></MermaidToolbarButton>
+          <MermaidToolbarButton label="Zoom out" onClick={() => setZoom((value) => Math.max(ZOOM_MIN, value - 25))} className="border-border hover:border-primary"><Minus className="size-4" /></MermaidToolbarButton>
+          <MermaidToolbarButton label="Reset zoom to 100%" onClick={() => setZoom(100)} className="w-14 border-transparent font-mono text-[10px] text-muted-foreground hover:border-border hover:text-primary">{zoom}%</MermaidToolbarButton>
+          <MermaidToolbarButton label="Zoom in" onClick={() => setZoom((value) => Math.min(ZOOM_MAX, value + 25))} className="border-border hover:border-primary"><Plus className="size-4" /></MermaidToolbarButton>
+          <MermaidToolbarButton label="Fit diagram to preview" disabled={!svgDimensions} onClick={fitDiagram} className="border-border hover:border-primary"><Maximize2 className="size-4" /></MermaidToolbarButton>
+          <MermaidToolbarButton label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"} onClick={toggleFullscreen} className="border-border hover:border-primary">{isFullscreen ? <Minimize2 className="size-4" /> : <Expand className="size-4" />}</MermaidToolbarButton>
+          <MermaidToolbarButton label="Copy SVG" disabled={!canExport} onClick={onCopySvg} className="border-border hover:border-primary"><Clipboard className="size-4" /></MermaidToolbarButton>
           <DropdownMenu>
-            <DropdownMenuTrigger disabled={!canExport} render={(triggerProps) => <button {...triggerProps} type="button" disabled={undefined} aria-disabled={!canExport || undefined} tabIndex={canExport ? triggerProps.tabIndex : -1} aria-label="Download diagram" className="flex h-9 items-center gap-1 border border-gray-200 px-2 text-xs font-medium hover:border-teal-600 focus-visible:outline-2 focus-visible:outline-offset-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-40"><Download className="size-4" /><span>Download</span></button>} />
+            <DropdownMenuTrigger disabled={!canExport} render={(triggerProps) => <button {...triggerProps} type="button" disabled={undefined} aria-disabled={!canExport || undefined} tabIndex={canExport ? triggerProps.tabIndex : -1} aria-label="Download diagram" className="flex h-9 items-center gap-1 border border-border px-2 text-xs font-medium hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 aria-disabled:cursor-not-allowed aria-disabled:opacity-40"><Download className="size-4" /><span>Download</span></button>} />
             <DropdownMenuContent align="end" className="w-44">
               <DropdownMenuItem onClick={onDownloadSvg}>SVG · vector</DropdownMenuItem>
               <DropdownMenuItem onClick={onDownloadPng}>PNG · image</DropdownMenuItem>
@@ -109,7 +113,7 @@ export function MermaidPreview({
           </DropdownMenu>
         </div>
       </div>
-      {diagnostic && <div className="border-b border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">{diagnostic.message} The last valid preview remains below.</div>}
+      {diagnostic && <div className="border-b border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive" role="alert">{diagnostic.message} The last valid preview remains below.</div>}
       <div
         ref={viewportRef}
         tabIndex={0}
@@ -118,12 +122,13 @@ export function MermaidPreview({
         onPointerMove={panPreview}
         onPointerUp={stopPanning}
         onPointerCancel={stopPanning}
-        className={`min-h-0 flex-1 overflow-auto p-6 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-teal-600 sm:p-10 ${isPanning ? "cursor-grabbing select-none" : "cursor-grab"}`}
+        style={{ backgroundColor: mermaidCanvasBackground(theme) }}
+        className={`min-h-0 flex-1 overflow-auto p-6 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring sm:p-10 ${isPanning ? "cursor-grabbing select-none" : "cursor-grab"}`}
       >
         {svg ? (
           <div className="mx-auto [&_svg]:block [&_svg]:h-auto! [&_svg]:w-full! [&_svg]:max-w-none!" style={{ width: svgDimensions ? `${svgDimensions.width * (zoom / 100)}px` : `${zoom}%` }} dangerouslySetInnerHTML={{ __html: svg }} />
         ) : (
-          <div className="grid min-h-80 place-items-center text-sm text-gray-500">Rendering preview…</div>
+          <div className="grid min-h-80 place-items-center text-sm text-muted-foreground">Rendering preview…</div>
         )}
       </div>
     </section>

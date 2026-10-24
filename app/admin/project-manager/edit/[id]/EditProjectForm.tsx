@@ -197,7 +197,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="title"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Title
         </label>
@@ -205,10 +205,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("title")}
           id="title"
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.title && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.title.message}
           </p>
         )}
@@ -217,7 +217,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Description
         </label>
@@ -225,10 +225,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("description")}
           id="description"
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.description && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.description.message}
           </p>
         )}
@@ -237,7 +237,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="problem"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Problem
         </label>
@@ -245,10 +245,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("problem")}
           id="problem"
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.problem && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.problem.message}
           </p>
         )}
@@ -257,7 +257,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="solution"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Solution
         </label>
@@ -265,10 +265,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("solution")}
           id="solution"
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.solution && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.solution.message}
           </p>
         )}
@@ -277,7 +277,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="story"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Story
         </label>
@@ -285,10 +285,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("story")}
           id="story"
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.story && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.story.message}
           </p>
         )}
@@ -297,7 +297,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="technologies"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Technologies
         </label>
@@ -305,10 +305,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("technologies")}
           id="technologies"
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.technologies && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.technologies.message}
           </p>
         )}
@@ -317,7 +317,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="githubUrl"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           GitHub URL
         </label>
@@ -325,10 +325,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("githubUrl")}
           id="githubUrl"
           type="url"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.githubUrl && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.githubUrl.message}
           </p>
         )}
@@ -337,7 +337,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="liveUrl"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Live URL
         </label>
@@ -345,10 +345,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("liveUrl")}
           id="liveUrl"
           type="url"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.liveUrl && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.liveUrl.message}
           </p>
         )}
@@ -357,11 +357,11 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="featuredImageSrc"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Replace featured image
         </label>
-        <p id="featuredImageSrc-description" className="mt-1 text-xs text-gray-500">
+        <p id="featuredImageSrc-description" className="mt-1 text-xs text-muted-foreground">
           Optional. Upload one JPEG, PNG, or WebP image up to 5 MB. Leave empty to keep the current image.
         </p>
         <input
@@ -382,7 +382,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           />
         )}
         {form.formState.errors.featuredImageSrc && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.featuredImageSrc.message}
           </p>
         )}
@@ -391,7 +391,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="featuredImageAlt"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Featured Image Alt Text
         </label>
@@ -399,10 +399,10 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           {...form.register("featuredImageAlt")}
           id="featuredImageAlt"
           type="text"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="mt-1 block w-full rounded-md border-border shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
         />
         {form.formState.errors.featuredImageAlt && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.featuredImageAlt.message}
           </p>
         )}
@@ -411,11 +411,11 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
       <div>
         <label
           htmlFor="galleryImages"
-          className="block text-sm font-medium text-gray-700"
+          className="block text-sm font-medium text-muted-foreground"
         >
           Replace gallery images
         </label>
-        <p id="galleryImages-description" className="mt-1 text-xs text-gray-500">
+        <p id="galleryImages-description" className="mt-1 text-xs text-muted-foreground">
           Optional. Upload up to six JPEG, PNG, or WebP images, each no larger than 5 MB. Selecting files replaces the current gallery.
         </p>
         <input
@@ -441,7 +441,7 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
           ))}
         </div>
         {form.formState.errors.galleryImages && (
-          <p className="mt-1 text-sm text-red-600">
+          <p className="mt-1 text-sm text-destructive">
             {form.formState.errors.galleryImages.message}
           </p>
         )}
@@ -453,9 +453,9 @@ export default function EditProjectForm({ project }: EditProjectFormProps) {
             {...form.register("featured")}
             id="featured"
             type="checkbox"
-            className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            className="rounded border-border text-primary shadow-sm focus:border-primary/60 focus:ring focus:ring-ring focus:ring-opacity-50"
           />
-          <span className="ml-2 text-sm text-gray-600">Featured Project</span>
+          <span className="ml-2 text-sm text-muted-foreground">Featured Project</span>
         </label>
       </div>
 

@@ -4,7 +4,7 @@ import { authClient } from "@/lib/auth-client";
 const Signout = () => {
   return (
     <button
-      className="text-xs text-gray-400 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-400"
+      className="text-xs text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
       onClick={() =>
         authClient.signOut({
           fetchOptions: {

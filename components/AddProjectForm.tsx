@@ -173,7 +173,7 @@ export default function AddProjectForm() {
                 id="title"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground rounded-t-md focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Title"
               />
             </div>
@@ -186,7 +186,7 @@ export default function AddProjectForm() {
                 id="description"
                 required
                 rows={3}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Description"
               />
             </div>
@@ -199,7 +199,7 @@ export default function AddProjectForm() {
                 id="problem"
                 required
                 rows={3}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Problem"
               />
             </div>
@@ -212,7 +212,7 @@ export default function AddProjectForm() {
                 id="solution"
                 required
                 rows={3}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Solution"
               />
             </div>
@@ -225,7 +225,7 @@ export default function AddProjectForm() {
                 id="story"
                 required
                 rows={3}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Story"
               />
             </div>
@@ -238,7 +238,7 @@ export default function AddProjectForm() {
                 id="technologies"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Technologies (comma-separated)"
               />
             </div>
@@ -251,7 +251,7 @@ export default function AddProjectForm() {
                 id="githubUrl"
                 type="url"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="GitHub URL"
               />
             </div>
@@ -263,7 +263,7 @@ export default function AddProjectForm() {
                 {...register("liveUrl")}
                 id="liveUrl"
                 type="url"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Live URL (optional)"
               />
             </div>
@@ -271,7 +271,7 @@ export default function AddProjectForm() {
               <label htmlFor="featuredImageSrc" className="admin-label">
                 Featured image
               </label>
-              <p id="featuredImageSrc-description" className="mb-2 text-xs text-gray-500">
+              <p id="featuredImageSrc-description" className="mb-2 text-xs text-muted-foreground">
                 Required. Upload one JPEG, PNG, or WebP image up to 5 MB.
               </p>
               <Controller
@@ -286,7 +286,7 @@ export default function AddProjectForm() {
                     accept="image/jpeg,image/png,image/webp"
                     aria-describedby="featuredImageSrc-description"
                     required
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                   />
                 )}
               />
@@ -300,7 +300,7 @@ export default function AddProjectForm() {
                 id="featuredImageAlt"
                 type="text"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                 placeholder="Featured Image Alt Text"
               />
             </div>
@@ -308,7 +308,7 @@ export default function AddProjectForm() {
               <label htmlFor="galleryImages" className="admin-label">
                 Gallery images
               </label>
-              <p id="galleryImages-description" className="mb-2 text-xs text-gray-500">
+              <p id="galleryImages-description" className="mb-2 text-xs text-muted-foreground">
                 Optional. Upload up to six JPEG, PNG, or WebP images, each no larger than 5 MB.
               </p>
               <Controller
@@ -323,7 +323,7 @@ export default function AddProjectForm() {
                     accept="image/jpeg,image/png,image/webp"
                     multiple
                     aria-describedby="galleryImages-description"
-                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-border placeholder-muted-foreground text-foreground rounded-b-md focus:outline-none focus:ring-ring focus:border-primary focus:z-10 sm:text-sm"
                   />
                 )}
               />
@@ -335,11 +335,11 @@ export default function AddProjectForm() {
               {...register("featured")}
               id="featured"
               type="checkbox"
-              className="size-4 rounded border-gray-300 accent-teal-700"
+              className="size-4 rounded border-border accent-primary"
             />
             <label
               htmlFor="featured"
-              className="ml-2 block text-sm text-gray-900"
+              className="ml-2 block text-sm text-foreground"
             >
               Featured Project
             </label>

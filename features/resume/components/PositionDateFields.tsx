@@ -5,7 +5,7 @@ import { formatDateInputValue } from "@/lib/utils/dates";
 
 const inputClass = "admin-field";
 const labelClass =
-  "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-gray-600";
+  "mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground";
 
 export function PositionDateFields({
   startDate,
@@ -47,7 +47,7 @@ export function PositionDateFields({
       >
         <input
           checked={currentRole}
-          className="mt-0.5 size-4 accent-teal-700"
+          className="mt-0.5 size-4 accent-primary"
           id={checkboxId}
           name="currentRole"
           onChange={(event) => setCurrentRole(event.target.checked)}
@@ -55,7 +55,7 @@ export function PositionDateFields({
         />
         <span>
           I currently hold this role
-          <span className="mt-1 block text-xs font-normal text-gray-500">
+          <span className="mt-1 block text-xs font-normal text-muted-foreground">
             Current roles display “Present” and appear before completed roles.
           </span>
         </span>

@@ -102,7 +102,7 @@ export default async function RootLayout({
         <PublicSettingsProvider settings={{ devicons: deviconSetting }}>
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-primary-emphasis focus:px-4 focus:py-2 focus:text-primary-foreground"
           >
             Skip to main content
           </a>

@@ -6,8 +6,8 @@ interface ErrorEmailBannerProps {
 
 const ErrorEmailBanner = (props: ErrorEmailBannerProps) => {
   return (
-    <div className="bg-red-500 flex w-full mt-4 p-4 rounded-lg justify-center">
-      <p className="text-white">{props.message}</p>
+    <div className="border border-destructive/40 bg-destructive/10 flex w-full mt-4 p-4 rounded-lg justify-center">
+      <p className="text-foreground">{props.message}</p>
     </div>
   );
 };

@@ -3,8 +3,12 @@ import { ArrowRight, FileText, FolderKanban, Newspaper, Settings2, Workflow } fr
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import prisma from "@/lib/prisma";
 import { getPublicResumeProfileId } from "@/features/settings/queries/settings";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 export default async function AdminPage() {
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
+
   const [projectCount, postCount, diagramCount, resumeProfiles, publicProfileId] = await Promise.all([
     prisma.project.count(),
     prisma.post.count(),
@@ -70,15 +74,15 @@ export default async function AdminPage() {
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5" aria-label="Content overview">
         {cards.map((card) => (
-          <Link key={card.title} href={card.href} className="admin-card group flex min-h-52 flex-col hover:border-teal-300">
+          <Link key={card.title} href={card.href} className="admin-card group flex min-h-52 flex-col hover:border-primary/60">
             <div className="flex items-start justify-between">
-              <card.icon className="size-5 text-teal-700" />
-              <ArrowRight className="size-4 text-gray-300 transition-transform group-hover:translate-x-1 group-hover:text-teal-700" />
+              <card.icon className="size-5 text-primary" />
+              <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
-            <p className="mt-8 text-3xl font-semibold tracking-[-.04em] text-gray-950">{card.value}</p>
-            <h2 className="mt-2 text-sm font-semibold text-gray-900">{card.title}</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-500">{card.detail}</p>
-            <p className="mt-auto pt-5 text-xs font-semibold text-teal-800">{card.action}</p>
+            <p className="mt-8 text-3xl font-semibold tracking-[-.04em] text-foreground">{card.value}</p>
+            <h2 className="mt-2 text-sm font-semibold text-foreground">{card.title}</h2>
+            <p className="mt-1 text-sm leading-6 text-muted-foreground">{card.detail}</p>
+            <p className="mt-auto pt-5 text-xs font-semibold text-primary">{card.action}</p>
           </Link>
         ))}
       </section>
@@ -93,8 +97,8 @@ export default async function AdminPage() {
                 : "Publish a resume version and select it in Settings before launch."}
             </p>
           </div>
-          <span className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${publicProfile ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800"}`}>
-            <span className={`size-1.5 rounded-full ${publicProfile ? "bg-emerald-600" : "bg-amber-600"}`} />
+          <span className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${publicProfile ? "bg-success/10 text-success" : "bg-warning/10 text-warning"}`}>
+            <span className={`size-1.5 rounded-full ${publicProfile ? "bg-success" : "bg-warning"}`} />
             {publicProfile ? "Configured" : "Needs attention"}
           </span>
         </div>

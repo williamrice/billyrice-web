@@ -1,16 +1,12 @@
-import { redirect } from "next/navigation";
 import AddProjectForm from "../../../components/AddProjectForm";
 import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 
 export default async function AddProjectPage() {
-  const session = await getAllowedAdminSession();
-
-  if (!session) {
-    redirect("/");
-  }
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
 
   return (
     <div className="admin-page max-w-5xl">

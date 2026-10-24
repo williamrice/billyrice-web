@@ -23,7 +23,7 @@ const SecretMessageView = ({ secretMessage }: Props) => {
     <div>
       <Header>
         <div className="h-full flex flex-col items-center justify-center">
-          <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
+          <h1 className="lg:text-6xl text-4xl font-bold text-center text-foreground">
             Secret Message View
           </h1>
         </div>

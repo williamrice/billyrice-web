@@ -13,7 +13,7 @@ const SecondaryButton = ({ text, link }: SecondaryButtonProps) => {
   const router = useRouter();
   return (
     <Button
-      className="mt-4 bg-blue-600 text-white hover:bg-blue-700 hover:scale-110 transition-all ease-in-out hover:text-white"
+      className="mt-4 bg-primary-emphasis text-primary-foreground hover:bg-primary-emphasis/85 hover:scale-110 transition-all ease-in-out"
       onClick={() => {
         router.push(link);
       }}

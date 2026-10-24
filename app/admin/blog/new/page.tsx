@@ -4,6 +4,8 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { PostEditor } from "@/features/publishing/components/PostEditor";
 import { createPost } from "@/features/publishing/commands/posts";
 import { PublicationStatus } from "@/features/publishing/types/publication";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
+import { AdminSignIn } from "@/components/admin/AdminSignIn";
 
 const starterMarkdown = `## Start with the idea
 
@@ -21,7 +23,9 @@ const dependable = true;
 \`\`\`
 `;
 
-export default function NewPostPage() {
+export default async function NewPostPage() {
+  if (!(await getAllowedAdminSession())) return <AdminSignIn />;
+
   return (
     <div className="admin-page">
       <AdminPageHeader

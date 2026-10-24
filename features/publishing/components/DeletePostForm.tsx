@@ -20,7 +20,7 @@ export function DeletePostForm({
       }}
     >
       <input type="hidden" name="id" value={postId} />
-      <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-red-50 px-4 text-sm font-semibold text-red-800 hover:bg-red-100">
+      <button className="inline-flex min-h-10 items-center gap-2 rounded-lg bg-destructive/10 px-4 text-sm font-semibold text-destructive hover:bg-destructive/10">
         <Trash2 className="size-4" /> Delete post
       </button>
     </form>
