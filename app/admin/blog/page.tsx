@@ -3,8 +3,12 @@ import { FilePenLine, Plus } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { getAdminPosts } from "@/features/publishing/queries/posts";
 import { PublicationStatus } from "@/features/publishing/types/publication";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 export default async function BlogAdminPage() {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   const posts = await getAdminPosts();
 
   return (

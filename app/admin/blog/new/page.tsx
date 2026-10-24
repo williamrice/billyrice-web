@@ -4,6 +4,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { PostEditor } from "@/features/publishing/components/PostEditor";
 import { createPost } from "@/features/publishing/commands/posts";
 import { PublicationStatus } from "@/features/publishing/types/publication";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 const starterMarkdown = `## Start with the idea
 
@@ -21,7 +22,10 @@ const dependable = true;
 \`\`\`
 `;
 
-export default function NewPostPage() {
+export default async function NewPostPage() {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   return (
     <div className="admin-page">
       <AdminPageHeader

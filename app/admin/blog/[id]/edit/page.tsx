@@ -7,12 +7,16 @@ import { deletePost, updatePost } from "@/features/publishing/commands/posts";
 import { getAdminPost } from "@/features/publishing/queries/posts";
 import { DeletePostForm } from "@/features/publishing/components/DeletePostForm";
 import { PublicationStatus } from "@/features/publishing/types/publication";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 export default async function EditPostPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   const { id } = await params;
   const post = await getAdminPost(id);
   if (!post) notFound();

@@ -3,6 +3,7 @@ import EditProjectForm from './EditProjectForm';
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 interface EditProjectPageProps {
   params: Promise<{ id: string }>;
@@ -11,6 +12,9 @@ interface EditProjectPageProps {
 export default async function EditProjectPage({
   params,
 }: EditProjectPageProps) {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   const { id } = await params;
 
   const projectId = parseInt(id);

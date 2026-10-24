@@ -1,8 +1,10 @@
+import { cache } from "react";
 import { headers } from "next/headers";
 import { auth } from "./auth";
 import { isAllowedAuthEmail } from "./auth-allowlist";
 
-export async function getAllowedAdminSession() {
+// Cached per request so the admin layout and page share one session lookup.
+export const getAllowedAdminSession = cache(async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -12,7 +14,7 @@ export async function getAllowedAdminSession() {
   }
 
   return session;
-}
+});
 
 export async function requireAllowedAdminSession() {
   const session = await getAllowedAdminSession();

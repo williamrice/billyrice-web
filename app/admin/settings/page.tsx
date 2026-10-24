@@ -11,8 +11,12 @@ import {
 import { availableDevicons } from "@/features/settings/types/devicons";
 import { getResumeProfiles } from "@/features/resume/queries/resume";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 const SettingsPage = async () => {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   const [profiles, selectedProfileId, deviconSetting, projectsSetting] = await Promise.all([
     getResumeProfiles(),
     getPublicResumeProfileId(),

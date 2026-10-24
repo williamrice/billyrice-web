@@ -3,8 +3,12 @@ import { ArrowRight, FileText, FolderKanban, Newspaper, Settings2, Workflow } fr
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import prisma from "@/lib/prisma";
 import { getPublicResumeProfileId } from "@/features/settings/queries/settings";
+import { getAllowedAdminSession } from "@/lib/auth-guards";
 
 export default async function AdminPage() {
+  // The admin layout shows sign-in; never load owner data without a session.
+  if (!(await getAllowedAdminSession())) return null;
+
   const [projectCount, postCount, diagramCount, resumeProfiles, publicProfileId] = await Promise.all([
     prisma.project.count(),
     prisma.post.count(),
