@@ -7,7 +7,7 @@ describe("Mermaid preview server markup", () => {
   it("renders unavailable controls consistently without native disabled attributes", () => {
     const html = renderToString(
       <TooltipProvider>
-        <MermaidPreview svg="" canExport={false} onCopySvg={() => {}} onDownloadSvg={() => {}} onDownloadPng={() => {}} />
+        <MermaidPreview svg="" theme="default" canExport={false} onCopySvg={() => {}} onDownloadSvg={() => {}} onDownloadPng={() => {}} />
       </TooltipProvider>,
     );
 

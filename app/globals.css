@@ -16,6 +16,10 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-emphasis: var(--primary-emphasis);
+  --color-inset: var(--inset);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -23,6 +27,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -30,25 +35,32 @@
 
 :root {
   color-scheme: dark;
-  --radius: 0.35rem;
-  --background: oklch(0.115 0.009 181);
-  --foreground: oklch(0.91 0.012 162);
-  --card: oklch(0.145 0.012 181);
-  --card-foreground: oklch(0.91 0.012 162);
-  --popover: oklch(0.145 0.012 181);
-  --popover-foreground: oklch(0.91 0.012 162);
-  --primary: oklch(0.68 0.055 175);
-  --primary-foreground: oklch(0.12 0.012 181);
-  --secondary: oklch(0.19 0.013 181);
-  --secondary-foreground: oklch(0.91 0.012 162);
-  --muted: oklch(0.18 0.012 181);
-  --muted-foreground: oklch(0.65 0.018 175);
-  --accent: oklch(0.23 0.025 178);
-  --accent-foreground: oklch(0.91 0.012 162);
-  --destructive: oklch(0.62 0.17 26);
-  --border: oklch(0.28 0.014 181 / 72%);
-  --input: oklch(0.25 0.014 181);
-  --ring: oklch(0.68 0.055 175);
+  --radius: 0.375rem;
+  /* GitHub dark palette */
+  --background: #0d1117;
+  --foreground: #e6edf3;
+  --card: #161b22;
+  --card-foreground: #e6edf3;
+  --popover: #161b22;
+  --popover-foreground: #e6edf3;
+  --primary: #4493f8;
+  --primary-foreground: #ffffff;
+  --primary-emphasis: #1f6feb;
+  --secondary: #21262d;
+  --secondary-foreground: #e6edf3;
+  --muted: #161b22;
+  --muted-foreground: #8b949e;
+  --accent: #262c36;
+  --accent-foreground: #e6edf3;
+  --destructive: #f85149;
+  --destructive-foreground: #ffffff;
+  --success: #3fb950;
+  --warning: #d29922;
+  --border: #30363d;
+  --input: #30363d;
+  --ring: #4493f8;
+  /* Recessed surfaces: code blocks, editors, sidebar */
+  --inset: #010409;
 }
 
 @layer base {
@@ -63,16 +75,16 @@
 
   body {
     @apply min-w-0 overflow-x-clip bg-background text-foreground antialiased;
-    font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
     background-image:
-      radial-gradient(circle at 82% 3%, oklch(0.3 0.04 175 / 16%), transparent 28rem),
+      radial-gradient(circle at 82% 3%, rgb(31 111 235 / 12%), transparent 28rem),
       linear-gradient(oklch(1 0 0 / 0.018) 1px, transparent 1px);
     background-size: auto, 100% 5rem;
   }
 
   ::selection {
-    color: var(--primary-foreground);
-    background: var(--primary);
+    color: var(--foreground);
+    background: rgb(56 139 253 / 40%);
   }
 
   a, button {
@@ -90,43 +102,43 @@
   }
 
   .admin-page-header {
-    @apply flex flex-col gap-5 border-b border-gray-200 pb-7 sm:flex-row sm:items-end sm:justify-between;
+    @apply flex flex-col gap-5 border-b border-border pb-7 sm:flex-row sm:items-end sm:justify-between;
   }
 
   .admin-page-header h1 {
-    @apply text-3xl font-semibold tracking-[-.04em] text-gray-950 sm:text-4xl;
+    @apply text-3xl font-semibold tracking-[-.04em] text-foreground sm:text-4xl;
   }
 
   .admin-page-header > div:first-child > p:last-child {
-    @apply mt-3 max-w-2xl text-sm leading-6 text-gray-600;
+    @apply mt-3 max-w-2xl text-sm leading-6 text-muted-foreground;
   }
 
   .admin-card {
-    @apply rounded-xl border border-gray-200 bg-white p-5 shadow-[0_1px_2px_rgb(15_23_42/0.04)] sm:p-6;
+    @apply rounded-xl border border-border bg-card p-5 sm:p-6;
   }
 
   .admin-card-title {
-    @apply text-lg font-semibold tracking-[-.02em] text-gray-950;
+    @apply text-lg font-semibold tracking-[-.02em] text-foreground;
   }
 
   .admin-card-description {
-    @apply mt-1 text-sm leading-6 text-gray-500;
+    @apply mt-1 text-sm leading-6 text-muted-foreground;
   }
 
   .admin-button {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 text-sm font-medium text-white hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-primary-emphasis px-4 text-sm font-medium text-primary-foreground hover:bg-primary-emphasis/85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .admin-button-secondary {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-sm font-medium text-gray-800 hover:border-teal-600 hover:text-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 text-sm font-medium text-foreground hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
   }
 
   .admin-field {
-    @apply h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-950 shadow-none outline-none placeholder:text-gray-400 focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+    @apply h-11 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground shadow-none outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/30;
   }
 
   .admin-label {
-    @apply mb-1.5 block text-xs font-semibold text-gray-700;
+    @apply mb-1.5 block text-xs font-semibold text-foreground;
   }
 
   .admin-form-grid {
@@ -135,27 +147,27 @@
 
   .admin-surface form input:not([type="checkbox"]):not([type="radio"]),
   .admin-surface form select {
-    @apply min-h-11 rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-950 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+    @apply min-h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/30;
   }
 
   .admin-surface form textarea {
-    @apply min-h-28 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm leading-6 text-gray-950 outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15;
+    @apply min-h-28 rounded-lg border border-input bg-background px-3 py-2.5 text-sm leading-6 text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-ring/30;
   }
 
   .admin-surface form input[type="file"] {
-    @apply cursor-pointer py-2 file:mr-3 file:rounded-md file:border-0 file:bg-gray-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-gray-700;
+    @apply cursor-pointer py-2 file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-muted-foreground;
   }
 
   .admin-surface form input[type="checkbox"] {
-    @apply size-4 rounded border-gray-300 accent-teal-700;
+    @apply size-4 rounded border-border accent-primary;
   }
 
   .admin-surface form label {
-    @apply text-sm font-medium text-gray-700;
+    @apply text-sm font-medium text-foreground;
   }
 
   .admin-surface form [class*="text-red-"] {
-    @apply text-sm text-red-700;
+    @apply text-sm text-destructive;
   }
 
   .markdown-content {
@@ -221,7 +233,7 @@
   }
 
   .markdown-content pre {
-    @apply overflow-x-auto border border-border bg-[#07110f] p-5 text-sm leading-6 text-gray-200;
+    @apply overflow-x-auto border border-border bg-inset p-5 text-sm leading-6 text-foreground;
   }
 
   .markdown-content pre code {
@@ -266,7 +278,7 @@
   }
 
   .button-primary {
-    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-sm bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring;
+    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-sm bg-primary-emphasis px-6 text-sm font-medium text-primary-foreground hover:bg-primary-emphasis/85 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring;
   }
 
   .button-quiet {
@@ -382,7 +394,7 @@
 
   .portrait-wash {
     @apply pointer-events-none absolute inset-0;
-    background: linear-gradient(145deg, transparent 45%, oklch(0.55 0.08 175 / 22%));
+    background: linear-gradient(145deg, transparent 45%, rgb(31 111 235 / 22%));
     mix-blend-mode: color;
   }
 
@@ -400,7 +412,7 @@
 
   .ambient-orb {
     @apply pointer-events-none absolute rounded-full blur-3xl;
-    background: oklch(0.47 0.07 174 / 17%);
+    background: rgb(31 111 235 / 14%);
     animation: ambient-drift 14s ease-in-out infinite alternate;
   }
 

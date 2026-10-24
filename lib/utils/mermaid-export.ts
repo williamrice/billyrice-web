@@ -1,4 +1,11 @@
+import type { MermaidTheme } from "@/features/tools/mermaid/types/diagram";
 import { getMermaidSvgDimensions } from "./mermaid";
+
+// Diagram "paper" color for a Mermaid theme. Used by both the preview canvas
+// and PNG export so the two always match, independent of the site theme.
+export function mermaidCanvasBackground(theme: MermaidTheme) {
+  return theme === "dark" ? "#1f2020" : "#ffffff";
+}
 
 // Mermaid's HTML labels can contain HTML void tags such as <br>. Reparse as
 // HTML, as the preview does, then serialize the SVG as well-formed XML.

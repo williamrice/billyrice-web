@@ -9,7 +9,7 @@ const LicensingPage = async () => {
     <div>
       <Header>
         <div className="h-full flex flex-col items-center justify-center">
-          <h1 className="lg:text-6xl text-4xl font-bold text-center text-white">
+          <h1 className="lg:text-6xl text-4xl font-bold text-center text-foreground">
             Licensing
           </h1>
         </div>
@@ -19,16 +19,16 @@ const LicensingPage = async () => {
       <div>
         <div className="legal-content site-shell max-w-4xl py-20 sm:py-28">
           <div className="text-center mb-8">
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               This website is built with modern web technologies and its source
               code is available for others to learn from and build upon.
             </p>
           </div>
-          <div className="bg-gray-800/50 border border-gray-700 rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6 text-white text-center">
+          <div className="bg-secondary/50 border border-border rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-6 text-foreground text-center">
               Open Source Licensing Information
             </h2>
-            <p className="mb-4 text-gray-300">
+            <p className="mb-4 text-muted-foreground">
               The source code for this website (www.billyrice.com) is open
               source and is made available under the following license:
             </p>

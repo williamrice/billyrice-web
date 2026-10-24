@@ -139,7 +139,7 @@ export default function ImageLightbox({
           <button
             ref={closeButtonRef}
             onClick={() => setIsOpen(false)}
-            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-gray-800/80 text-white hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-secondary/80 text-foreground hover:bg-accent transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
             aria-label="Close lightbox"
           >
             <X className="h-6 w-6" />

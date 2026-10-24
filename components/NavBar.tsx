@@ -39,7 +39,7 @@ export default function NavBar({ projectsEnabled }: { projectsEnabled: boolean }
     >
       <div className="site-shell flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="group flex items-center gap-3" aria-label="Billy Rice, home">
-          <span className="grid size-8 place-items-center border border-primary/50 font-mono text-[10px] text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">BR</span>
+          <span className="grid size-8 place-items-center border border-primary/50 font-mono text-[10px] text-primary transition-colors group-hover:bg-primary-emphasis group-hover:text-primary-foreground">BR</span>
           <span className="text-sm font-medium tracking-tight">Billy Rice</span>
         </Link>
         <div className="hidden items-center gap-8 md:flex">

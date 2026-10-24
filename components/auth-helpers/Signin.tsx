@@ -16,8 +16,8 @@ const Signin = () => {
             onClick={handleSignIn}
             className="button-primary"
         >
-            <BrandIcon brand="google" className="mr-2 inline size-5 text-white" />
-            <span className="text-lg text-white">Sign In with Google</span>
+            <BrandIcon brand="google" className="mr-2 inline size-5" />
+            <span className="text-lg">Sign In with Google</span>
         </button>
     );
 };

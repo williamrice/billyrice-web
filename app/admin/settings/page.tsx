@@ -50,7 +50,7 @@ const SettingsPage = async () => {
             <button className="admin-button">Save setting</button>
           </form>
         ) : (
-          <p className="mt-5 rounded-md bg-amber-50 p-4 text-sm text-amber-900">Create a resume version before configuring the public resume.</p>
+          <p className="mt-5 rounded-md bg-warning/10 p-4 text-sm text-warning">Create a resume version before configuring the public resume.</p>
         )}
       </section>
 
@@ -65,7 +65,7 @@ const SettingsPage = async () => {
               type="checkbox"
               name="enabled"
               defaultChecked={projectsSetting.enabled}
-              className="size-4 accent-teal-700"
+              className="size-4 accent-primary"
             />
             Show projects publicly
           </label>
@@ -120,16 +120,16 @@ const SettingsPage = async () => {
 
           <div>
             <span className="admin-label">Available icon pool</span>
-            <p className="mb-3 text-xs text-gray-500">Select at least one technology to include in the randomized background.</p>
+            <p className="mb-3 text-xs text-muted-foreground">Select at least one technology to include in the randomized background.</p>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {availableDevicons.map((icon) => (
-                <label className="flex items-center gap-3 rounded-md border border-gray-200 px-3 py-2.5 text-sm" key={icon.id}>
+                <label className="flex items-center gap-3 rounded-md border border-border px-3 py-2.5 text-sm" key={icon.id}>
                   <input
                     type="checkbox"
                     name="icons"
                     value={icon.id}
                     defaultChecked={deviconSetting.icons.includes(icon.id)}
-                    className="size-4 accent-teal-700"
+                    className="size-4 accent-primary"
                   />
                   {icon.label}
                 </label>
@@ -139,11 +139,11 @@ const SettingsPage = async () => {
 
           <div className="flex flex-wrap gap-6">
             <label className="flex items-center gap-3 text-sm font-medium">
-              <input type="checkbox" name="enabled" defaultChecked={deviconSetting.enabled} className="size-4 accent-teal-700" />
+              <input type="checkbox" name="enabled" defaultChecked={deviconSetting.enabled} className="size-4 accent-primary" />
               Show Devicons
             </label>
             <label className="flex items-center gap-3 text-sm font-medium">
-              <input type="checkbox" name="motionEnabled" defaultChecked={deviconSetting.motionEnabled} className="size-4 accent-teal-700" />
+              <input type="checkbox" name="motionEnabled" defaultChecked={deviconSetting.motionEnabled} className="size-4 accent-primary" />
               Animate icons
             </label>
           </div>

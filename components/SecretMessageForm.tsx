@@ -82,7 +82,7 @@ const SecretMessageForm = () => {
             disabled={isLoading}
           />
           {errors.title && (
-            <p className="text-red-600 text-sm">Title is required</p>
+            <p className="text-destructive text-sm">Title is required</p>
           )}
         </div>
 
@@ -102,7 +102,7 @@ const SecretMessageForm = () => {
             disabled={isLoading}
           />
           {errors.message && (
-            <p className="text-red-600 text-sm">Message is required</p>
+            <p className="text-destructive text-sm">Message is required</p>
           )}
         </div>
 

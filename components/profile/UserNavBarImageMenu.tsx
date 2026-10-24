@@ -29,7 +29,7 @@ const UserNavBarImageMenu = () => {
           render={
             <button
               type="button"
-              className="rounded-full p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              className="rounded-full p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-label="Open account menu"
             >
               <Image

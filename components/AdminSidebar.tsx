@@ -54,10 +54,10 @@ const AdminSidebar = () => {
   }
 
   return (
-    <aside className="border-b border-white/8 bg-[#07110f] text-white lg:min-h-dvh lg:w-64 lg:border-b-0 lg:border-r">
+    <aside className="border-b border-border bg-inset text-foreground lg:min-h-dvh lg:w-64 lg:border-b-0 lg:border-r">
       <nav className="lg:sticky lg:top-0 lg:flex lg:h-dvh lg:flex-col lg:p-5">
-        <div className="hidden border-b border-white/10 pb-6 lg:block">
-          <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-teal-400">Billy Rice</p>
+        <div className="hidden border-b border-border pb-6 lg:block">
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[.2em] text-primary">Billy Rice</p>
           <p className="mt-2 text-lg font-medium tracking-tight">Control room</p>
         </div>
         <ul className="flex gap-1 overflow-x-auto p-2.5 lg:mt-5 lg:block lg:space-y-1 lg:p-0">
@@ -76,10 +76,10 @@ const AdminSidebar = () => {
                     aria-controls={menuId}
                     aria-expanded={isExpanded}
                     onClick={() => toggleGroup(item.name)}
-                    className={`flex min-h-11 w-full items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 ${
+                    className={`flex min-h-11 w-full items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                       isActive
-                        ? "bg-white/10 text-teal-300"
-                        : "text-gray-400 hover:bg-white/6 hover:text-white"
+                        ? "bg-accent text-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
                     <item.icon className="mr-2 size-4" />
@@ -89,7 +89,7 @@ const AdminSidebar = () => {
                     />
                   </button>
                   {isExpanded ? (
-                    <ul id={menuId} className="mt-1 space-y-1 border-l border-white/10 pl-3 lg:ml-5">
+                    <ul id={menuId} className="mt-1 space-y-1 border-l border-border pl-3 lg:ml-5">
                       {item.children.map((child) => {
                         const childIsActive =
                           pathname === child.href || pathname.startsWith(`${child.href}/`);
@@ -98,10 +98,10 @@ const AdminSidebar = () => {
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              className={`flex min-h-10 items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 ${
+                              className={`flex min-h-10 items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                                 childIsActive
-                                  ? "bg-white/10 text-teal-300"
-                                  : "text-gray-400 hover:bg-white/6 hover:text-white"
+                                  ? "bg-accent text-foreground"
+                                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                               }`}
                             >
                               <child.icon className="mr-2 size-4" />
@@ -124,10 +124,10 @@ const AdminSidebar = () => {
               <li key={item.href} className="shrink-0">
                 <Link
                   href={item.href}
-                  className={`flex min-h-11 items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 ${
+                  className={`flex min-h-11 items-center rounded-lg px-3 text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                     isActive
-                      ? "bg-white/10 text-teal-300"
-                      : "text-gray-400 hover:bg-white/6 hover:text-white"
+                      ? "bg-accent text-foreground"
+                      : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                   }`}
                 >
                   <item.icon className="mr-2 size-4" />
@@ -138,11 +138,11 @@ const AdminSidebar = () => {
           })}
         </ul>
         {data && (
-          <div className="mt-auto hidden border-t border-white/10 pt-5 lg:block">
-            <p className="font-mono text-[9px] uppercase tracking-[.16em] text-gray-500">Signed in as</p>
-            <p className="mt-2 truncate text-sm font-medium text-white">{data.user?.name}</p>
+          <div className="mt-auto hidden border-t border-border pt-5 lg:block">
+            <p className="font-mono text-[9px] uppercase tracking-[.16em] text-muted-foreground">Signed in as</p>
+            <p className="mt-2 truncate text-sm font-medium text-foreground">{data.user?.name}</p>
             <div className="mt-4 flex items-center justify-between">
-              <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-gray-400 hover:text-teal-300">
+              <Link href="/" className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary">
                 View site <ArrowUpRight className="size-3.5" />
               </Link>
               <Signout />

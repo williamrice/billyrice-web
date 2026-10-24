@@ -8,7 +8,7 @@ import { Group, Panel, Separator, usePanelRef } from "react-resizable-panels";
 import { toast } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { copyTextToClipboard, downloadBlob, downloadTextFile } from "@/lib/utils/browser-files";
-import { mermaidSvgToPng, serializeMermaidSvg } from "@/lib/utils/mermaid-export";
+import { mermaidCanvasBackground, mermaidSvgToPng, serializeMermaidSvg } from "@/lib/utils/mermaid-export";
 import { createMermaidLayout, hasMermaidEditorChanged, MERMAID_LAYOUT_KEY, normalizeMermaidDiagnostic, parseMermaidLayout, type MermaidDiagnostic, type MermaidLayout } from "@/lib/utils/mermaid-editor";
 import { createMermaidLocalDraft, getMermaidDraftKey, mermaidDownloadFilename, parseMermaidLocalDraft } from "@/lib/utils/mermaid";
 import { createMermaidRenderConfig } from "@/lib/utils/mermaid-rendering";
@@ -22,7 +22,7 @@ import { MermaidToolbarButton } from "./MermaidToolbarButton";
 const MermaidSourceEditor = dynamic(
   // NodeNext requires the emitted .js specifier and resolves it to the TSX source.
   () => import("./MermaidSourceEditor.js").then((module) => module.MermaidSourceEditor),
-  { ssr: false, loading: () => <div className="grid h-full place-items-center bg-[#07110f] text-sm text-gray-400">Loading editor…</div> },
+  { ssr: false, loading: () => <div className="grid h-full place-items-center bg-inset text-sm text-muted-foreground">Loading editor…</div> },
 );
 
 export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorDiagram; canManage: boolean }) {
@@ -238,7 +238,7 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
       const exportedSvg = serializeMermaidSvg(svg);
       const filename = mermaidDownloadFilename(title, format);
       if (format === "svg") downloadTextFile(exportedSvg, filename, "image/svg+xml;charset=utf-8");
-      else downloadBlob(await mermaidSvgToPng(exportedSvg, theme === "dark" ? "#1f2020" : "#ffffff"), filename);
+      else downloadBlob(await mermaidSvgToPng(exportedSvg, mermaidCanvasBackground(theme)), filename);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "The diagram could not be downloaded.");
     }
@@ -248,7 +248,7 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
     <MermaidSourceEditor source={source} modelPath={`inmemory://mermaid/${diagram?.id ?? "new"}.mmd`} theme={theme} diagnostic={diagnostic} diagramType={diagramType} checking={checking} canExport={canExport} onSourceChange={setSource} onThemeChange={setTheme} onCopySource={() => copyValue(source, "Mermaid source copied.")} onDownloadSource={() => downloadTextFile(source, mermaidDownloadFilename(title, "mmd"), "text/plain;charset=utf-8")} onCollapse={collapseEditor} />
   );
   const preview = (
-    <MermaidPreview svg={svg} diagnostic={diagnostic} canExport={canExport} onCopySvg={() => { try { void copyValue(serializeMermaidSvg(svg), "SVG copied."); } catch { toast.error("The diagram SVG could not be copied."); } }} onDownloadSvg={() => void exportDiagram("svg")} onDownloadPng={() => void exportDiagram("png")} />
+    <MermaidPreview svg={svg} theme={theme} diagnostic={diagnostic} canExport={canExport} onCopySvg={() => { try { void copyValue(serializeMermaidSvg(svg), "SVG copied."); } catch { toast.error("The diagram SVG could not be copied."); } }} onDownloadSvg={() => void exportDiagram("svg")} onDownloadPng={() => void exportDiagram("png")} />
   );
 
   return (
@@ -259,7 +259,7 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
           <div className="flex flex-wrap gap-2">
             {canManage && <a href="/admin/tools/mermaid" className="inline-flex min-h-10 items-center gap-2 border border-border px-3 text-sm hover:border-primary hover:text-primary"><FolderOpen className="size-4" /> Library</a>}
             <button type="button" onClick={clearDiagram} className="inline-flex min-h-10 items-center gap-2 border border-border px-3 text-sm hover:border-primary hover:text-primary"><RotateCcw className="size-4" /> Clear</button>
-            {canManage && <button type="button" onClick={saveDiagram} disabled={isPending || Boolean(diagnostic) || checking} className="inline-flex min-h-10 items-center gap-2 bg-primary px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"><Save className="size-4" /> {isPending ? "Saving…" : diagram ? "Save revision" : "Save diagram"}</button>}
+            {canManage && <button type="button" onClick={saveDiagram} disabled={isPending || Boolean(diagnostic) || checking} className="inline-flex min-h-10 items-center gap-2 bg-primary-emphasis px-4 text-sm font-medium text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"><Save className="size-4" /> {isPending ? "Saving…" : diagram ? "Save revision" : "Save diagram"}</button>}
           </div>
         </div>
 
@@ -272,16 +272,16 @@ export function MermaidEditor({ diagram, canManage }: { diagram?: MermaidEditorD
             if (size.inPixels <= 50 && !layout.collapsed) persistLayout(createMermaidLayout(layout.source, layout.preview, true));
             if (size.asPercentage >= 25 && layout.collapsed) persistLayout(createMermaidLayout(size.asPercentage, 100 - size.asPercentage, false));
           }}>
-            <div className="relative h-full bg-[#07110f]">
+            <div className="relative h-full bg-inset">
               <div className={`h-full ${layout.collapsed ? "pointer-events-none absolute inset-0 opacity-0" : ""}`} aria-hidden={layout.collapsed} inert={layout.collapsed}>
                 {sourceEditor}
               </div>
               {layout.collapsed && (
-                <aside className="absolute inset-0 flex flex-col items-center gap-4 border-r border-gray-700 bg-[#07110f] py-3 text-gray-300" aria-label="Collapsed source editor">
-                  <MermaidToolbarButton label="Show source editor" onClick={showEditor} className="border-gray-700 text-gray-200 hover:border-primary hover:text-primary">
+                <aside className="absolute inset-0 flex flex-col items-center gap-4 border-r border-border bg-inset py-3 text-muted-foreground" aria-label="Collapsed source editor">
+                  <MermaidToolbarButton label="Show source editor" onClick={showEditor} className="border-border text-foreground hover:border-primary hover:text-primary">
                     <PanelLeftOpen className="size-4" />
                   </MermaidToolbarButton>
-                  <span className="select-none font-mono text-[9px] font-semibold uppercase tracking-[.18em] text-gray-500 [writing-mode:vertical-rl]">Source editor</span>
+                  <span className="select-none font-mono text-[9px] font-semibold uppercase tracking-[.18em] text-muted-foreground [writing-mode:vertical-rl]">Source editor</span>
                 </aside>
               )}
             </div>
