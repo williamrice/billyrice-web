@@ -1,4 +1,5 @@
-import Footer from "@/components//Footer";
+import Footer from "@/components/Footer";
+import PublicSiteChrome from "@/components/PublicSiteChrome";
 import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -120,7 +121,9 @@ export default async function RootLayout({
               <Suspense>{children}</Suspense>
             </main>
             <Toaster />
-            <Footer />
+            <Suspense>
+              <PublicSiteChrome><Footer /></PublicSiteChrome>
+            </Suspense>
           </div>
         </PublicSettingsProvider>
         <GoogleAnalytics gaId="G-Y46TG9779R" />
