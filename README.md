@@ -44,6 +44,19 @@ To apply the same database bootstrap without starting the app, run
 scratch, run `npm run db:reset`. The reset command deletes all data in the
 configured database and is intended only for local development.
 
+### Develop over Tailscale
+
+On `warbox`, run `npm run dev-tailscale` with your local development database
+configured. It runs the usual development setup, binds Next.js to
+`127.0.0.1:3000`, and sets Better Auth's base URL to
+`https://warbox.llama-luma.ts.net` for that run.
+
+Configure the root proxy with `tailscale serve --bg http://127.0.0.1:3000`,
+then open `https://warbox.llama-luma.ts.net` from a tailnet device. In Google
+Cloud, add `https://warbox.llama-luma.ts.net/api/auth/callback/google` under
+**Authorized redirect URIs** for the OAuth client configured in `.env`.
+Keep the localhost redirect URI if you also sign in using `npm run dev`.
+
 ## Vercel deployment
 
 The production application uses the Node.js 24 Vercel runtime and a Neon
