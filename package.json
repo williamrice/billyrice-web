@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "npm run monaco:worker && npm run db:setup && next dev",
+    "dev-tailscale": "BETTER_AUTH_URL=https://warbox.llama-luma.ts.net npm run dev -- --hostname 127.0.0.1 --port 3000",
     "prebuild": "npm run monaco:worker",
     "build": "next build",
     "start": "next start",
